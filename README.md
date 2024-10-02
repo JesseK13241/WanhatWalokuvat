@@ -1,12 +1,15 @@
 # TIEA207-projekti
 
+
+## Development
+
 [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
-
-First, run the development server:
+TODO: Selkeämmät ohjeet
 
 ```
+git clone https://github.com/JesseK13241/TIEA207-projekti/
+npm install
 npm run dev
 ```
 
