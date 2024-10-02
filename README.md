@@ -1,5 +1,6 @@
 # TIEA207-projekti
 
+TODO: Project description
 
 ## Development
 
