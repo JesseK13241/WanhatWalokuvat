@@ -6,11 +6,11 @@ Näkymät:
 1) Selaussivu: Vuosikymmen --> Selaa kuvia
 2) Peli/Haaste/Challenge -sivu: Arvaa vuosikymmen oikein
 
-Jatkokehitysominaisuudet:
+Jatkokehitysominaisuudet: https://github.com/JesseK13241/TIEA207-projekti/issues
 
-https://github.com/JesseK13241/TIEA207-projekti/issues
+Deployed version: https://tiea207-projekti.onrender.com/
 
-https://tiea207-projekti.onrender.com/
+Kanban board: https://github.com/users/JesseK13241/projects/1/views/1
 
 ## Development
 
