@@ -1,6 +1,14 @@
 # TIEA207-projekti
 
-TODO: Project description
+"Vanhat Valokuvat" (WIP title) on vanhojen valokuvien selaussivusto, jossa voi myös testata omaa osaamistaan.
+
+Näkymät:
+- 1) Selaussivu: Vuosikymmen --> Selaa kuvia
+- 2) Peli/Haaste/Challenge -sivu: Arvaa vuosikymmen oikein
+
+Jatkokehitysominaisuudet:
+
+https://github.com/JesseK13241/TIEA207-projekti/issues
 
 https://tiea207-projekti.onrender.com/
 
