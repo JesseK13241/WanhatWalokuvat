@@ -3,8 +3,8 @@
 "Vanhat Valokuvat" (WIP title) on vanhojen valokuvien selaussivusto, jossa voi myös testata omaa osaamistaan.
 
 Näkymät:
-- 1) Selaussivu: Vuosikymmen --> Selaa kuvia
-- 2) Peli/Haaste/Challenge -sivu: Arvaa vuosikymmen oikein
+1) Selaussivu: Vuosikymmen --> Selaa kuvia
+2) Peli/Haaste/Challenge -sivu: Arvaa vuosikymmen oikein
 
 Jatkokehitysominaisuudet:
 
