@@ -1,6 +1,6 @@
 # TIEA207-projekti
 
-"Vanhat Valokuvat" (WIP title) on vanhojen valokuvien selaussivusto, jossa voi myös testata omaa osaamistaan.
+"Vanhat Valokuvat" (WIP title) on vanhojen valokuvien selaussivusto, jossa voi myös testata omaa osaamistaan pelaamalla pelejä.
 
 Näkymät:
 1) Selaussivu: Vuosikymmen --> Selaa kuvia
