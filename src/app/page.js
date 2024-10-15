@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 
 import { useState } from "react";
 import Search from "../components/Search";
@@ -24,18 +23,10 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col items-center p-10">
-      <h1 className="text-3xl border border-black">
-        Aineopintojen projektityö
-      </h1>
-      <main>
+      <>
         <Search onSearch={handleSearch} />
         <Slideshow photos={searchResults} />
-      </main>
-      <footer className="border border-black">
-        <Link href="https://github.com/JesseK13241/TIEA207-projekti/">
-          View on GitHub
-        </Link>
-      </footer>
+      </>
     </div>
   );
 }
