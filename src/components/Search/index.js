@@ -7,7 +7,7 @@ import { useState } from "react";
 
 export default function Search({ onSearch }) {
   const [location, setLocation] = useState("");
-  const [decade, setDecade] = useState("");
+  const [decade, setDecade] = useState("1970-1979"); // Default value for DecadePicker
 
   return (
     <div className="flex border border-black p-10 space-x-20">
