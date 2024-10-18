@@ -8,7 +8,8 @@ Näkymät:
 
 Jatkokehitysominaisuudet: https://github.com/JesseK13241/TIEA207-projekti/issues
 
-Deployed version: https://tiea207-projekti.onrender.com/
+Deployed on vercel: https://tiea-207-projekti.vercel.app/
+Deployed on render: https://tiea207-projekti.onrender.com/
 
 Kanban board: https://github.com/users/JesseK13241/projects/1/views/1
 
