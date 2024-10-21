@@ -1,8 +1,45 @@
-const getPhotos = async () => {
-  const apiUrl = "https://api.finna.fi/v1/search?filter[]=format:0/Image/&limit=50&page=3&field[]=title&field[]=images&field[]=id"
+const getPhotos = async (location = null, decade = null, count = 50) => {
+    const baseUrl = "https://api.finna.fi/v1/search?"
+    
+    // 'B+BY': Vapaat, lähde nimettävä, 'A+FREE': Täysin vapaat 
+    var filters = [
+        'online_boolean:"1"', 
+        'format:"1/Image/Image/"',
+        '~usage_rights_ext_str_mv:"0/B+BY/"',
+        '~usage_rights_ext_str_mv:"0/A+Free/"'
+    ]
+
+    if (decade) {
+        filters.push(`search_daterange_mv:"[${decade} TO ${decade+9}]"`,)
+    }
+
+    if (location) {
+        // TODO location based searching
+    }
+
+    const params = {
+        filter: filters,
+        field: ['authors', 'title', 'images', 'id', 'recordPage'],
+        limit: count
+    }
+
+    var fullUrl = baseUrl;
+
+    for (const [key, value] of Object.entries(params)) {
+        if (Array.isArray(value)) {
+            for (const i of value) {
+                fullUrl += `&${key}[]=${i}`
+            }
+        } else {
+            fullUrl += `&${key}=${value}`
+        }
+    }
+
+    // const apiUrl = "https://api.finna.fi/v1/search?filter[]=format:0/Image/&limit=50&page=3&field[]=title&field[]=images&field[]=id"
+
     try { 
-        const response = await fetch(apiUrl)
-        console.log("Fetching by url", apiUrl)
+        const response = await fetch(fullUrl)
+        console.log("Fetching by url", fullUrl)
         if (!response.ok) {
             throw new Error('Network response was not ok')
         }
