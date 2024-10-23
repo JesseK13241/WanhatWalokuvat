@@ -1,7 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["api.finna.fi", "www.finna.fi"]
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "www.finna.fi"
+      },
+      {
+        protocol: "https",
+        hostname: "api.finna.fi"
+      }
+    ]
   }
 };
 
