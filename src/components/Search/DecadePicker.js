@@ -2,9 +2,12 @@ export default function DecadePicker({ value, onChange }) {
   return (
     <div>
       <label>Select decade</label>
-      <select 
+      <select
         value={value} // Selected value
-        onChange={e => onChange(e.target.value)} // New value is passed to onChange
+        onChange={e => {
+          console.log("Changed decade to:", e.target.value);
+          onChange(e.target.value);
+        }} // New value is passed to onChange
       >
         <option value="1880-1889">1880s</option>
         <option value="1890-1899">1890s</option>

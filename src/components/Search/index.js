@@ -1,9 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import DecadePicker from "./DecadePicker";
 import LocationPicker from "./LocationPicker";
-
-import { useState } from "react";
 
 export default function Search({ onSearch }) {
   const [location, setLocation] = useState("");
@@ -20,7 +19,7 @@ export default function Search({ onSearch }) {
         onChange={setDecade}
       />
       <button
-        onClick={() => onSearch(location, decade)}
+        onClick={() => onSearch({ location, decade })}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
         Search
       </button>
