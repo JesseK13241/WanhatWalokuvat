@@ -3,8 +3,9 @@ import Header from "../components/Header";
 import "./globals.css";
 
 export const metadata = {
-  title: "TITLE TODO",
-  description: "DESCRIPTION TODO"
+  title: "Vanhat Valokuvat",
+  description:
+    "Vanhat Valokuvat -sivustolla voit selata vanhoja Suomalaisia valokuvia vuosikymmenen ja sijainnin perusteella, ja testata osaamistasi erilaisten pelien avulla."
 };
 
 export default function RootLayout({ children }) {
