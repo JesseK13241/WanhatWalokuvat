@@ -1,25 +1,15 @@
-"use client";
+import SearchSlideshowContainer from "@/components/SearchSlideshowContainer";
+import { getPhotos } from "@/services/photos";
 
-import { useState } from "react";
-import Search from "../components/Search";
-import Slideshow from "../components/Slideshow";
-import photos from "../services/photos";
+export default async function HomePage() {
+  console.log("Rendering home page...");
 
-export default function HomePage() {
-  const [searchResults, setSearchResults] = useState([]);
-
-  const handleSearch = async ({location, decade}) => {
-    console.log("Fetching by params", { location, decade });
-    const results = await photos(location, decade);
-    setSearchResults(results);
-  };
+  const initialPhotos = await getPhotos();
+  console.log(`Found ${initialPhotos.length} initial photos`);	
 
   return (
     <div className="flex flex-col items-center p-10">
-      <>
-        <Search onSearch={handleSearch} />
-        <Slideshow photos={searchResults} />
-      </>
+      <SearchSlideshowContainer initialPhotos={initialPhotos} />
     </div>
   );
 }

@@ -1,15 +1,17 @@
+// TODO refactor, dynamic decade options
+
 export default function DecadePicker({ value, onChange }) {
   return (
     <div>
       <label>Select decade</label>
       <select
-        value={value} // Selected value
+        value={value} 
         onChange={e => {
           console.log("Changed decade to:", e.target.value);
           onChange(e.target.value);
-        }} // New value is passed to onChange
+        }} 
       >
-        <option value="1880-1889">1880s</option>
+        <option value="1880-1889">1880s</option>  */
         <option value="1890-1899">1890s</option>
         <option value="1900-1909">1900s</option>
         <option value="1910-1919">1910s</option>

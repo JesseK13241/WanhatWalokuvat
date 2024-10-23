@@ -1,7 +1,11 @@
-const getPhotos = async (location = null, decade = null, count = 1) => {
-  const baseUrl = "https://api.finna.fi/v1/search?";
+export const getPhotos = async ({
+  location = null,
+  decade = null,
+  limit = 5
+} = {}) => {
+  const BASE_API_URL = "https://api.finna.fi/v1/search?";
 
-  console.log("Fetching by params:", { location, decade, count });
+  console.log("Fetching by params:", { location, decade, limit });
 
   // 'B+BY': Vapaat, lähde nimettävä, 'A+FREE': Täysin vapaat
   var filters = [
@@ -12,46 +16,51 @@ const getPhotos = async (location = null, decade = null, count = 1) => {
   ];
 
   if (decade) {
+    console.log("Decade specified:", decade);
     const [start, end] = decade.split("-");
     filters.push(`search_daterange_mv:"[${start} TO ${end}]"`);
   }
 
   if (location) {
     // TODO location based searching
+    console.log("Location specified:", location);
   }
 
   const params = {
     filter: filters,
-    field: ["authors", "title", "images", "id", "recordPage"],
-    limit: count
+    field: [
+      "authors",
+      "title",
+      "images",
+      "id",
+      "year",
+      "location"
+    ],
+    limit: limit,
   };
 
-  var fullUrl = baseUrl;
+  let urlToFetch = BASE_API_URL;
 
   for (const [key, value] of Object.entries(params)) {
     if (Array.isArray(value)) {
       for (const i of value) {
-        fullUrl += `&${key}[]=${i}`;
+        urlToFetch += `&${key}[]=${i}`;
       }
     } else {
-      fullUrl += `&${key}=${value}`;
+      urlToFetch += `&${key}=${value}`;
     }
   }
 
-  // const apiUrl = "https://api.finna.fi/v1/search?filter[]=format:0/Image/&limit=50&page=3&field[]=title&field[]=images&field[]=id"
-
   try {
-    const response = await fetch(fullUrl);
-    console.log("Fetching by url", fullUrl);
+    const response = await fetch(urlToFetch);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
     const data = await response.json();
-    console.log("data.records:,", data.records);
-    return data.records;
+    return data.records || [];
   } catch (error) {
     console.error("Error fetching photos:", error);
-    return [];
+    throw error;
   }
 };
 

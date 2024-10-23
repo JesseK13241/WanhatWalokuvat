@@ -6,7 +6,9 @@ import LocationPicker from "./LocationPicker";
 
 export default function Search({ onSearch }) {
   const [location, setLocation] = useState("");
-  const [decade, setDecade] = useState("1970-1979"); // Default value for DecadePicker
+  const [decade, setDecade] = useState("1970-1979"); 
+
+  console.log("Rendering Search..");
 
   return (
     <div className="flex border border-black p-10 space-x-20">
