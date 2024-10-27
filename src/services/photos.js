@@ -10,7 +10,7 @@ export const getPhotos = async ({
   // 'B+BY': Vapaat, lähde nimettävä, 'A+FREE': Täysin vapaat
   var filters = [
     'online_boolean:"1"',
-    'format:"1/Image/Image/"',
+    'format:"1/Image/Photo/"',
     '~usage_rights_ext_str_mv:"0/B+BY/"',
     '~usage_rights_ext_str_mv:"0/A+Free/"'
   ];
