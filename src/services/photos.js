@@ -34,7 +34,9 @@ export const getPhotos = async ({
       "images",
       "id",
       "year",
-      "location"
+      "location",
+      "recordPage",
+      "buildings"
     ],
     limit: limit,
   };

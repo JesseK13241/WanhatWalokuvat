@@ -25,6 +25,9 @@ export default function Slideshow({ photos }) {
 
   console.log("Current photo:", currentPhoto);
 
+  currentPhoto.author = Object.keys(currentPhoto.authors.primary)[0];
+  currentPhoto.building = currentPhoto.buildings[0].translated;
+
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center gap-4">
@@ -58,14 +61,24 @@ export default function Slideshow({ photos }) {
 
       <div className="text-center space-y-2">
         {currentPhoto.year && (
-          <p className="text-gray-700">Year: {currentPhoto.year}</p>
+          <p> Year: {currentPhoto.year} </p>
         )}
         {currentPhoto.location && (
-          <p className="text-gray-700">Location: {currentPhoto.location}</p>
+          <p> Location: {currentPhoto.location} </p>
         )}
         {currentPhoto.title && (
-          <p className="text-gray-900 font-medium">Title: {currentPhoto.title}</p>
+          <p> Title: {currentPhoto.title} </p>
         )}
+        {currentPhoto.author && (
+          <p> Author: {currentPhoto.author} </p>
+        )}
+        {currentPhoto.building && (
+          <p> Building: {currentPhoto.building} </p>
+        )}
+        <a href={"https://www.finna.fi" + currentPhoto.recordPage}
+        className="text-blue-600 hover:underline visited:text-purple-600">
+          Linkki aineistoon
+        </a>
       </div>
     </div>
   );
