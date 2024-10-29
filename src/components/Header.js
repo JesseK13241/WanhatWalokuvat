@@ -4,7 +4,7 @@ const Header = () => {
   return (
     <header className="border border-black">
       <h1 className="text-3xl border border-black">
-        Aineopintojen projektityö
+        <a href="/">Aineopintojen projektityö</a>
       </h1>
       <Link href="/pelit/">Pelit</Link>
     </header>
