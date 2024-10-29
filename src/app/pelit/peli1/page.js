@@ -1,6 +1,38 @@
+"use client"
 import Image from "next/image";
+import { useState } from "react"
 
 export default function Peli1() {
+  const [correctAnswer, setCorrectAnswer] = useState(2000)
+  const [currentAnswer, setCurrentAnswer] = useState(0)
+
+  const styles = {
+    basic: "px-4 py-2 border rounded hover:bg-gray-100",
+    correct: "px-4 py-2 border rounded bg-green-100",
+    incorrect: "px-4 py-2 border rounded bg-red-100"
+  }
+
+  const answers = [
+    { year: 1900, style: "basic" },
+    { year: 1950, style: "basic" },
+    { year: 2000, style: "basic" },
+    { year: 2050, style: "basic" }
+  ]
+
+  if (currentAnswer != 0) {
+    answers.forEach((a) => {
+      if (a.year == correctAnswer) a.style = "correct"
+      else if (a.year == currentAnswer) a.style = "incorrect"
+    })
+  }
+
+  const handleClick = (answer) => {
+    setCurrentAnswer(answer)
+    setTimeout(() => {
+      setCurrentAnswer(0)
+    }, 3000)
+  }
+
   return (
     <div className="flex flex-col item-center px-10 text-center">
       <h1 className="font-bold m-4">
@@ -16,22 +48,14 @@ export default function Peli1() {
       </div>
 
       <div className="grid grid-cols-2 gap-4 m-4">
-        <button
-        className="px-4 py-2 border rounded hover:bg-gray-100">
-          Option 1
-        </button>
-        <button
-        className="px-4 py-2 border rounded hover:bg-gray-100">
-          Option 2
-        </button>
-        <button
-        className="px-4 py-2 border rounded hover:bg-gray-100">
-          Option 3
-        </button>
-        <button
-        className="px-4 py-2 border rounded hover:bg-gray-100">
-          Option 4
-        </button>
+        {answers.map((answer) => (
+          <button
+          key={answer.year}
+          onClick={() => handleClick(answer.year)}
+          className={styles[answer.style]}>
+          {answer.year}
+          </button>
+        ))}
       </div>
     </div>
   );
