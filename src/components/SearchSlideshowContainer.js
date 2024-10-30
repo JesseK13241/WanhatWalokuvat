@@ -1,8 +1,8 @@
 "use client"
+import Slideshow from "@/components//Slideshow"
+import Search from "@/components/Search"
 import { getPhotos } from "@/services/photos"
 import { useState } from "react"
-import Search from "./Search"
-import Slideshow from "./Slideshow"
 
 export default function SearchSlideshowContainer({ initialPhotos }) {
   const [searchResults, setSearchResults] = useState(initialPhotos)

@@ -1,8 +1,8 @@
 "use client"
 
+import DecadePicker from "@/components/DecadePicker"
+import LocationPicker from "@/components/LocationPicker"
 import { useState } from "react"
-import DecadePicker from "./DecadePicker"
-import LocationPicker from "./LocationPicker"
 
 export default function Search({ onSearch }) {
   const [location, setLocation] = useState("")
