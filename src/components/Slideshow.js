@@ -48,35 +48,27 @@ export default function Slideshow({ photos }) {
         </button>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex justify-center bg-slate-800">
         <Image
           src={imageUrl}
           alt={photos[currentIndex].title}
-          width={500}
-          height={500}
-          className="object-contain"
+          width={0}
+          height={0}
+          className="w-auto h-80 object-cover"
+          sizes="100vw"
           priority
         />
       </div>
 
       <div className="text-center space-y-2">
-        {currentPhoto.year && (
-          <p> Year: {currentPhoto.year} </p>
-        )}
-        {currentPhoto.location && (
-          <p> Location: {currentPhoto.location} </p>
-        )}
-        {currentPhoto.title && (
-          <p> Title: {currentPhoto.title} </p>
-        )}
-        {currentPhoto.author && (
-          <p> Author: {currentPhoto.author} </p>
-        )}
-        {currentPhoto.building && (
-          <p> Building: {currentPhoto.building} </p>
-        )}
-        <a href={"https://www.finna.fi" + currentPhoto.recordPage}
-        className="text-blue-600 hover:underline visited:text-purple-600">
+        {currentPhoto.year && <p> Year: {currentPhoto.year} </p>}
+        {currentPhoto.location && <p> Location: {currentPhoto.location} </p>}
+        {currentPhoto.title && <p> Title: {currentPhoto.title} </p>}
+        {currentPhoto.author && <p> Author: {currentPhoto.author} </p>}
+        {currentPhoto.building && <p> Building: {currentPhoto.building} </p>}
+        <a
+          href={"https://www.finna.fi" + currentPhoto.recordPage}
+          className="text-blue-600 hover:underline visited:text-purple-600">
           Linkki aineistoon
         </a>
       </div>
