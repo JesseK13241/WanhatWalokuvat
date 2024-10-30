@@ -1,5 +1,4 @@
 // TODO refactor, dynamic decade options
-import React from "react";
 
 export default function DecadePicker({ value, onChange }) {
   const startYear = 1880;
@@ -8,20 +7,21 @@ export default function DecadePicker({ value, onChange }) {
 
   const decades = [];
   for (let year = startYear; year <= endYear; year += 10) {
-    decades.push({label: `${year}s`, value: `${year}-${year + 9}`});
+    decades.push({ label: `${year}s`, value: `${year}-${year + 9}` });
   }
   return (
     <div>
       <label>Select decade</label>
       <select
-        value={value} 
+        value={value}
         onChange={e => {
           console.log("Changed decade to:", e.target.value);
           onChange(e.target.value);
-        }} 
-      >
+        }}>
         {decades.map((decade, index) => (
-          <option key={index} value={decade.value}>
+          <option
+            key={index}
+            value={decade.value}>
             {decade.label}
           </option>
         ))}

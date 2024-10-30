@@ -6,7 +6,7 @@ import LocationPicker from "./LocationPicker";
 
 export default function Search({ onSearch }) {
   const [location, setLocation] = useState("");
-  const [decade, setDecade] = useState("1970-1979"); 
+  const [decade, setDecade] = useState("1970-1979");
 
   console.log("Rendering Search..");
 

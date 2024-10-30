@@ -38,7 +38,7 @@ export const getPhotos = async ({
       "recordPage",
       "buildings"
     ],
-    limit: limit,
+    limit: limit
   };
 
   let urlToFetch = BASE_API_URL;
