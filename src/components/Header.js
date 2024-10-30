@@ -2,8 +2,8 @@ import Link from "next/link"
 
 const Header = () => {
   return (
-    <header className="border border-black">
-      <h1 className="text-3xl border border-black">
+    <header className="border border-black p-5">
+      <h1 className="border border-black text-3xl">
         <a href="/">Aineopintojen projektityö</a>
       </h1>
       <Link href="/pelit/">Pelit</Link>

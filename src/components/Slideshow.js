@@ -30,10 +30,10 @@ export default function Slideshow({ photos }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-center gap-4">
+      <div className="flex items-center justify-between gap-4">
         <button
           onClick={handlePrevious}
-          className="px-4 py-2 border rounded hover:bg-gray-100"
+          className="rounded border px-4 py-2 hover:bg-gray-100"
         >
           Previous
         </button>
@@ -44,7 +44,7 @@ export default function Slideshow({ photos }) {
 
         <button
           onClick={handleNext}
-          className="px-4 py-2 border rounded hover:bg-gray-100"
+          className="rounded border px-4 py-2 hover:bg-gray-100"
         >
           Next
         </button>
@@ -56,13 +56,13 @@ export default function Slideshow({ photos }) {
           alt={photos[currentIndex].title}
           width={0}
           height={0}
-          className="w-auto h-80 object-cover"
+          className="h-80 w-auto object-cover"
           sizes="100vw"
           priority
         />
       </div>
 
-      <div className="text-center space-y-2">
+      <div className="space-y-2 text-center">
         {currentPhoto.year && <p> Year: {currentPhoto.year} </p>}
         {currentPhoto.location && <p> Location: {currentPhoto.location} </p>}
         {currentPhoto.title && <p> Title: {currentPhoto.title} </p>}
@@ -70,7 +70,7 @@ export default function Slideshow({ photos }) {
         {currentPhoto.building && <p> Building: {currentPhoto.building} </p>}
         <a
           href={"https://www.finna.fi" + currentPhoto.recordPage}
-          className="text-blue-600 hover:underline visited:text-purple-600"
+          className="text-blue-600 visited:text-purple-600 hover:underline"
         >
           Linkki aineistoon
         </a>

@@ -11,12 +11,12 @@ export default function Search({ onSearch }) {
   console.log("Rendering Search..")
 
   return (
-    <div className="flex border border-black p-10 space-x-20">
+    <div className="flex space-x-20 border border-black p-10">
       <LocationPicker value={location} onChange={setLocation} />
       <DecadePicker value={decade} onChange={setDecade} />
       <button
         onClick={() => onSearch({ location, decade })}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
       >
         Search
       </button>

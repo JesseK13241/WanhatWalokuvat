@@ -10,6 +10,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "api.finna.fi",
       },
+      {
+        protocol: "https",
+        hostname: "github.githubassets.com",
+      },
     ],
   },
 }

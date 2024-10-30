@@ -34,8 +34,8 @@ export default function Peli1() {
   }
 
   return (
-    <div className="flex flex-col item-center px-10 text-center">
-      <h1 className="font-bold m-4">Peli 1</h1>
+    <div className="flex flex-col px-10 text-center">
+      <h1 className="m-4 font-bold">Peli 1</h1>
       <div className="flex justify-center">
         <Image
           src={
@@ -47,7 +47,7 @@ export default function Peli1() {
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4 m-4">
+      <div className="m-4 grid grid-cols-2 gap-4">
         {answers.map((answer) => (
           <button
             key={answer.year}
