@@ -1,39 +1,40 @@
-"use client";
-import Image from "next/image";
-import { useState } from "react";
+"use client"
+import Image from "next/image"
+import { useState } from "react"
 
 export default function Slideshow({ photos }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const IMAGE_BASE_URL = "https://www.finna.fi/Cover/Show?id=";
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const IMAGE_BASE_URL = "https://www.finna.fi/Cover/Show?id="
 
   if (!photos?.length) {
-    return <p>No photos found</p>;
+    return <p>No photos found</p>
   }
 
-  console.log(`Rendering Slideshow with ${photos.length} photos..`);
+  console.log(`Rendering Slideshow with ${photos.length} photos..`)
 
   const handlePrevious = () => {
-    setCurrentIndex(prev => (prev > 0 ? prev - 1 : photos.length - 1));
-  };
+    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : photos.length - 1))
+  }
 
   const handleNext = () => {
-    setCurrentIndex(prev => (prev < photos.length - 1 ? prev + 1 : 0));
-  };
+    setCurrentIndex((prev) => (prev < photos.length - 1 ? prev + 1 : 0))
+  }
 
-  const currentPhoto = photos[currentIndex];
-  const imageUrl = `${IMAGE_BASE_URL}${encodeURIComponent(currentPhoto.id)}`;
+  const currentPhoto = photos[currentIndex]
+  const imageUrl = `${IMAGE_BASE_URL}${encodeURIComponent(currentPhoto.id)}`
 
-  console.log("Current photo:", currentPhoto);
+  console.log("Current photo:", currentPhoto)
 
-  currentPhoto.author = Object.keys(currentPhoto.authors.primary)[0];
-  currentPhoto.building = currentPhoto.buildings[0].translated;
+  currentPhoto.author = Object.keys(currentPhoto.authors.primary)[0]
+  currentPhoto.building = currentPhoto.buildings[0].translated
 
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center gap-4">
         <button
           onClick={handlePrevious}
-          className="px-4 py-2 border rounded hover:bg-gray-100">
+          className="px-4 py-2 border rounded hover:bg-gray-100"
+        >
           Previous
         </button>
 
@@ -43,7 +44,8 @@ export default function Slideshow({ photos }) {
 
         <button
           onClick={handleNext}
-          className="px-4 py-2 border rounded hover:bg-gray-100">
+          className="px-4 py-2 border rounded hover:bg-gray-100"
+        >
           Next
         </button>
       </div>
@@ -68,10 +70,11 @@ export default function Slideshow({ photos }) {
         {currentPhoto.building && <p> Building: {currentPhoto.building} </p>}
         <a
           href={"https://www.finna.fi" + currentPhoto.recordPage}
-          className="text-blue-600 hover:underline visited:text-purple-600">
+          className="text-blue-600 hover:underline visited:text-purple-600"
+        >
           Linkki aineistoon
         </a>
       </div>
     </div>
-  );
+  )
 }

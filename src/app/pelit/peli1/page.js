@@ -1,5 +1,5 @@
 "use client"
-import Image from "next/image";
+import Image from "next/image"
 import { useState } from "react"
 
 export default function Peli1() {
@@ -9,14 +9,14 @@ export default function Peli1() {
   const styles = {
     basic: "px-4 py-2 border rounded hover:bg-gray-100",
     correct: "px-4 py-2 border rounded bg-green-100",
-    incorrect: "px-4 py-2 border rounded bg-red-100"
+    incorrect: "px-4 py-2 border rounded bg-red-100",
   }
 
   const answers = [
     { year: 1900, style: "basic" },
     { year: 1950, style: "basic" },
     { year: 2000, style: "basic" },
-    { year: 2050, style: "basic" }
+    { year: 2050, style: "basic" },
   ]
 
   if (currentAnswer != 0) {
@@ -35,12 +35,12 @@ export default function Peli1() {
 
   return (
     <div className="flex flex-col item-center px-10 text-center">
-      <h1 className="font-bold m-4">
-        Peli 1
-      </h1>
+      <h1 className="font-bold m-4">Peli 1</h1>
       <div className="flex justify-center">
         <Image
-          src={"https://api.finna.fi/Cover/Show?source=Solr&id=sls.SLSA%2B367_SLSA%2B367%253A5%253A5%253A5.1&index=0&size=large"}
+          src={
+            "https://api.finna.fi/Cover/Show?source=Solr&id=sls.SLSA%2B367_SLSA%2B367%253A5%253A5%253A5.1&index=0&size=large"
+          }
           alt={"Albert Edelfelt"}
           height={500}
           width={500}
@@ -50,13 +50,14 @@ export default function Peli1() {
       <div className="grid grid-cols-2 gap-4 m-4">
         {answers.map((answer) => (
           <button
-          key={answer.year}
-          onClick={() => handleClick(answer.year)}
-          className={styles[answer.style]}>
-          {answer.year}
+            key={answer.year}
+            onClick={() => handleClick(answer.year)}
+            className={styles[answer.style]}
+          >
+            {answer.year}
           </button>
         ))}
       </div>
     </div>
-  );
+  )
 }

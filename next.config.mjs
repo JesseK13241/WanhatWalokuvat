@@ -4,14 +4,14 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "www.finna.fi"
+        hostname: "www.finna.fi",
       },
       {
         protocol: "https",
-        hostname: "api.finna.fi"
-      }
-    ]
-  }
-};
+        hostname: "api.finna.fi",
+      },
+    ],
+  },
+}
 
-export default nextConfig;
+export default nextConfig

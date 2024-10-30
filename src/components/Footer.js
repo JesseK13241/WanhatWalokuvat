@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "next/link"
 
 const Footer = () => {
   return (
@@ -7,7 +7,7 @@ const Footer = () => {
         View on GitHub
       </Link>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer
