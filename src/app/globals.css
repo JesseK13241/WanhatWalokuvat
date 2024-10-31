@@ -17,8 +17,15 @@ body {
   .text-balance {
     text-wrap: balance;
   }
-  .bg-maincolor {
+  .bg-primary {
     background-color: theme('colors.blue.500');
     /* TODO ADD MORE */
+  }
+  .bg-secondary {
+    background-color: theme('colors.blue.400');
+    /* TODO ADD MORE */
+  }
+  .bg-tertiary {
+    background-color: theme('colors.blue.300');
   }
 }
