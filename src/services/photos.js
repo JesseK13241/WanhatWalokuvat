@@ -18,7 +18,7 @@ export const getPhotos = async ({
   if (decade) {
     console.log("Decade specified:", decade)
     const [start, end] = decade.split("-")
-    filters.push(`search_daterange_mv:"[${start} TO ${end}]"`)
+    filters.push(`search_daterange_mv:"[${start} TO ${end}]"&search_daterange_mv_type=within`)
   }
 
   if (location) {
