@@ -3,7 +3,7 @@
 @import "tailwindcss/utilities";
 
 :root {
-  --background: #ffffff;
+  --background: #ffffff;  /* TODO RENAME */
   --foreground: #171717;
 }
 
@@ -16,5 +16,9 @@ body {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  .bg-maincolor {
+    background-color: theme('colors.blue.500');
+    /* TODO ADD MORE */
   }
 }
