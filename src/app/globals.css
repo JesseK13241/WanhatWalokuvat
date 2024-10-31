@@ -2,14 +2,7 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-:root {
-  --background: #ffffff;  /* TODO RENAME */
-  --foreground: #171717;
-}
-
 body {
-  color: var(--foreground);
-  background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -18,14 +11,12 @@ body {
     text-wrap: balance;
   }
   .bg-primary {
-    background-color: theme('colors.blue.500');
-    /* TODO ADD MORE */
+    background-color: theme('colors.primary');  
   }
   .bg-secondary {
-    background-color: theme('colors.blue.400');
-    /* TODO ADD MORE */
+    background-color: theme('colors.secondary');
   }
   .bg-tertiary {
-    background-color: theme('colors.blue.300');
+    background-color: theme('colors.tertiary'); 
   }
 }

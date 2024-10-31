@@ -8,8 +8,8 @@ export default async function HomePage() {
   console.log(`Found ${initialPhotos.length} initial photos`)
 
   return (
-    <div className="flex flex-col items-center p-10">
-      <SearchSlideshowContainer initialPhotos={initialPhotos} />
+    <div className="flex flex-col items-center bg-primary p-10">
+      <SearchSlideshowContainer initialPhotos={initialPhotos}/>
     </div>
   )
 }
