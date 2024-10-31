@@ -33,7 +33,7 @@ export default function Slideshow({ photos }) {
       <div className="flex items-center justify-between gap-4">
         <button
           onClick={handlePrevious}
-          className="rounded border px-4 py-2 hover:bg-gray-100"
+          className="btn-secondary"
         >
           Previous
         </button>
@@ -44,7 +44,7 @@ export default function Slideshow({ photos }) {
 
         <button
           onClick={handleNext}
-          className="rounded border px-4 py-2 hover:bg-gray-100"
+          className="btn-secondary"
         >
           Next
         </button>

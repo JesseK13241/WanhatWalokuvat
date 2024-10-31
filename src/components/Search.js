@@ -16,7 +16,7 @@ export default function Search({ onSearch }) {
       <DecadePicker value={decade} onChange={setDecade} />
       <button
         onClick={() => onSearch({ location, decade })}
-        className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+        className="btn-primary"
       >
         Search
       </button>

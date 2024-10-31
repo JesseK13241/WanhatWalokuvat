@@ -20,3 +20,13 @@ body {
     background-color: theme('colors.tertiary'); 
   }
 }
+
+
+@layer components {
+  .btn-primary {
+    @apply rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700
+  }
+  .btn-secondary {
+    @apply rounded border px-4 py-2 hover:bg-gray-100
+  }
+}
