@@ -1,41 +1,26 @@
 "use client"
 import Image from "next/image"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import MultipleChoiceButtons from "@/components/MultipleChoiceButtons"
 
 export default function Peli1() {
-  const [correctAnswer, setCorrectAnswer] = useState(2000)
-  const [currentAnswer, setCurrentAnswer] = useState(0)
-
-  const styles = {
-    basic: "px-4 py-2 border rounded hover:bg-gray-100",
-    correct: "px-4 py-2 border rounded bg-green-100",
-    incorrect: "px-4 py-2 border rounded bg-red-100",
-  }
-
+  const [correctAnswer, setCorrectAnswer] = useState(1990)
+  
   const answers = [
-    { year: 1900, style: "basic" },
-    { year: 1950, style: "basic" },
-    { year: 2000, style: "basic" },
-    { year: 2050, style: "basic" },
-  ]
+    { decade: 1950, isCorrect: false },
+    { decade: 1970, isCorrect: true  },
+    { decade: 1990, isCorrect: false },
+    { decade: 2010, isCorrect: false }
+]
 
-  if (currentAnswer != 0) {
-    answers.forEach((a) => {
-      if (a.year == correctAnswer) a.style = "correct"
-      else if (a.year == currentAnswer) a.style = "incorrect"
-    })
-  }
-
-  const handleClick = (answer) => {
-    setCurrentAnswer(answer)
-    setTimeout(() => {
-      setCurrentAnswer(0)
-    }, 3000)
+  const handleClick = () => {
+    setCorrectAnswer(correctAnswer + 1)
   }
 
   return (
     <div className="flex flex-col px-10 text-center">
       <h1 className="m-4 font-bold">Peli 1</h1>
+
       <div className="flex justify-center">
         <Image
           src={
@@ -47,17 +32,16 @@ export default function Peli1() {
         />
       </div>
 
-      <div className="m-4 grid grid-cols-2 gap-4">
-        {answers.map((answer) => (
-          <button
-            key={answer.year}
-            onClick={() => handleClick(answer.year)}
-            className={styles[answer.style]}
-          >
-            {answer.year}
-          </button>
-        ))}
-      </div>
+      <MultipleChoiceButtons 
+        key={correctAnswer}
+        answers={answers}
+      />
+      
+      <button
+       className="btn-primary"
+       onClick={() => handleClick()}>
+        Uusi kierros
+      </button>
     </div>
   )
 }
