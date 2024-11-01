@@ -21,7 +21,10 @@ export default function SearchSlideshowContainer({ initialPhotos }) {
   return (
     <div>
       <Search onSearch={handleSearch} />
-      <Slideshow photos={searchResults} />
+      <Slideshow 
+        photos={searchResults.records}
+        count={searchResults.resultCount}
+       />
     </div>
   )
 }

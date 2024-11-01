@@ -1,6 +1,7 @@
 export const getPhotos = async ({
   location = null,
   decade = null,
+  page = 1,
   limit = 5,
 } = {}) => {
   const BASE_API_URL = "https://api.finna.fi/v1/search?"
@@ -39,6 +40,7 @@ export const getPhotos = async ({
       "buildings",
     ],
     limit: limit,
+    page: page
   }
 
   let urlToFetch = BASE_API_URL
@@ -59,7 +61,8 @@ export const getPhotos = async ({
       throw new Error("Network response was not ok")
     }
     const data = await response.json()
-    return data.records || []
+    console.log(data)
+    return data
   } catch (error) {
     console.error("Error fetching photos:", error)
     throw error

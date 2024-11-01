@@ -2,7 +2,7 @@
 import Image from "next/image"
 import { useState } from "react"
 
-export default function Slideshow({ photos }) {
+export default function Slideshow({ photos, count }) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const IMAGE_BASE_URL = "https://www.finna.fi/Cover/Show?id="
 
@@ -39,7 +39,7 @@ export default function Slideshow({ photos }) {
         </button>
 
         <div className="text-sm">
-          {currentIndex + 1} / {photos.length}
+          {currentIndex + 1} / {count}
         </div>
 
         <button
