@@ -1,12 +1,12 @@
 export const getPhotos = async ({
-  location = null,
-  decade = null,
+  location,
+  decade,
   page = 1,
   limit = 5,
 } = {}) => {
   const BASE_API_URL = "https://api.finna.fi/v1/search?"
 
-  console.log("Fetching by params:", { location, decade, limit })
+  console.log("Fetching by params:", { location, decade, page, limit })
 
   // 'B+BY': Vapaat, lähde nimettävä, 'A+FREE': Täysin vapaat
   var filters = [

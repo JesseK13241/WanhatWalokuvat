@@ -41,8 +41,10 @@ Meidän projektille oleelliset tiedot:
     1. Haetaan halutuilla filttereillä osumia ja asetetaan limit=0, jotta saadaan vain osumien määrä
     2. Haetaan uudestaan samoilla filttereillä, mutta asetetaan limit=1 ja sivun arvoksi
       asetetaan satunnainen arvo nollan ja osumien määrä väliltä, eli
-      limit=Math.floor(Math.random() * resultCount)
+      limit=Math.floor(Math.random() * Math.min(resultCount, 100000))
   Haetaan siis yhden kuvan mittaisista sivuista (limit=1) satunnainen sivu (page=n)
+  HUOM. Finna palauttaa max 100000 kuvaa!
+  
 
 
 Käyttöoikeuksista: 
