@@ -50,7 +50,7 @@ export default function Peli1() {
      
       <div>
         <MultipleChoiceButtons 
-            correctYear={currentPhoto.year}
+            correctYear={currentPhoto.year ? currentPhoto.year : nextRound()}
         />
       </div>
 
