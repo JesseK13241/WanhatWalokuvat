@@ -11,7 +11,7 @@ export default function MultipleChoiceButtons({ correctYear }) {
 
   const generateAnswers = () => {
     var newAnswers = [{}, {}, {}, {}]
-    const correctDecade = (Math.floor(correctYear / 10)) * 10
+    const correctDecade = Math.floor(correctYear / 10) * 10
 
     var possibleAnswers = []
     for (let i = correctDecade - 50; i < correctDecade + 50; i += 10) {
@@ -20,7 +20,7 @@ export default function MultipleChoiceButtons({ correctYear }) {
 
     newAnswers[0].decade = correctDecade
     newAnswers[0].isCorrect = true
-    
+
     for (let i = 1; i < 4; i++) {
       let j = Math.floor(Math.random() * possibleAnswers.length)
       let randomDecade = possibleAnswers[j]
@@ -60,5 +60,5 @@ export default function MultipleChoiceButtons({ correctYear }) {
         </button>
       ))}
     </div>
-    )
+  )
 }
