@@ -17,6 +17,10 @@ Meidän projektille oleelliset tiedot:
     "online_boolean", kuva internetissä
     "format", sisällön aineistotyyppi, monitasoinen
     "search_daterange_mv" ja "search_daterange_mv_type", hakeminen vuosiluvulla ja tyypin spesifointi
+    "{!geofilt+sfield=location_geo+pt=x,y+d=z}", koordinaateilla haku
+
+  Koordinaattihaku:
+    Hyvin epätarkka
 
   "Field" kentässä kerrotaan mitkä kentät halutaan haun palauttavan.
   Meillä käytössä olevat kentät:
@@ -60,7 +64,7 @@ Eri organisaatiolla eri tapoja arkistoida aineistoja, esim.
       - 1/Image/Photo/, tarkoittaa valokuvia, kaikki eivät kuitenkaan käytä tätä
       - 0/Image/, tarkoittaa kaikkia kuvia, mutta sisältää esimerkiksi kuvia esineistä
 
-  - Authors kentässä eroja, vaikeuttaa tekijöiden niemämistä etenkin jos tekijöihin sisältyy
+  - Authors kentässä eroja, vaikeuttaa tekijöiden nimeämistä etenkin jos tekijöihin sisältyy
     myös kokoelman omistajat
 
   Mahdollisia ratkaisuja: 

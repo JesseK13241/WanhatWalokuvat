@@ -22,11 +22,6 @@ export const getPhotos = async ({
     filters.push(`search_daterange_mv:"[${start} TO ${end}]"&search_daterange_mv_type=within`)
   }
 
-  if (location) {
-    // TODO location based searching
-    console.log("Location specified:", location)
-  }
-
   const params = {
     filter: filters,
     field: [
@@ -54,6 +49,12 @@ export const getPhotos = async ({
       urlToFetch += `&${key}=${value}`
     }
   }
+
+  if (location) {
+    urlToFetch += `&filter[]={!geofilt+sfield=location_geo+pt=${location.lat},${location.lon}+d=${location.r}}`
+  }
+
+  console.log(urlToFetch)
 
   try {
     const response = await fetch(urlToFetch)
