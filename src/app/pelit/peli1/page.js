@@ -2,14 +2,17 @@
 import Image from "next/image"
 import { useState, useEffect } from "react"
 import { getPhotos } from "@/services/photos"
-import MultipleChoiceButtons from "@/components/MultipleChoiceButtons"
-import Peli1Skeleton from "@/components/Peli1Skeleton"
+import MultipleChoiceButtons from "@/components/Peli1/MultipleChoiceButtons"
+import Skeleton from "@/components/Peli1/Skeleton"
+import Aloitus from "@/components/Peli1/Aloitus"
 
 export default function Peli1() {
   const [currentPhoto, setCurrentPhoto] = useState()
+  const [roundNumber, setRoundNumber] = useState(0)
+
   const [isLoading, setLoading] = useState(true)
   const [imageLoading, setImageLoading] = useState(true)
-
+  
   useEffect(() => {
     nextRound()
   }, [])
@@ -29,12 +32,13 @@ export default function Peli1() {
     setImageLoading(true)
   }
 
-  if (isLoading) return <Peli1Skeleton />
+  // if (roundNumber == 0) return <Aloitus />
 
-  const imageUrl = currentPhoto
-    ? "https://www.finna.fi/Cover/Show?id=" +
-      encodeURIComponent(currentPhoto.id)
-    : null
+  if (isLoading) return <Skeleton />
+
+  const imageUrl = currentPhoto && 
+    "https://www.finna.fi/Cover/Show?id=" + encodeURIComponent(currentPhoto.id)
+
 
   currentPhoto.author = Object.keys(currentPhoto.authors.primary)[0]
   currentPhoto.building = currentPhoto.buildings[0].translated
@@ -63,7 +67,7 @@ export default function Peli1() {
         />
       </div>
 
-      <button className="btn-primary" onClick={nextRound}>
+      <button className="btn-primary" onClick={() => nextRound}>
         Uusi kierros
       </button>
 

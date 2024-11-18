@@ -54,8 +54,6 @@ export const getPhotos = async ({
     urlToFetch += `&filter[]={!geofilt+sfield=location_geo+pt=${location.lat},${location.lon}+d=${location.r}}`
   }
 
-  console.log(urlToFetch)
-
   try {
     const response = await fetch(urlToFetch)
     if (!response.ok) {
