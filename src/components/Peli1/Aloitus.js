@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Aloitus() {
+export default function Aloitus({ returnParams }) {
   const [startDecade, setStartDecade] = useState(1800)
   const [endDecade, setEndingDecade] = useState(Math.floor(new Date().getFullYear() / 10) * 10)
   const [rounds, setRounds] = useState(0)
@@ -13,6 +13,7 @@ export default function Aloitus() {
   }
 
   const handleSubmit = () => {
+    returnParams(startDecade, endDecade, rounds)
   } 
 
   return (
@@ -29,7 +30,7 @@ export default function Aloitus() {
 
         <label>
           Vuosikymmenestä: 
-          <select name="startingDecade" className="mx-2 rounded p-2"
+          <select name="startSelect" className="mx-2 rounded p-2"
             onChange={(e) => setStartDecade(parseInt(e.target.value))}>
             {decades.map((decade, index) => 
               decade < Math.min(currentDecade - 40, endDecade - 40) &&
@@ -42,7 +43,7 @@ export default function Aloitus() {
 
         <label>
           Vuosikymmeneen:
-          <select name="endingDecade" className="mx-2 rounded p-2"
+          <select name="endSelect" className="mx-2 rounded p-2"
             defaultValue={endDecade}
             onChange={(e) => setEndingDecade(e.target.value)}>
             {decades.map((decade, index) => 
@@ -56,15 +57,17 @@ export default function Aloitus() {
 
         <label>
           Kierroksia:
-          <input name="roundCount" 
+          <input name="roundInput" 
             className="mx-2 w-16 rounded border p-2 text-center"
             type="number"
             value={rounds}
-            onChange={(e) => console.log(e.target.value)}
+            onChange={(e) => {
+              if (e.target.value >= 0) setRounds(e.target.valueAsNumber)
+            }}
           />
         </label>
         
-        <button type="button" onClick={() => handleSubmit} className="btn-primary">
+        <button type="button" onClick={handleSubmit} className="btn-primary">
           Aloita
         </button>
 

@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from "react"
 
-export default function MultipleChoiceButtons({ correctYear }) {
+export default function MultipleChoiceButtons({ correctYear, returnAnswer }) {
   const [currentAnswer, setCurrentAnswer] = useState(0)
   const [answers, setAnswers] = useState()
 
@@ -33,6 +33,10 @@ export default function MultipleChoiceButtons({ correctYear }) {
     setAnswers(newAnswers)
   }
 
+  const handleAnswer = () => {
+    returnAnswer()
+  }
+
   const styles = {
     default: "btn-secondary",
     correct: "btn-secondary hover:bg-green-100 bg-green-100",
@@ -53,7 +57,10 @@ export default function MultipleChoiceButtons({ correctYear }) {
         <button
           disabled={currentAnswer}
           key={answer.decade}
-          onClick={() => setCurrentAnswer(answer.decade)}
+          onClick={() => {
+            handleAnswer()
+            setCurrentAnswer(answer.decade)}
+          }
           className={styles[answer.style]}
         >
           {answer.decade}
