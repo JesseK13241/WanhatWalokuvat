@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from "react"
 
-export default function MultipleChoiceButtons({ correctYear, returnAnswer }) {
+export default function MultipleChoiceButtons({ correctYear, range, returnAnswer }) {
   const [currentAnswer, setCurrentAnswer] = useState(0)
   const [answers, setAnswers] = useState()
 
@@ -9,12 +9,20 @@ export default function MultipleChoiceButtons({ correctYear, returnAnswer }) {
     generateAnswers()
   }, [])
 
+  useEffect(() => {
+    if (currentAnswer) handleAnswer()
+  }, [currentAnswer])
+
   const generateAnswers = () => {
     var newAnswers = [{}, {}, {}, {}]
     const correctDecade = Math.floor(correctYear / 10) * 10
 
+    var [start, end] = range.split("-").map(Number)
+    start = Math.max(start, correctDecade - 50)
+    end = Math.min(end, correctDecade + 50)
+
     var possibleAnswers = []
-    for (let i = correctDecade - 50; i < correctDecade + 50; i += 10) {
+    for (let i = start; i < end; i += 10) {
       if (i != correctDecade) possibleAnswers.push(i)
     }
 
@@ -34,11 +42,14 @@ export default function MultipleChoiceButtons({ correctYear, returnAnswer }) {
   }
 
   const handleAnswer = () => {
-    returnAnswer()
+    let correct = Math.floor(correctYear / 10) * 10
+    let current = currentAnswer
+    console.log(correctYear, correct, current)
+    returnAnswer(current == correct)
   }
 
   const styles = {
-    default: "btn-secondary",
+    default: "btn-secondary bg-primary",
     correct: "btn-secondary hover:bg-green-100 bg-green-100",
     incorrect: "btn-secondary hover:bg-red-100 bg-red-100",
   }
@@ -52,14 +63,12 @@ export default function MultipleChoiceButtons({ correctYear, returnAnswer }) {
   })
 
   return (
-    <div className="flex justify-between space-x-4">
+    <div className="flex justify-center space-x-4">
       {answers.map((answer) => (
         <button
           disabled={currentAnswer}
           key={answer.decade}
-          onClick={() => {
-            handleAnswer()
-            setCurrentAnswer(answer.decade)}
+          onClick={() => {setCurrentAnswer(answer.decade)}
           }
           className={styles[answer.style]}
         >

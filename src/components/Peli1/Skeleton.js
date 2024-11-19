@@ -4,7 +4,7 @@ const Peli1Skeleton = () => {
   return (
     <div className="flex flex-col items-center">
       <div className="mt-4 size-80 animate-pulse rounded bg-gray-200" />
-      <div className="mt-4 flex h-10 w-80 justify-between">
+      <div className="mt-4 flex h-10 w-80 justify-between animate-pulse">
         <div className="h-10 w-16 rounded bg-gray-200" />
         <div className="h-10 w-16 rounded bg-gray-200" />
         <div className="h-10 w-16 rounded bg-gray-200" />
