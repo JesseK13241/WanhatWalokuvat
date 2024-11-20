@@ -49,12 +49,12 @@ export default function MultipleChoiceButtons({ correctYear, range, returnAnswer
   }
 
   const styles = {
-    default: "btn-secondary bg-primary",
-    correct: "btn-secondary hover:bg-green-100 bg-green-100",
-    incorrect: "btn-secondary hover:bg-red-100 bg-red-100",
+    default: "btn-secondary disabled:hover:bg-primary bg-primary shadow-md",
+    correct: "btn-secondary hover:bg-green-400 bg-green-400 border-none shadow-md",
+    incorrect: "btn-secondary hover:bg-red-400 bg-red-400 border-none shadow-md",
   }
 
-  if (!answers) return <p>Loading..</p>
+  if (!answers) return <></>
 
   answers.forEach((a) => {
     if (currentAnswer && a.isCorrect) a.style = "correct"

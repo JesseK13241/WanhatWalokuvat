@@ -17,10 +17,10 @@ export default function Aloitus({ returnParams }) {
   } 
 
   return (
-    <div className="flex justify-center">
-      <form className="m-4 flex w-96 flex-col items-center space-y-4 rounded border bg-secondary p-4 text-center">
+    <div className="flex items-center justify-center">
+      <form className="m-4 flex w-96 flex-col items-center space-y-4 rounded-md bg-secondary p-4 text-center shadow-lg">
         <h1 className="font-bold">Peli1</h1>
-        <p className="rounded border bg-primary p-2">
+        <p className="rounded border bg-primary p-2 shadow-md">
           Pelin tavoitteena on arvata vuosikymmen, jolla annettu kuva on otettu.
           Sinulle annetaan neljä vastausvaihtoehtoa ja tehtävänäsi on valita niistä oikea.
           Kun kaikki kierrokset on pelattu, näytetään tulokset.
@@ -28,9 +28,11 @@ export default function Aloitus({ returnParams }) {
           Jos haluat pelata ilman kierroksia valitse kierrosten määräksi nolla.
         </p>
 
-        <label>
-          Vuosikymmenestä: 
-          <select name="startSelect" className="mx-2 rounded p-2"
+        <div className="flex w-60 justify-between">
+          <label className="font-bold" for="startSelect">
+          Vuosikymmenestä:
+          </label> 
+          <select name="startSelect" className="mx-2 w-16 rounded bg-primary p-2 shadow-sm"
             onChange={e => setStartDecade(parseInt(e.target.value))}>
             {decades.map((decade, index) => 
               decade < Math.min(currentDecade - 40, endDecade - 40) &&
@@ -39,11 +41,13 @@ export default function Aloitus({ returnParams }) {
                 </option>
             )}
           </select>
-        </label>
+        </div>
 
-        <label>
-          Vuosikymmeneen:
-          <select name="endSelect" className="mx-2 rounded p-2"
+        <div className="flex w-60 justify-between">
+          <label className="font-bold" for="endSelect">
+            Vuosikymmeneen:
+          </label>    
+          <select name="endSelect" className="mx-2 w-16 rounded bg-primary p-2 shadow-sm"
             defaultValue={endDecade}
             onChange={(e) => setEndingDecade(e.target.value)}>
             {decades.map((decade, index) => 
@@ -53,21 +57,23 @@ export default function Aloitus({ returnParams }) {
                 </option>
             )}
           </select>
-        </label>
+        </div>
 
-        <label>
-          Kierroksia:
+        <div className="flex w-60 justify-between">
+          <label className="font-bold" for="roundInput">
+            Kierroksia:
+          </label>
           <input name="roundInput" 
-            className="mx-2 w-16 rounded border p-2 text-center"
+            className="mx-2 w-16 rounded border bg-primary p-1 text-center shadow-sm"
             type="number"
             value={rounds}
             onChange={e => {
               if (e.target.value >= 0) setRounds(e.target.valueAsNumber)
             }}
           />
-        </label>
-        
-        <button type="button" onClick={handleSubmit} className="btn-primary">
+        </div>
+
+        <button type="button" onClick={handleSubmit} className="btn-primary shadow-md">
           Aloita
         </button>
       </form>
