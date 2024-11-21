@@ -44,7 +44,6 @@ export default function MultipleChoiceButtons({ correctYear, range, returnAnswer
   const handleAnswer = () => {
     let correct = Math.floor(correctYear / 10) * 10
     let current = currentAnswer
-    console.log(correctYear, correct, current)
     returnAnswer(current == correct)
   }
 
@@ -57,9 +56,9 @@ export default function MultipleChoiceButtons({ correctYear, range, returnAnswer
   if (!answers) return <></>
 
   answers.forEach((a) => {
-    if (currentAnswer && a.isCorrect) a.style = "correct"
-    else if (a.decade == currentAnswer) a.style = "incorrect"
-    else a.style = "default"
+    if (currentAnswer && a.isCorrect) a.style = styles.correct
+    else if (a.decade == currentAnswer) a.style = styles.incorrect
+    else a.style = styles.default
   })
 
   return (
@@ -68,9 +67,8 @@ export default function MultipleChoiceButtons({ correctYear, range, returnAnswer
         <button
           disabled={currentAnswer}
           key={answer.decade}
-          onClick={() => {setCurrentAnswer(answer.decade)}
-          }
-          className={styles[answer.style]}
+          onClick={() => setCurrentAnswer(answer.decade)}
+          className={answer.style}
         >
           {answer.decade}
         </button>

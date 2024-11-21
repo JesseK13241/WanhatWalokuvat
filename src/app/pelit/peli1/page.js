@@ -47,7 +47,7 @@ export default function Peli1() {
   }
 
   const setParams = (start, end, rounds) => {
-    setDecadeRange(`${start}-${end+9}`)
+    setDecadeRange(`${start}-${parseInt(end)+9}`)
     setTotalRounds(rounds)
     setReadyToFetch(true)
   }
@@ -112,7 +112,7 @@ export default function Peli1() {
             priority
           />
           {imageLoading && (
-            <div className="size-80 animate-pulse rounded bg-gray-200" />
+            <div className="size-80 animate-pulse rounded bg-gray-100" />
           )}
         </div>
     
@@ -126,7 +126,7 @@ export default function Peli1() {
 
         <button 
           className="btn-primary mb-4 shadow-md" 
-          onClick={() => handleNext()}
+          onClick={handleNext}
           disabled={!answered}>
           Seuraava
         </button>

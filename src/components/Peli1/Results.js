@@ -4,7 +4,9 @@ export default function Tulokset({ score, totalRounds, restart, retry }) {
   return (
     <div className='flex justify-center'>
       <div className='m-4 flex w-96 flex-col items-center space-y-4 rounded-md bg-secondary p-4 text-center shadow-lg'>
-        <h1 className='font-bold'>Tulokset</h1>
+        <h1 className='font-bold'>
+          Tulokset
+        </h1>
 
         <div className='m-2 flex justify-center gap-2'>
           <div className='flex size-28 items-center justify-center rounded bg-green-500 text-4xl shadow-lg'>

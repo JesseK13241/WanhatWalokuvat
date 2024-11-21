@@ -1,14 +1,15 @@
 import { useState } from "react";
 
 export default function Aloitus({ returnParams }) {
-  const [startDecade, setStartDecade] = useState(1800)
+  const minDecade = 1860;
+  const [startDecade, setStartDecade] = useState(minDecade)
   const [endDecade, setEndingDecade] = useState(Math.floor(new Date().getFullYear() / 10) * 10)
   const [rounds, setRounds] = useState(0)
 
 
   const currentDecade = Math.floor(new Date().getFullYear() / 10) * 10
   const decades = []
-  for (let a = 1860; a <= currentDecade; a += 10) {
+  for (let a = minDecade; a <= currentDecade; a += 10) {
     decades.push(a) 
   }
 
@@ -19,7 +20,9 @@ export default function Aloitus({ returnParams }) {
   return (
     <div className="flex items-center justify-center">
       <form className="m-4 flex w-96 flex-col items-center space-y-4 rounded-md bg-secondary p-4 text-center shadow-lg">
-        <h1 className="font-bold">Peli1</h1>
+        <h1 className="font-bold">
+          Peli1
+        </h1>
         <p className="rounded border bg-primary p-2 shadow-md">
           Pelin tavoitteena on arvata vuosikymmen, jolla annettu kuva on otettu.
           Sinulle annetaan neljä vastausvaihtoehtoa ja tehtävänäsi on valita niistä oikea.
@@ -29,7 +32,7 @@ export default function Aloitus({ returnParams }) {
         </p>
 
         <div className="flex w-60 justify-between">
-          <label className="font-bold" for="startSelect">
+          <label className="font-bold" htmlFor="startSelect">
           Vuosikymmenestä:
           </label> 
           <select name="startSelect" className="mx-2 w-16 rounded bg-primary p-2 shadow-sm"
@@ -44,12 +47,12 @@ export default function Aloitus({ returnParams }) {
         </div>
 
         <div className="flex w-60 justify-between">
-          <label className="font-bold" for="endSelect">
+          <label className="font-bold" htmlFor="endSelect">
             Vuosikymmeneen:
           </label>    
           <select name="endSelect" className="mx-2 w-16 rounded bg-primary p-2 shadow-sm"
             defaultValue={endDecade}
-            onChange={(e) => setEndingDecade(e.target.value)}>
+            onChange={e => setEndingDecade(parseInt(e.target.value))}>
             {decades.map((decade, index) => 
               decade > startDecade + 40 &&
                 <option key={index} value={decade}>
@@ -60,7 +63,7 @@ export default function Aloitus({ returnParams }) {
         </div>
 
         <div className="flex w-60 justify-between">
-          <label className="font-bold" for="roundInput">
+          <label className="font-bold" htmlFor="roundInput">
             Kierroksia:
           </label>
           <input name="roundInput" 
