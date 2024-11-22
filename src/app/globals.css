@@ -11,22 +11,21 @@ body {
     text-wrap: balance;
   }
   .bg-primary {
-    background-color: theme('colors.primary');  
+    background-color: theme("colors.primary");
   }
   .bg-secondary {
-    background-color: theme('colors.secondary');
+    background-color: theme("colors.secondary");
   }
   .bg-tertiary {
-    background-color: theme('colors.tertiary'); 
+    background-color: theme("colors.tertiary");
   }
 }
 
-
 @layer components {
   .btn-primary {
-    @apply rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700
+    @apply rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700;
   }
   .btn-secondary {
-    @apply rounded border px-4 py-2 hover:bg-gray-100
+    @apply rounded border px-4 py-2 hover:bg-gray-100;
   }
 }

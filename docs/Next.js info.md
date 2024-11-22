@@ -8,14 +8,14 @@ From [Wikipedia](https://en.wikipedia.org/wiki/Next.js):
 
 Some of the main Next.js features include:
 
-|Feature|Description|
-|---|---|
-|[Routing](https://nextjs.org/docs/app/building-your-application/routing)|A file-system based router built on top of Server Components that supports layouts, nested routing, loading states, error handling, and more.|
-|[Rendering](https://nextjs.org/docs/app/building-your-application/rendering)|Client-side and Server-side Rendering with Client and Server Components. Further optimized with Static and Dynamic Rendering on the server with Next.js. Streaming on Edge and Node.js runtimes.|
-|[Data Fetching](https://nextjs.org/docs/app/building-your-application/data-fetching)|Simplified data fetching with async/await in Server Components, and an extended `fetch` API for request memoization, data caching and revalidation.|
-|[Styling](https://nextjs.org/docs/app/building-your-application/styling)|Support for your preferred styling methods, including CSS Modules, Tailwind CSS, and CSS-in-JS|
-|[Optimizations](https://nextjs.org/docs/app/building-your-application/optimizing)|Image, Fonts, and Script Optimizations to improve your application's Core Web Vitals and User Experience.|
-|[TypeScript](https://nextjs.org/docs/app/api-reference/config/typescript)|Improved support for TypeScript, with better type checking and more efficient compilation, as well as custom TypeScript Plugin and type checker.|
+| Feature                                                                              | Description                                                                                                                                                                                      |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [Routing](https://nextjs.org/docs/app/building-your-application/routing)             | A file-system based router built on top of Server Components that supports layouts, nested routing, loading states, error handling, and more.                                                    |
+| [Rendering](https://nextjs.org/docs/app/building-your-application/rendering)         | Client-side and Server-side Rendering with Client and Server Components. Further optimized with Static and Dynamic Rendering on the server with Next.js. Streaming on Edge and Node.js runtimes. |
+| [Data Fetching](https://nextjs.org/docs/app/building-your-application/data-fetching) | Simplified data fetching with async/await in Server Components, and an extended `fetch` API for request memoization, data caching and revalidation.                                              |
+| [Styling](https://nextjs.org/docs/app/building-your-application/styling)             | Support for your preferred styling methods, including CSS Modules, Tailwind CSS, and CSS-in-JS                                                                                                   |
+| [Optimizations](https://nextjs.org/docs/app/building-your-application/optimizing)    | Image, Fonts, and Script Optimizations to improve your application's Core Web Vitals and User Experience.                                                                                        |
+| [TypeScript](https://nextjs.org/docs/app/api-reference/config/typescript)            | Improved support for TypeScript, with better type checking and more efficient compilation, as well as custom TypeScript Plugin and type checker.                                                 |
 
 ## [App Router vs Pages Router](https://nextjs.org/docs#app-router-vs-pages-router)
 
@@ -68,9 +68,9 @@ However, it can still be slow as **all data fetching on server needs to be compl
 ![server-rendering-with-streaming-chart](imgs/server-rendering-with-streaming-chart.avif)
 
 ```jsx
-import { Suspense } from 'react'
-import { PostFeed, Weather } from './Components'
- 
+import { Suspense } from "react"
+import { PostFeed, Weather } from "./Components"
+
 export default function Posts() {
   return (
     <section>
@@ -92,7 +92,7 @@ By using `<Suspense>` and `<Loading>`, you get:
 
 ## Server and Client Composition Patterns
 
-When building React applications, you will need to consider what parts of your application should be rendered on the server or the client. 
+When building React applications, you will need to consider what parts of your application should be rendered on the server or the client.
 
 When interleaving Client and Server Components, it may be helpful to visualize your UI as a tree of components. Starting with the [root layout](https://nextjs.org/docs/app/building-your-application/routing/layouts-and-templates#root-layout-required), which is a Server Component, you can then render certain subtrees of components on the client by adding the `"use client"` directive.
 
@@ -102,13 +102,12 @@ For example, you may have a Layout that has static elements (e.g. logo, links, e
 
 Instead of making the whole layout a Client Component, move the interactive logic to a Client Component (e.g. `<SearchBar />`) and keep your layout as a Server Component. This means you don't have to send all the component JavaScript of the layout to the client.
 
-
 ```jsx
 // app/layout.js
 
-import SearchBar from './searchbar' // Client Component
-import Logo from './logo' // Server Component
- 
+import SearchBar from "./searchbar" // Client Component
+import Logo from "./logo" // Server Component
+
 // Layout is a Server Component by default
 export default function Layout({ children }) {
   return (
@@ -128,18 +127,16 @@ Since Client Components are rendered after Server Components, you cannot import 
 ```jsx
 // app/client-component.js
 
-'use client'
- 
-import { useState } from 'react'
- 
+"use client"
+
+import { useState } from "react"
+
 export default function ClientComponent({ children }) {
   const [count, setCount] = useState(0)
- 
+
   return (
     <>
-      <button onClick={() => setCount(count + 1)}>
-	      {count}
-	  </button>
+      <button onClick={() => setCount(count + 1)}>{count}</button>
       {children}
     </>
   )
@@ -153,9 +150,9 @@ In a parent Server Component, you can import both the `<ClientComponent>` and `<
 ```jsx
 // app/page.js
 
-import ClientComponent from './client-component'
-import ServerComponent from './server-component'
- 
+import ClientComponent from "./client-component"
+import ServerComponent from "./server-component"
+
 // Pages in Next.js are Server Components by default
 export default function Page() {
   return (
@@ -167,6 +164,7 @@ export default function Page() {
 ```
 
 In this case, the child `<ServerComponent>` can be rendered on the server, well before `<ClientComponent>` is rendered on the client.
+
 ## Project Structure and Organization
 
 ```python
@@ -255,8 +253,8 @@ Four ways to navigate between routes in Next.js:
 `<Link>` is a built-in component that extends the HTML `<a>` tag to provide [prefetching](https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating#2-prefetching) and client-side navigation between routes. It is the primary and **recommended** way to navigate between routes in Next.js. Routes are **automatically prefetched** as they become visible in the user's viewport.
 
 ```jsx
-import Link from 'next/link'
- 
+import Link from "next/link"
+
 export default function Page() {
   return <Link href="/dashboard">Dashboard</Link>
 }
@@ -267,15 +265,15 @@ export default function Page() {
 Allows to **programmatically** change routes from [Client Components](https://nextjs.org/docs/app/building-your-application/rendering/client-components).
 
 ```jsx
-'use client'
- 
-import { useRouter } from 'next/navigation'
- 
+"use client"
+
+import { useRouter } from "next/navigation"
+
 export default function Page() {
   const router = useRouter()
- 
+
   return (
-    <button type="button" onClick={() => router.push('/dashboard')}>
+    <button type="button" onClick={() => router.push("/dashboard")}>
       Dashboard
     </button>
   )
@@ -287,20 +285,20 @@ export default function Page() {
 For [Server Components](https://nextjs.org/docs/app/building-your-application/rendering/server-components), use the `redirect` function instead.
 
 ```jsx
-import { redirect } from 'next/navigation'
- 
+import { redirect } from "next/navigation"
+
 async function fetchTeam(id) {
-  const res = await fetch('https://...')
+  const res = await fetch("https://...")
   if (!res.ok) return undefined
   return res.json()
 }
- 
+
 export default async function Profile({ params }) {
   const team = await fetchTeam(params.id)
   if (!team) {
-    redirect('/login')
+    redirect("/login")
   }
- 
+
   // ...
 }
 ```
@@ -356,11 +354,11 @@ export default async function Page({ params }) {
 
 Dynamic Segments can be extended to **catch-all** subsequent segments by adding an ellipsis inside the brackets `[...folderName]`.
 
-|Route|Example URL|`params`|
-|---|---|---|
-|`app/shop/[...slug]/page.js`|`/shop/a`|`{ slug: ['a'] }`|
-|`app/shop/[...slug]/page.js`|`/shop/a/b`|`{ slug: ['a', 'b'] }`|
-|`app/shop/[...slug]/page.js`|`/shop/a/b/c`|`{ slug: ['a', 'b',`|
+| Route                        | Example URL   | `params`               |
+| ---------------------------- | ------------- | ---------------------- |
+| `app/shop/[...slug]/page.js` | `/shop/a`     | `{ slug: ['a'] }`      |
+| `app/shop/[...slug]/page.js` | `/shop/a/b`   | `{ slug: ['a', 'b'] }` |
+| `app/shop/[...slug]/page.js` | `/shop/a/b/c` | `{ slug: ['a', 'b',`   |
 
 #### [Optional Catch-all Segments](https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes#optional-catch-all-segments) `[[...folderName]]`
 
@@ -395,11 +393,11 @@ You can use Parallel Routes to conditionally render routes based on certain cond
 
 ```jsx
 // app/dashboard/layout.js
-import { checkUserRole } from '@/lib/auth'
- 
+import { checkUserRole } from "@/lib/auth"
+
 export default function Layout({ user, admin }) {
   const role = checkUserRole()
-  return <>{role === 'admin' ? admin : user}</>
+  return <>{role === "admin" ? admin : user}</>
 }
 ```
 
@@ -447,36 +445,32 @@ export async function GET() {
 export async function POST(request) {
   // Assume valid request
   if (!data.title) {
-    return Response.json(
-      { error: 'Title is required' },
-      { status: 400 }
-    )
+    return Response.json({ error: "Title is required" }, { status: 400 })
   }
-  
+
   const newTodo = {
     id: todos.length + 1,
     title: data.title,
     completed: false,
-    createdAt: new Date()
+    createdAt: new Date(),
   }
-  
+
   todos.push(newTodo)
-  
-  return Response.json(newTodo, { 
+
+  return Response.json(newTodo, {
     status: 201,
     headers: {
-      'Content-Type': 'application/json'
-    }
+      "Content-Type": "application/json",
+    },
   })
 }
-
 ```
 
 You can use `headers` and `cookies` in Route Handlers:
 
 ```jsx
-import { headers } from 'next/headers'
-import { cookies } from 'next/headers'
+import { headers } from "next/headers"
+import { cookies } from "next/headers"
 ```
 
 Route Handlers can use [Dynamic Segments](https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes) to create request handlers from dynamic data.
@@ -491,19 +485,19 @@ export async function GET(request, { params }) {
 The request object passed to the Route Handler is a `NextRequest` instance, which has [some additional convenience methods](https://nextjs.org/docs/app/api-reference/functions/next-request#nexturl), including for more easily **handling URL query parameters**.
 
 ```typescript
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams;
-  const query = searchParams.get('query');
+  const searchParams = request.nextUrl.searchParams
+  const query = searchParams.get("query")
 
   const results = {
     query,
     timestamp: new Date().toISOString(),
     // Search logic here
-  };
+  }
 
-  return NextResponse.json(results);
+  return NextResponse.json(results)
 }
 ```
 
@@ -529,7 +523,7 @@ Minimal **server-side** data fetch example:
 ```jsx
 // app/page.js
 export default async function Page() {
-  let data = await fetch('https://api.vercel.app/blog')
+  let data = await fetch("https://api.vercel.app/blog")
   let posts = await data.json()
   return (
     <ul>
@@ -545,24 +539,24 @@ Minimal **client-side** data fetch example:
 
 ```jsx
 // app/page.js
-'use client'
- 
-import { useState, useEffect } from 'react'
- 
+"use client"
+
+import { useState, useEffect } from "react"
+
 export function Posts() {
   const [posts, setPosts] = useState(null)
- 
+
   useEffect(() => {
     async function fetchPosts() {
-      let res = await fetch('https://api.vercel.app/blog')
+      let res = await fetch("https://api.vercel.app/blog")
       let data = await res.json()
       setPosts(data)
     }
     fetchPosts()
   }, [])
- 
+
   if (!posts) return <div>Loading...</div>
- 
+
   return (
     <ul>
       {posts.map((post) => (
@@ -581,17 +575,17 @@ A Server Action can be defined with the React [`"use server"`](https://react.dev
 
 Server Actions offer unique advantages over `Route Handlers` (or traditional API routes):
 
-- 1) Simpler integration
-- 2) No extra HTTP overhead
-- 3) Better Data Fetching Integration
-- 4) Security
-- 5) Type Safety
+- 1. Simpler integration
+- 2. No extra HTTP overhead
+- 3. Better Data Fetching Integration
+- 4. Security
+- 5. Type Safety
 
 Use Route Handlers instead for:
 
-- 1) Public APIs
-- 2) Cross-App Usage
-- 3) Middleware-Like Logic
+- 1. Public APIs
+- 2. Cross-App Usage
+- 3. Middleware-Like Logic
 
 React extends the HTML [`<form>`](https://developer.mozilla.org/docs/Web/HTML/Element/form) element to allow Server Actions to be invoked with the `action` prop.
 
@@ -601,34 +595,34 @@ When invoked in a form, the action automatically receives the [`FormData`](https
 // app/invoices/page.js
 export default function Page() {
   async function createInvoice(formData) {
-    'use server'
- 
+    "use server"
+
     const rawFormData = {
-      customerId: formData.get('customerId'),
-      amount: formData.get('amount'),
-      status: formData.get('status'),
+      customerId: formData.get("customerId"),
+      amount: formData.get("amount"),
+      status: formData.get("status"),
     }
- 
+
     // mutate data
     // revalidate cache
   }
- 
+
   return <form action={createInvoice}>...</form>
 }
 ```
 
 While it's common to use Server Actions within `<form>` elements, they can also be invoked with event handlers such as `onClick`
 
-``` jsx
-'use client'
+```jsx
+"use client"
 // app/like-button.js
- 
-import { incrementLike } from './actions'
-import { useState } from 'react'
- 
+
+import { incrementLike } from "./actions"
+import { useState } from "react"
+
 export default function LikeButton({ initialLikes }) {
   const [likes, setLikes] = useState(initialLikes)
- 
+
   return (
     <>
       <p>Total Likes: {likes}</p>
@@ -655,14 +649,14 @@ When an error is thrown, it'll be caught by the nearest [`error.js`](https://nex
 
 For example, your Server Action might handle errors from creating a new item by returning a message:
 
-``` jsx
-'use server'
- 
+```jsx
+"use server"
+
 export async function createTodo(prevState, formData) {
   try {
     //  ...
   } catch (e) {
-    throw new Error('Failed to create task')
+    throw new Error("Failed to create task")
   }
 }
 ```
@@ -672,19 +666,19 @@ export async function createTodo(prevState, formData) {
 You can revalidate the [Next.js Cache](https://nextjs.org/docs/app/building-your-application/caching) inside your Server Actions with the [`revalidatePath`](https://nextjs.org/docs/app/api-reference/functions/revalidatePath) API:
 
 ```jsx
-'use server'
+"use server"
 // app/actions.js
 
-import { revalidatePath } from 'next/cache'
- 
+import { revalidatePath } from "next/cache"
+
 export async function createPost() {
   try {
     // ...
   } catch (error) {
     // ...
   }
- 
-  revalidatePath('/posts')
+
+  revalidatePath("/posts")
 }
 ```
 
@@ -701,12 +695,10 @@ Built on the native `<img>` element. The Image Component optimizes images for pe
 - **Faster Page Loads:** Images are only loaded when they enter the viewport using native browser lazy loading, with optional blur-up placeholders.
 - **Asset Flexibility:** On-demand image resizing, even for images stored on remote servers
 
-
-
 ```jsx
 // app/page.js
-import Image from 'next/image'
- 
+import Image from "next/image"
+
 export default function Page() {
   return (
     <Image
@@ -721,15 +713,16 @@ export default function Page() {
 
 The `width` and `height` attributes are used to infer the correct aspect ratio of image and **avoid layout shift** from the image loading in. The `width` and `height` do _not_ determine the rendered size of the image file.
 
-An optional property `fill` is a boolean that causes the image to fill the parent element, which is useful when the [`width`](https://nextjs.org/docs/app/api-reference/components/image#width) and [`height`](https://nextjs.org/docs/app/api-reference/components/image#height) are **unknown**. 
+An optional property `fill` is a boolean that causes the image to fill the parent element, which is useful when the [`width`](https://nextjs.org/docs/app/api-reference/components/image#width) and [`height`](https://nextjs.org/docs/app/api-reference/components/image#height) are **unknown**.
 
 A loader is a function that generates the URLs for your image. It modifies the provided `src`, and generates multiple URLs to request the image at different sizes. These multiple URLs are used in the automatic [srcset](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/srcset)
 
 You can define a loader per-image with the [`loader` prop](https://nextjs.org/docs/app/api-reference/components/image#loader), or at the application level with the [`loaderFile` configuration](https://nextjs.org/docs/app/api-reference/components/image#loaderfile).
+
 ### Link
 
 Built on the native `<a>` tags. The Link Component prefetches pages in the background, for faster and smoother page transitions.
 
-### Script 
+### Script
 
 Built on the native `<script>` tags. The Script Component gives you control over loading and execution of third-party scripts.

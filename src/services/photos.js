@@ -19,7 +19,9 @@ export const getPhotos = async ({
   if (decade) {
     console.log("Decade specified:", decade)
     const [start, end] = decade.split("-")
-    filters.push(`search_daterange_mv:"[${start} TO ${end}]"&search_daterange_mv_type=within`)
+    filters.push(
+      `search_daterange_mv:"[${start} TO ${end}]"&search_daterange_mv_type=within`
+    )
   }
 
   const params = {
@@ -35,7 +37,7 @@ export const getPhotos = async ({
       "buildings",
     ],
     limit: limit,
-    page: page
+    page: page,
   }
 
   let urlToFetch = BASE_API_URL
