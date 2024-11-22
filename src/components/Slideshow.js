@@ -31,10 +31,7 @@ export default function Slideshow({ photos, count }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-4">
-        <button
-          onClick={handlePrevious}
-          className="btn-secondary"
-        >
+        <button onClick={handlePrevious} className="btn-secondary">
           Previous
         </button>
 
@@ -42,10 +39,7 @@ export default function Slideshow({ photos, count }) {
           {currentIndex + 1} / {count}
         </div>
 
-        <button
-          onClick={handleNext}
-          className="btn-secondary"
-        >
+        <button onClick={handleNext} className="btn-secondary">
           Next
         </button>
       </div>

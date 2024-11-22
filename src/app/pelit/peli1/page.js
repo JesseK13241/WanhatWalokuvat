@@ -15,7 +15,6 @@ export default function Peli1() {
   const [score, setScore] = useState(0)
   const [answered, setAnswered] = useState(false)
 
-
   const [readyToFetch, setReadyToFetch] = useState(false)
   const [isLoading, setLoading] = useState(true)
   const [imageLoading, setImageLoading] = useState(true)
@@ -32,13 +31,13 @@ export default function Peli1() {
     setLoading(true)
     var results = await getPhotos({
       limit: 0,
-      decade: decadeRange
+      decade: decadeRange,
     })
     var n = Math.floor(Math.random() * Math.min(results.resultCount, 100000))
     var nextPhoto = await getPhotos({
       page: n,
       limit: 1,
-      decade: decadeRange
+      decade: decadeRange,
     })
     setCurrentPhoto(nextPhoto.records[0])
     setAnswered(false)
@@ -47,7 +46,7 @@ export default function Peli1() {
   }
 
   const setParams = (start, end, rounds) => {
-    setDecadeRange(`${start}-${parseInt(end)+9}`)
+    setDecadeRange(`${start}-${parseInt(end) + 9}`)
     setTotalRounds(rounds)
     setReadyToFetch(true)
   }
@@ -74,17 +73,22 @@ export default function Peli1() {
     nextRound("handleRetry")
   }
 
-  if (roundNumber == 0) 
-    return <Aloitus returnParams={setParams}/>
+  if (roundNumber == 0) return <Aloitus returnParams={setParams} />
 
-  if (roundNumber > totalRounds && totalRounds) 
-    return <Tulokset score={score} totalRounds={totalRounds} restart={handleRestart} retry={handleRetry}/>
+  if (roundNumber > totalRounds && totalRounds)
+    return (
+      <Tulokset
+        score={score}
+        totalRounds={totalRounds}
+        restart={handleRestart}
+        retry={handleRetry}
+      />
+    )
 
   if (isLoading) return <Skeleton />
 
-  const imageUrl = currentPhoto && 
-    "https://www.finna.fi" + currentPhoto.images[0]
-
+  const imageUrl =
+    currentPhoto && "https://www.finna.fi" + currentPhoto.images[0]
 
   currentPhoto.author = Object.keys(currentPhoto.authors.primary)[0]
 
@@ -96,7 +100,7 @@ export default function Peli1() {
 
   currentPhoto.title = currentPhoto.title.replace(/\(?\d{4}\)?/, "")
   currentPhoto.building = buildings
-   
+
   return (
     <div className="flex justify-center">
       <div className="m-4 flex flex-col items-center rounded-md bg-secondary p-6 shadow-lg">
@@ -107,7 +111,11 @@ export default function Peli1() {
             width={0}
             height={0}
             sizes="100vw"
-            className={imageLoading ? "h-0" : "h-80 w-auto rounded object-cover shadow-md"}
+            className={
+              imageLoading
+                ? "h-0"
+                : "h-80 w-auto rounded object-cover shadow-md"
+            }
             onLoad={() => setImageLoading(false)}
             priority
           />
@@ -115,8 +123,8 @@ export default function Peli1() {
             <div className="size-80 animate-pulse rounded bg-gray-100" />
           )}
         </div>
-    
-        <div className="mb-4">  
+
+        <div className="mb-4">
           <MultipleChoiceButtons
             correctYear={currentPhoto.year ? currentPhoto.year : undefined}
             range={decadeRange}
@@ -124,10 +132,11 @@ export default function Peli1() {
           />
         </div>
 
-        <button 
-          className="btn-primary mb-4 shadow-md" 
+        <button
+          className="btn-primary mb-4 shadow-md"
           onClick={handleNext}
-          disabled={!answered}>
+          disabled={!answered}
+        >
           Seuraava
         </button>
 
