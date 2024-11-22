@@ -36,7 +36,7 @@ export default function Aloitus({ returnParams }) {
           </label>
           <select
             name="startSelect"
-            className="mx-2 w-16 rounded bg-primary p-2 shadow-sm"
+            className="mx-2 w-20 rounded bg-primary p-2 shadow-sm"
             onChange={(e) => setStartDecade(parseInt(e.target.value))}
           >
             {decades.map(
@@ -56,7 +56,7 @@ export default function Aloitus({ returnParams }) {
           </label>
           <select
             name="endSelect"
-            className="mx-2 w-16 rounded bg-primary p-2 shadow-sm"
+            className="mx-2 w-20 rounded bg-primary p-2 shadow-sm"
             defaultValue={endDecade}
             onChange={(e) => setEndingDecade(parseInt(e.target.value))}
           >
@@ -77,7 +77,7 @@ export default function Aloitus({ returnParams }) {
           </label>
           <input
             name="roundInput"
-            className="mx-2 w-16 rounded border bg-primary p-1 text-center shadow-sm"
+            className="mx-2 w-20 rounded border bg-primary p-1 text-center shadow-sm"
             type="number"
             value={rounds}
             onChange={(e) => {
