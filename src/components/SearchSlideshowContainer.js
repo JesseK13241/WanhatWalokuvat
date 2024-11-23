@@ -2,7 +2,7 @@
 import PhotoContainer from "@/components/PhotoContainer"
 import Search from "@/components/Search"
 import { getRandomPhoto } from "@/services/photos"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function SearchSlideshowContainer({ initialPhoto }) {
   // Hakupalkin ja kuvakomponentin tilat on nostettu tähän containeriin,
@@ -12,18 +12,36 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
   // uudet satunnaiset kuvat eivät ole jo aikaisemmin haettuja
 
   const [displayedPhoto, setDisplayedPhoto] = useState(initialPhoto)
+  const [preloadedPhoto, setPreloadedPhoto] = useState(null)
   const [location, setLocation] = useState("")
   const [decade, setDecade] = useState("1970-1979")
+  const [isLoading, setIsLoading] = useState(false)
 
   console.log("Rendering SearchSlideshowContainer (client-side)..")
 
+  useEffect(() => {
+    const preloadNextPhoto = async () => {
+      const nextPhoto = await getRandomPhoto({ location, decade })
+      setPreloadedPhoto(nextPhoto)
+    }
+
+    // Skippaa preload jos navigaatiota ei ole aloitettu
+    if (displayedPhoto !== initialPhoto) {
+      preloadNextPhoto()
+    }
+  }, [displayedPhoto, location, decade, initialPhoto])
+
   const handleSearch = async (params) => {
+    setIsLoading(true)
     try {
       const results = await getRandomPhoto(params)
-      console.log("Search results:", results)
       setDisplayedPhoto(results)
+      const nextPhoto = await getRandomPhoto(params)
+      setPreloadedPhoto(nextPhoto)
     } catch (error) {
       console.error("Search failed:", error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -33,8 +51,13 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
   }
 
   const handleNext = () => {
-    console.log("Fetching the next random image...")
-    handleSearch({ location, decade })
+    if (preloadedPhoto) {
+      // Näytä esiladattu kuva jos jo valmiina
+      setDisplayedPhoto(preloadedPhoto)
+      setPreloadedPhoto(null)
+    } else {
+      handleSearch({ location, decade })
+    }
   }
 
   return (
@@ -53,11 +76,22 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
         <div>
           {displayedPhoto?.randomIndex} / {displayedPhoto?.resultCount}
         </div>
-        <button onClick={handleNext} className="btn-secondary">
-          Seuraava
+        <button
+          onClick={handleNext}
+          className="btn-secondary"
+          disabled={isLoading}
+        >
+          {isLoading ? "Ladataan..." : "Seuraava"}
         </button>
       </div>
       <PhotoContainer photo={displayedPhoto} />
+
+      {/* Piilotettu DOM-komponentti kuvan esilataamista varten */}
+      {preloadedPhoto && (
+        <div className="hidden">
+          <PhotoContainer photo={preloadedPhoto} />
+        </div>
+      )}
     </div>
   )
 }
