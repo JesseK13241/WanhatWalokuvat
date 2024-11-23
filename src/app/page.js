@@ -9,7 +9,7 @@ export default async function HomePage() {
   const initialPhoto = await getInitialPhoto()
 
   return (
-    <div className="flex flex-col items-center p-10">
+    <div className="flex flex-col items-center p-4 pb-20">
       <SearchSlideshowContainer initialPhoto={initialPhoto} />
     </div>
   )

@@ -13,7 +13,7 @@ export default function Search({
   console.log("Rendering Search (client-side)..")
 
   return (
-    <div className="flex space-x-20 border border-black bg-tertiary p-10">
+    <div className="flex space-x-48 rounded bg-tertiary p-10 pb-14">
       <LocationPicker value={location} onChange={setLocation} />
       <DecadePicker value={decade} onChange={setDecade} />
       <button

@@ -21,9 +21,9 @@ export default function PhotoContainer({ photo }) {
   }
 
   return (
-    <div className="mx-auto w-full max-w-xl overflow-hidden rounded-lg bg-white shadow-md">
+    <div className="mx-auto w-full max-w-xl overflow-hidden rounded-lg bg-primary shadow-md">
       <div className="relative w-full pt-[100%]">
-        <div className="absolute inset-0 bg-slate-800">
+        <div className="absolute inset-0 bg-tertiary">
           {isInitialPhoto ? (
             <div className="flex size-full items-center justify-center">
               {photo.element}
@@ -32,6 +32,7 @@ export default function PhotoContainer({ photo }) {
             <Image
               src={`${IMAGE_BASE_URL}${encodeURIComponent(photo.id)}`}
               alt={photo.title || "Photo"}
+              title={photo.title || "Photo"}
               fill
               className="object-contain"
               priority
@@ -41,9 +42,8 @@ export default function PhotoContainer({ photo }) {
       </div>
 
       <div className="space-y-2 p-4">
-        {photo.title && <p className="text-sm">{photo.title}</p>}
         {photo.year && (
-          <p className="text-sm">
+          <p className="text-lg">
             <span className="font-semibold">Vuosi:</span> {photo.year}
           </p>
         )}

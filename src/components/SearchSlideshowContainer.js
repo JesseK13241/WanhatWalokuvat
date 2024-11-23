@@ -61,7 +61,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
   }
 
   return (
-    <div>
+    <div className="flex flex-col gap-3">
       <Search
         onSearch={handleSearch}
         location={location}
@@ -69,8 +69,8 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
         decade={decade}
         setDecade={setDecade}
       />
-      <div className="flex items-center justify-between gap-4">
-        <button onClick={handlePrevious} className="btn-secondary">
+      <div className="flex items-center justify-between">
+        <button onClick={handlePrevious} className="btn-primary">
           Edellinen
         </button>
         <div>
@@ -78,10 +78,10 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
         </div>
         <button
           onClick={handleNext}
-          className="btn-secondary"
+          className="btn-primary"
           disabled={isLoading}
         >
-          {isLoading ? "Ladataan..." : "Seuraava"}
+          Seuraava
         </button>
       </div>
       <PhotoContainer photo={displayedPhoto} />

@@ -1,3 +1,3 @@
 export default function LocationPicker() {
-  return <div>Valitse Sijainti</div>
+  return <button className="btn-secondary">Sijainti</button>
 }
