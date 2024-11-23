@@ -29,14 +29,7 @@ export default function Peli1() {
   const nextRound = async (source) => {
     console.log("nextRound, source: ", source)
     setLoading(true)
-    var results = await getRandomPhoto({
-      limit: 0,
-      decade: decadeRange,
-    })
-    var n = Math.floor(Math.random() * Math.min(results.resultCount, 100000))
     var nextPhoto = await getRandomPhoto({
-      page: n,
-      limit: 1,
       decade: decadeRange,
     })
     setCurrentPhoto(nextPhoto.records[0])
@@ -98,11 +91,10 @@ export default function Peli1() {
     if (building) buildings = buildings + ", " + building
   }
 
-  currentPhoto.title = currentPhoto.title.replace(/\(?\d{4}\)?/, "")
   currentPhoto.building = buildings
 
   return (
-    <div className="flex justify-center">
+    <div className="flex items-center justify-center">
       <div className="m-4 flex flex-col items-center rounded-md bg-secondary p-6 shadow-lg">
         <div className="mb-4">
           <Image
@@ -141,16 +133,21 @@ export default function Peli1() {
         </button>
 
         <div className="w-80 rounded bg-primary p-2 text-center shadow-md">
-          {currentPhoto.location && <p> Location: {currentPhoto.location} </p>}
-          {currentPhoto.title && <p> Title: {currentPhoto.title} </p>}
-          {currentPhoto.author && <p> Author: {currentPhoto.author} </p>}
-          {currentPhoto.building && <p> Building: {currentPhoto.building} </p>}
-          <a
-            href={"https://www.finna.fi" + currentPhoto.recordPage}
-            className="text-blue-600 visited:text-purple-600 hover:underline"
-          >
-            Linkki aineistoon
-          </a>
+          {currentPhoto.title && answered && (
+            <p className="font-bold"> {currentPhoto.title} </p>
+          )}
+          {currentPhoto.author && <p> Tekijä: {currentPhoto.author} </p>}
+          {currentPhoto.building && (
+            <p> Organisaatio: {currentPhoto.building} </p>
+          )}
+          {answered && (
+            <a
+              href={"https://www.finna.fi" + currentPhoto.recordPage}
+              className="text-blue-600 visited:text-purple-600 hover:underline"
+            >
+              Linkki aineistoon
+            </a>
+          )}
         </div>
       </div>
     </div>

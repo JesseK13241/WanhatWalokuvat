@@ -30,13 +30,13 @@ export default function Aloitus({ returnParams }) {
           pelata ilman kierroksia valitse kierrosten määräksi nolla.
         </p>
 
-        <div className="flex w-60 justify-between">
+        <div className="flex w-64 justify-between">
           <label className="font-bold" htmlFor="startSelect">
             Vuosikymmenestä:
           </label>
           <select
             name="startSelect"
-            className="mx-2 w-20 rounded bg-primary p-2 shadow-sm"
+            className="mx-2 w-20 rounded bg-primary p-2 text-center shadow-sm"
             onChange={(e) => setStartDecade(parseInt(e.target.value))}
           >
             {decades.map(
@@ -50,13 +50,13 @@ export default function Aloitus({ returnParams }) {
           </select>
         </div>
 
-        <div className="flex w-60 justify-between">
+        <div className="flex w-64 justify-between">
           <label className="font-bold" htmlFor="endSelect">
             Vuosikymmeneen:
           </label>
           <select
             name="endSelect"
-            className="mx-2 w-20 rounded bg-primary p-2 shadow-sm"
+            className="mx-2 w-20 rounded bg-primary p-2 text-center shadow-sm"
             defaultValue={endDecade}
             onChange={(e) => setEndingDecade(parseInt(e.target.value))}
           >
@@ -71,7 +71,7 @@ export default function Aloitus({ returnParams }) {
           </select>
         </div>
 
-        <div className="flex w-60 justify-between">
+        <div className="flex w-64 justify-between">
           <label className="font-bold" htmlFor="roundInput">
             Kierroksia:
           </label>

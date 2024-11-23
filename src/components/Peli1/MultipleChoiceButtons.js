@@ -52,11 +52,12 @@ export default function MultipleChoiceButtons({
   }
 
   const styles = {
-    default: "btn-secondary disabled:hover:bg-primary bg-primary shadow-md",
+    default:
+      "disabled:m-1 border-none rounded bg-primary border px-4 py-2 enabled:hover:bg-tertiary",
     correct:
-      "btn-secondary hover:bg-green-400 bg-green-400 border-none shadow-md",
+      "font-bold border-black border-2 rounded bg-green-500 border px-4 py-2 shadow-md",
     incorrect:
-      "btn-secondary hover:bg-red-400 bg-red-400 border-none shadow-md",
+      "font-bold border-black border-2 rounded bg-red-500 border px-4 py-2 shadow-md",
   }
 
   if (!answers) return <></>

@@ -12,8 +12,8 @@ export default function PhotoContainer({ photo }) {
     return <p>No photos found</p>
   }
 
-  // Parametrillä (photo) on 2 eri mahdollista muotoa: 
-  // 1) staattinen 'initialPhoto' tai 2) Finnan sivuilta haettu 
+  // Parametrillä (photo) on 2 eri mahdollista muotoa:
+  // 1) staattinen 'initialPhoto' tai 2) Finnan sivuilta haettu
 
   const isInitialPhoto = photo?.element
   if (!isInitialPhoto) {

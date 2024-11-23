@@ -26,9 +26,9 @@ body {
 
 @layer components {
   .btn-primary {
-    @apply rounded bg-accent px-4 py-2 font-bold hover:saturate-200;
+    @apply rounded bg-accent px-4 py-2 font-bold hover:saturate-200 shadow-md;
   }
   .btn-secondary {
-    @apply border-none rounded bg-secondary border px-4 py-2 hover:saturate-200 ;
+    @apply border-none rounded bg-secondary border px-4 py-2 hover:saturate-200 shadow-md;
   }
 }
