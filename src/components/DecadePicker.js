@@ -1,6 +1,6 @@
-// TODO refactor, dynamic decade options
-
 export default function DecadePicker({ value, onChange }) {
+  // Komponentti, joka vastaa vuosikymmenen valinnasta
+
   const startYear = 1880
   const currentYear = new Date().getFullYear()
   const endYear = currentYear - (currentYear % 10)
@@ -11,7 +11,7 @@ export default function DecadePicker({ value, onChange }) {
   }
   return (
     <div>
-      <label>Select decade</label>
+      <label>Valitse Vuosikymmen</label>
       <select
         value={value}
         onChange={(e) => {

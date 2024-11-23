@@ -9,6 +9,8 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
+  // Kaikki sivut muodostetaan tämän Layout-komponentin avulla.
+  // Jokaiselle sivulle tulee automaattisesti Header ja Footer.
   return (
     <html lang="en">
       <body className="flex min-h-screen flex-col bg-primary">

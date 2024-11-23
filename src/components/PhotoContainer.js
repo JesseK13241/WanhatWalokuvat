@@ -2,13 +2,18 @@
 import Image from "next/image"
 
 export default function PhotoContainer({ photo }) {
+  // Kuvakomponentti kuvien ja metadatan näyttämiseen
+
   const IMAGE_BASE_URL = "https://www.finna.fi/Cover/Show?id="
 
-  console.log("In photo container, got photo:", photo)
+  console.log("Rendering PhotoContainer (client-side)...")
 
   if (!photo) {
     return <p>No photos found</p>
   }
+
+  // Parametrillä (photo) on 2 eri mahdollista muotoa: 
+  // 1) staattinen 'initialPhoto' tai 2) Finnan sivuilta haettu 
 
   const isInitialPhoto = photo?.element
   if (!isInitialPhoto) {
@@ -44,17 +49,17 @@ export default function PhotoContainer({ photo }) {
         )}
         {photo.location && (
           <p className="text-sm">
-            <span className="font-semibold">Location:</span> {photo.location}
+            <span className="font-semibold">Sijainti:</span> {photo.location}
           </p>
         )}
         {photo.author && (
           <p className="text-sm">
-            <span className="font-semibold">Author:</span> {photo.author}
+            <span className="font-semibold">Tekijä:</span> {photo.author}
           </p>
         )}
         {photo.building && (
           <p className="text-sm">
-            <span className="font-semibold">Building:</span> {photo.building}
+            <span className="font-semibold">Museo:</span> {photo.building}
           </p>
         )}
         {!photo.local && photo.recordPage && (

@@ -3,9 +3,14 @@
 import DecadePicker from "@/components/DecadePicker"
 import LocationPicker from "@/components/LocationPicker"
 
-export default function Search({ location, setLocation, decade, setDecade, onSearch }) {
-
-  console.log("Rendering Search..")
+export default function Search({
+  location,
+  setLocation,
+  decade,
+  setDecade,
+  onSearch,
+}) {
+  console.log("Rendering Search (client-side)..")
 
   return (
     <div className="flex space-x-20 border border-black bg-tertiary p-10">
@@ -15,7 +20,7 @@ export default function Search({ location, setLocation, decade, setDecade, onSea
         onClick={() => onSearch({ location, decade })}
         className="btn-primary"
       >
-        Search
+        Hae
       </button>
     </div>
   )
