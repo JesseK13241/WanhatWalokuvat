@@ -1,14 +1,15 @@
 import SearchSlideshowContainer from "@/components/SearchSlideshowContainer"
-import { getPhotos } from "@/services/photos"
+import { getInitialPhoto } from "@/services/photos"
 
 export default async function HomePage() {
   console.log("Rendering home page...")
 
-  const initialPhotos = await getPhotos()
+  const initialPhoto = await getInitialPhoto()
+  console.log("Found initial photo:", initialPhoto)
 
   return (
     <div className="flex flex-col items-center p-10">
-      <SearchSlideshowContainer initialPhotos={initialPhotos} />
+      <SearchSlideshowContainer initialPhoto={initialPhoto} />
     </div>
   )
 }

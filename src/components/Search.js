@@ -2,11 +2,8 @@
 
 import DecadePicker from "@/components/DecadePicker"
 import LocationPicker from "@/components/LocationPicker"
-import { useState } from "react"
 
-export default function Search({ onSearch }) {
-  const [location, setLocation] = useState("")
-  const [decade, setDecade] = useState("1970-1979")
+export default function Search({ location, setLocation, decade, setDecade, onSearch }) {
 
   console.log("Rendering Search..")
 

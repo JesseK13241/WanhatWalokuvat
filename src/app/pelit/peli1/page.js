@@ -1,11 +1,11 @@
 "use client"
-import Image from "next/image"
-import { useEffect, useState } from "react"
-import { getPhotos } from "@/services/photos"
 import MultipleChoiceButtons from "@/components/Peli1/MultipleChoiceButtons"
+import Tulokset from "@/components/Peli1/Results"
 import Skeleton from "@/components/Peli1/Skeleton"
 import Aloitus from "@/components/Peli1/Start"
-import Tulokset from "@/components/Peli1/Results"
+import { getRandomPhoto } from "@/services/photos"
+import Image from "next/image"
+import { useEffect, useState } from "react"
 
 export default function Peli1() {
   const [currentPhoto, setCurrentPhoto] = useState()
@@ -29,12 +29,12 @@ export default function Peli1() {
   const nextRound = async (source) => {
     console.log("nextRound, source: ", source)
     setLoading(true)
-    var results = await getPhotos({
+    var results = await getRandomPhoto({
       limit: 0,
       decade: decadeRange,
     })
     var n = Math.floor(Math.random() * Math.min(results.resultCount, 100000))
-    var nextPhoto = await getPhotos({
+    var nextPhoto = await getRandomPhoto({
       page: n,
       limit: 1,
       decade: decadeRange,
