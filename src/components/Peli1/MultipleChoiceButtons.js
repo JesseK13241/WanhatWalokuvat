@@ -41,7 +41,7 @@ export default function MultipleChoiceButtons({
       newAnswers[i].isCorrect = false
     }
 
-    newAnswers.sort((a, b) => a.decade > b.decade)
+    newAnswers.sort((a, b) => a.decade - b.decade)
     setAnswers(newAnswers)
   }
 
