@@ -13,9 +13,9 @@ export default function RootLayout({ children }) {
   // Jokaiselle sivulle tulee automaattisesti Header ja Footer.
   return (
     <html lang="en">
-      <body className="flex flex-col min-h-screen bg-primary">
+      <body className="flex min-h-screen flex-col bg-primary">
         <Header />
-        <main className="flex-grow">{children}</main>
+        <main className="grow">{children}</main>
         <Footer />
       </body>
     </html>

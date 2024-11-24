@@ -12,7 +12,7 @@ const Peli1Skeleton = () => {
           <div className="h-10 w-32 rounded bg-gray-100" />
         </div>
         <div className="m-4 h-10 w-28 animate-pulse rounded bg-gray-100" />
-        <div className="h-28 w-80 animate-pulse rounded bg-gray-100" />
+        <div className="h-20 w-80 animate-pulse rounded bg-gray-100" />
       </div>
     </div>
   )
