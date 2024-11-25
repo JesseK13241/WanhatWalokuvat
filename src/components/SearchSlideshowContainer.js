@@ -3,6 +3,7 @@ import PhotoContainer from "@/components/PhotoContainer"
 import Search from "@/components/Search"
 import { getRandomPhoto } from "@/services/photos"
 import { useEffect, useState } from "react"
+import { useRouter, useSearchParams, usePathname } from "next/navigation"
 
 export default function SearchSlideshowContainer({ initialPhoto }) {
   // Hakupalkin ja kuvakomponentin tilat on nostettu tähän containeriin,
@@ -11,16 +12,20 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
   // Tätä komponenttia voi myöhemmin käyttää myös varmistamaan, että
   // uudet satunnaiset kuvat eivät ole jo aikaisemmin haettuja
 
+  const router = useRouter()
+  const pathname = usePathname()
+  // /page/?a=1&b=2 | const a = searchParams.get('a') => a == 1
+  const searchParams = useSearchParams()
+
   const [displayedPhoto, setDisplayedPhoto] = useState(initialPhoto)
   const [preloadedPhoto, setPreloadedPhoto] = useState(null)
   const [location, setLocation] = useState("")
   const [decade, setDecade] = useState("1970-1979")
   const [isLoading, setIsLoading] = useState(false)
 
-  console.log("Rendering SearchSlideshowContainer (client-side)..")
-
   useEffect(() => {
     const preloadNextPhoto = async () => {
+      console.log("Preload")
       const nextPhoto = await getRandomPhoto({ location, decade })
       setPreloadedPhoto(nextPhoto)
     }
@@ -30,6 +35,14 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
       preloadNextPhoto()
     }
   }, [displayedPhoto, location, decade, initialPhoto])
+
+  const setRouteParams = () => {
+    const params = new URLSearchParams(searchParams)
+    params.set("photoId", displayedPhoto.records[0].id)
+    params.set("decade", decade)
+    console.log(params)
+    router.replace(`${pathname}?${params.toString()}`)
+  }
 
   const handleSearch = async (params) => {
     setIsLoading(true)
@@ -53,9 +66,11 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
   const handleNext = () => {
     if (preloadedPhoto) {
       // Näytä esiladattu kuva jos jo valmiina
+      console.log("Using preloaded")
       setDisplayedPhoto(preloadedPhoto)
       setPreloadedPhoto(null)
     } else {
+      console.log("Using non-preloaded")
       handleSearch({ location, decade })
     }
   }

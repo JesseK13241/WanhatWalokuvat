@@ -10,7 +10,7 @@ export default function Search({
   setDecade,
   onSearch,
 }) {
-  console.log("Rendering Search (client-side)..")
+  //console.log("Rendering Search (client-side)..")
 
   return (
     <div className="flex justify-evenly rounded bg-tertiary p-8">

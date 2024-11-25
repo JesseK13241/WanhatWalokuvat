@@ -38,8 +38,8 @@ export default function Peli1() {
     setImageLoading(true)
   }
 
-  const setParams = (start, end, rounds) => {
-    setDecadeRange(`${start}-${parseInt(end) + 9}`)
+  const setParams = (decadeRange, rounds) => {
+    setDecadeRange(decadeRange)
     setTotalRounds(rounds)
     setReadyToFetch(true)
   }
