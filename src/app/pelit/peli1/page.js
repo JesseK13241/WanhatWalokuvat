@@ -16,7 +16,7 @@ export default function Peli1() {
   const [answered, setAnswered] = useState(false)
 
   const [readyToFetch, setReadyToFetch] = useState(false)
-  const [isLoading, setLoading] = useState(true)
+  const [isFetching, setIsFetching] = useState(true)
   const [imageLoading, setImageLoading] = useState(true)
 
   useEffect(() => {
@@ -28,13 +28,13 @@ export default function Peli1() {
 
   const nextRound = async (source) => {
     console.log("nextRound, source: ", source)
-    setLoading(true)
+    setIsFetching(true)
     var nextPhoto = await getRandomPhoto({
       decade: decadeRange,
     })
     setCurrentPhoto(nextPhoto.records[0])
     setAnswered(false)
-    setLoading(false)
+    setIsFetching(false)
     setImageLoading(true)
   }
 
@@ -78,7 +78,7 @@ export default function Peli1() {
       />
     )
 
-  if (isLoading) return <Skeleton />
+  if (isFetching) return <Skeleton />
 
   const imageUrl =
     currentPhoto && "https://www.finna.fi" + currentPhoto.images[0]

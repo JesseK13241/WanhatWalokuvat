@@ -61,7 +61,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
   }
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex w-screen flex-col gap-4">
       <Search
         onSearch={handleSearch}
         location={location}
@@ -69,7 +69,10 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
         decade={decade}
         setDecade={setDecade}
       />
-      <div className="flex items-center justify-between">
+
+      <PhotoContainer photo={displayedPhoto} />
+
+      <div className="flex items-center justify-center gap-10">
         <button onClick={handlePrevious} className="btn-primary">
           Edellinen
         </button>
@@ -84,7 +87,6 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
           Seuraava
         </button>
       </div>
-      <PhotoContainer photo={displayedPhoto} />
 
       {/* Piilotettu DOM-komponentti kuvan esilataamista varten */}
       {preloadedPhoto && (
