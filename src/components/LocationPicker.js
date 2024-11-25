@@ -3,7 +3,7 @@ export default function LocationPicker({ value, onChange }) {
     <button
       className="btn-secondary"
       onClick={(e) => {
-        const coordinates = {"lat": 60, "lon": 25, "r": 10}
+        const coordinates = { lat: 60, lon: 25, r: 10 }
         console.log("Changed location to:", coordinates)
         onChange(coordinates)
       }}
@@ -12,4 +12,3 @@ export default function LocationPicker({ value, onChange }) {
     </button>
   )
 }
-

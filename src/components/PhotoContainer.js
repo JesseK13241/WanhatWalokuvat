@@ -6,7 +6,7 @@ export default function PhotoContainer({ photo }) {
 
   const IMAGE_BASE_URL = "https://www.finna.fi/Cover/Show?id="
 
-  console.log("Rendering PhotoContainer (client-side)...")
+  //console.log("Rendering PhotoContainer (client-side)...")
 
   if (!photo) {
     return <p>No photos found</p>

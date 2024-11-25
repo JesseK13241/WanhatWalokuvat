@@ -1,3 +1,4 @@
+import { getResultCount } from "@/services/photos"
 import { useState } from "react"
 
 export default function Aloitus({ returnParams }) {
@@ -14,8 +15,9 @@ export default function Aloitus({ returnParams }) {
     decades.push(a)
   }
 
-  const handleSubmit = () => {
-    returnParams(startDecade, endDecade, rounds)
+  const handleSubmit = async () => {
+    const decadeRange = `${startDecade}-${Number(endDecade) + 9}`
+    returnParams(decadeRange, rounds)
   }
 
   return (

@@ -107,7 +107,6 @@ export const getRandomPhoto = async ({ location, decade }) => {
   var resultCount = await getResultCount({ location, decade })
   if (resultCount > 100000) resultCount = 100000
   const randomIndex = Math.ceil(Math.random() * resultCount)
-  console.log("Page number: ", randomIndex)
 
   const urlToFetch = prepareRequest({ location, decade, randomIndex })
 
