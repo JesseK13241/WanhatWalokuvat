@@ -16,25 +16,59 @@ export default function Peli1() {
   const [answered, setAnswered] = useState(false)
 
   const [readyToFetch, setReadyToFetch] = useState(false)
-  const [isLoading, setLoading] = useState(true)
+  const [isFetching, setIsFetching] = useState(true)
   const [imageLoading, setImageLoading] = useState(true)
+  const [preloadedImage, setPreloadedImage] = useState(null)
 
   useEffect(() => {
     if (readyToFetch) {
       nextRound("useEffect")
       setRoundNumber(1)
+      preloadNextImage()
     }
   }, [readyToFetch])
 
-  const nextRound = async (source) => {
-    console.log("nextRound, source: ", source)
-    setLoading(true)
-    var nextPhoto = await getRandomPhoto({
+  useEffect(() => {
+    console.log("isFetching: ", isFetching)
+  }, [isFetching])
+
+  useEffect(() => {
+    console.log("imageLoading: ", imageLoading)
+  }, [imageLoading])
+
+  useEffect(() => {
+    console.log("answered: ", answered)
+  })
+
+  const preloadNextImage = async () => {
+    console.log("Preloading new image...")
+    const img = await getRandomPhoto({
       decade: decadeRange,
     })
+    setPreloadedImage(img)
+    console.log("Image preloaded")
+  }
+
+  const nextRound = async (source) => {
+    console.log("nextRound, source: ", source)
+    setIsFetching(true)
+    var nextPhoto
+    if (false){//preloadedImage != null) {
+      console.log("Using preloaded image:", preloadedImage)
+      nextPhoto = preloadedImage
+      setPreloadedImage(null)
+      setIsFetching(false)
+      preloadNextImage()
+    } else {
+      console.log("No preloaded photo. Fetcing...")
+      nextPhoto = await getRandomPhoto({
+        decade: decadeRange,
+      })
+      console.log("Photo fetched")
+      setIsFetching(false)
+    }
     setCurrentPhoto(nextPhoto.records[0])
     setAnswered(false)
-    setLoading(false)
     setImageLoading(true)
   }
 
@@ -78,7 +112,10 @@ export default function Peli1() {
       />
     )
 
-  if (isLoading) return <Skeleton />
+  if (isFetching) {
+    console.log("return skeleton")
+    return <Skeleton />
+  } 
 
   const imageUrl =
     currentPhoto && "https://www.finna.fi" + currentPhoto.images[0]
@@ -90,8 +127,6 @@ export default function Peli1() {
     let building = currentPhoto.buildings[i].translated
     if (building) buildings = buildings + ", " + building
   }
-
-  currentPhoto.building = buildings
 
   return (
     <div className="flex items-center justify-center">
