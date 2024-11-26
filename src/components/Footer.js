@@ -3,7 +3,7 @@ import Link from "next/link"
 
 const Footer = () => {
   return (
-    <footer className="flex border bg-secondary p-5">
+    <footer className="flex bg-secondary p-5">
       <Link
         href="https://github.com/JesseK13241/TIEA207-projekti/"
         className="flex w-auto items-center gap-2 p-2"

@@ -21,7 +21,7 @@ export default function PhotoContainer({ photo }) {
   }
 
   return (
-    <div className="mx-auto w-full max-w-xl overflow-hidden rounded-lg bg-primary shadow-md">
+    <div className="mx-auto w-[95%] max-w-xl overflow-hidden rounded-lg bg-primary shadow-md">
       <div className="relative w-full pt-[100%]">
         <div className="absolute inset-0 bg-tertiary">
           {isInitialPhoto ? (

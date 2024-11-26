@@ -1,11 +1,10 @@
 "use client"
-import MultipleChoiceButtons from "@/components/Peli1/MultipleChoiceButtons"
 import PhotoAndAnswersContainer from "@/components/Peli1/PhotoAndAnswersContainer"
 import Tulokset from "@/components/Peli1/Results"
 import Skeleton from "@/components/Peli1/Skeleton"
 import Aloitus from "@/components/Peli1/Start"
-import { getRandomPhoto } from "@/services/photos"
 import Image from "next/image"
+import { getRandomPhoto } from "@/services/photos"
 import { useEffect, useState } from "react"
 
 export default function Peli1() {
@@ -42,6 +41,7 @@ export default function Peli1() {
     if (preloadedPhoto) {
       nextPhoto = preloadedPhoto
       setIsFetching(false)
+      setPreloadedPhoto(null)
       preloadNextPhoto()
     } else {
       nextPhoto = await getRandomPhoto({
@@ -90,11 +90,19 @@ export default function Peli1() {
 
   if (isFetching) {
     return <Skeleton />
-  } 
+  }
+
+  currentPhoto.author = Object.keys(currentPhoto.authors.primary)[0]
+
+  var buildings = currentPhoto.buildings[0].translated
+  for (let i = 1; i < currentPhoto.buildings.length; i++) {
+    let building = currentPhoto.buildings[i].translated
+    if (building) buildings = buildings + ", " + building
+  }
 
   return (
     <div className="flex items-center justify-center">
-      <div className="m-4 flex flex-col items-center rounded-md bg-secondary p-6 shadow-lg">
+      <div className="m-4 flex w-screen max-w-xl flex-col items-center rounded-md bg-secondary p-6 shadow-lg">
         <PhotoAndAnswersContainer
           currentPhoto={currentPhoto}
           decadeRange={decadeRange}
@@ -131,15 +139,14 @@ export default function Peli1() {
       </div>
 
       {preloadedPhoto && (
-        <div className="hidden">
-          <Image
-            src={preloadedPhoto && "https://www.finna.fi" + preloadedPhoto.records[0].images[0]}
-            width={0}
-            height={0}
-            alt={""}
-            priority
-          />
-        </div>
+        <Image
+          src={"https://www.finna.fi" + currentPhoto.images[0]}
+          alt=""
+          height={0}
+          width={0}
+          className="hidden"
+          onLoad={console.log("preloaded")}
+        />
       )}
     </div>
   )

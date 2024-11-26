@@ -5,6 +5,7 @@ export default function MultipleChoiceButtons({
   correctYear,
   range,
   returnAnswer,
+  disabled,
 }) {
   const [currentAnswer, setCurrentAnswer] = useState(0)
   const [answers, setAnswers] = useState()
@@ -23,7 +24,7 @@ export default function MultipleChoiceButtons({
 
   const generateAnswers = () => {
     let newAnswers = [{}, {}, {}, {}]
-    let correctDecade = Math.floor(correctYear / 10 ) * 10 
+    let correctDecade = Math.floor(correctYear / 10) * 10
 
     let [start, end] = range.split("-").map(Number)
     start = Math.max(start, correctDecade - 50)
@@ -50,16 +51,15 @@ export default function MultipleChoiceButtons({
 
   const styles = {
     default:
-      "disabled:m-1 border-none rounded bg-primary border px-4 py-2 enabled:hover:bg-tertiary",
+      "border-primary border-2 rounded bg-primary px-4 py-2 enabled:hover:bg-tertiary enabled:hover:border-accent",
     correct:
-      "font-bold border-black border-2 rounded bg-green-500 border px-4 py-2 shadow-md",
+      "font-bold border-black border-2 rounded bg-green-500 px-4 py-2 shadow-md",
     incorrect:
-      "font-bold border-black border-2 rounded bg-red-500 border px-4 py-2 shadow-md",
+      "font-bold border-black border-2 rounded bg-red-500 px-4 py-2 shadow-md",
   }
 
   if (!answers) return <></>
 
-  
   answers.forEach((a) => {
     if (currentAnswer && a.isCorrect) a.style = styles.correct
     else if (a.decade == currentAnswer) a.style = styles.incorrect
@@ -67,17 +67,19 @@ export default function MultipleChoiceButtons({
   })
 
   return (
-    <div className="flex justify-center space-x-4">
-      {answers.sort((a, b) => a.decade - b.decade).map((answer, index) => (
-        <button
-          disabled={currentAnswer}
-          key={index}
-          onClick={() => setCurrentAnswer(answer.decade)}
-          className={answer.style}
-        >
-          {answer.decade}
-        </button>
-      ))}
+    <div className="flex items-center justify-center space-x-4">
+      {answers
+        .sort((a, b) => a.decade - b.decade)
+        .map((answer, index) => (
+          <button
+            disabled={currentAnswer || disabled}
+            key={index}
+            onClick={() => setCurrentAnswer(answer.decade)}
+            className={answer.style}
+          >
+            {answer.decade}
+          </button>
+        ))}
     </div>
   )
 }
