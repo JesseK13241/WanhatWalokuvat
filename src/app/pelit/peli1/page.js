@@ -1,5 +1,6 @@
 "use client"
 import PhotoAndAnswersContainer from "@/components/Peli1/PhotoAndAnswersContainer"
+import PhotoInfoContainer from "@/components/PhotoInfoContainer"
 import Tulokset from "@/components/Peli1/Results"
 import Skeleton from "@/components/Peli1/Skeleton"
 import Aloitus from "@/components/Peli1/Start"
@@ -119,23 +120,10 @@ export default function Peli1() {
           Seuraava
         </button>
 
-        <div className="w-80 rounded bg-primary p-2 text-center shadow-md">
-          {currentPhoto.title && answered && (
-            <p className="font-bold"> {currentPhoto.title} </p>
-          )}
-          {currentPhoto.author && <p> Tekijä: {currentPhoto.author} </p>}
-          {currentPhoto.building && (
-            <p> Organisaatio: {currentPhoto.building} </p>
-          )}
-          {answered && (
-            <a
-              href={"https://www.finna.fi" + currentPhoto.recordPage}
-              className="text-blue-600 visited:text-purple-600 hover:underline"
-            >
-              Linkki aineistoon
-            </a>
-          )}
-        </div>
+        <PhotoInfoContainer 
+          photo={currentPhoto}
+          showTitle={answered}
+        />
       </div>
 
       {preloadedPhoto && (
