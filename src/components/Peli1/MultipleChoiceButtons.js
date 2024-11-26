@@ -10,22 +10,26 @@ export default function MultipleChoiceButtons({
   const [answers, setAnswers] = useState()
 
   useEffect(() => {
+    setCurrentAnswer(0)
     generateAnswers()
-  }, [])
+  }, [correctYear])
 
   useEffect(() => {
-    if (currentAnswer) handleAnswer()
+    if (currentAnswer) {
+      const correctAnswer = Math.floor(correctYear / 10) * 10
+      returnAnswer(currentAnswer == correctAnswer)
+    }
   }, [currentAnswer])
 
   const generateAnswers = () => {
-    var newAnswers = [{}, {}, {}, {}]
-    const correctDecade = Math.floor(correctYear / 10) * 10
+    let newAnswers = [{}, {}, {}, {}]
+    let correctDecade = Math.floor(correctYear / 10 ) * 10 
 
-    var [start, end] = range.split("-").map(Number)
+    let [start, end] = range.split("-").map(Number)
     start = Math.max(start, correctDecade - 50)
     end = Math.min(end, correctDecade + 50)
 
-    var possibleAnswers = []
+    let possibleAnswers = []
     for (let i = start; i < end; i += 10) {
       if (i != correctDecade) possibleAnswers.push(i)
     }
@@ -41,14 +45,7 @@ export default function MultipleChoiceButtons({
       newAnswers[i].isCorrect = false
     }
 
-    newAnswers.sort((a, b) => a.decade - b.decade)
     setAnswers(newAnswers)
-  }
-
-  const handleAnswer = () => {
-    let correct = Math.floor(correctYear / 10) * 10
-    let current = currentAnswer
-    returnAnswer(current == correct)
   }
 
   const styles = {
@@ -62,6 +59,7 @@ export default function MultipleChoiceButtons({
 
   if (!answers) return <></>
 
+  
   answers.forEach((a) => {
     if (currentAnswer && a.isCorrect) a.style = styles.correct
     else if (a.decade == currentAnswer) a.style = styles.incorrect
@@ -70,10 +68,10 @@ export default function MultipleChoiceButtons({
 
   return (
     <div className="flex justify-center space-x-4">
-      {answers.map((answer) => (
+      {answers.sort((a, b) => a.decade - b.decade).map((answer, index) => (
         <button
           disabled={currentAnswer}
-          key={answer.decade}
+          key={index}
           onClick={() => setCurrentAnswer(answer.decade)}
           className={answer.style}
         >

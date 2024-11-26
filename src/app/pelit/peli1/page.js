@@ -1,5 +1,6 @@
 "use client"
 import MultipleChoiceButtons from "@/components/Peli1/MultipleChoiceButtons"
+import PhotoAndAnswersContainer from "@/components/Peli1/PhotoAndAnswersContainer"
 import Tulokset from "@/components/Peli1/Results"
 import Skeleton from "@/components/Peli1/Skeleton"
 import Aloitus from "@/components/Peli1/Start"
@@ -17,70 +18,45 @@ export default function Peli1() {
 
   const [readyToFetch, setReadyToFetch] = useState(false)
   const [isFetching, setIsFetching] = useState(true)
-  const [imageLoading, setImageLoading] = useState(true)
-  const [preloadedImage, setPreloadedImage] = useState(null)
+  const [preloadedPhoto, setPreloadedPhoto] = useState(null)
 
   useEffect(() => {
     if (readyToFetch) {
       nextRound("useEffect")
       setRoundNumber(1)
-      preloadNextImage()
+      preloadNextPhoto()
     }
   }, [readyToFetch])
 
-  useEffect(() => {
-    console.log("isFetching: ", isFetching)
-  }, [isFetching])
-
-  useEffect(() => {
-    console.log("imageLoading: ", imageLoading)
-  }, [imageLoading])
-
-  useEffect(() => {
-    console.log("answered: ", answered)
-  })
-
-  const preloadNextImage = async () => {
-    console.log("Preloading new image...")
+  const preloadNextPhoto = async () => {
     const img = await getRandomPhoto({
       decade: decadeRange,
     })
-    setPreloadedImage(img)
-    console.log("Image preloaded")
+    setPreloadedPhoto(img)
   }
 
   const nextRound = async (source) => {
     console.log("nextRound, source: ", source)
     setIsFetching(true)
     var nextPhoto
-    if (false){//preloadedImage != null) {
-      console.log("Using preloaded image:", preloadedImage)
-      nextPhoto = preloadedImage
-      setPreloadedImage(null)
+    if (preloadedPhoto) {
+      nextPhoto = preloadedPhoto
       setIsFetching(false)
-      preloadNextImage()
+      preloadNextPhoto()
     } else {
-      console.log("No preloaded photo. Fetcing...")
       nextPhoto = await getRandomPhoto({
         decade: decadeRange,
       })
-      console.log("Photo fetched")
       setIsFetching(false)
     }
     setCurrentPhoto(nextPhoto.records[0])
     setAnswered(false)
-    setImageLoading(true)
   }
 
   const setParams = (decadeRange, rounds) => {
     setDecadeRange(decadeRange)
     setTotalRounds(rounds)
     setReadyToFetch(true)
-  }
-
-  const handleAnswer = (isCorrect) => {
-    if (isCorrect) setScore(score + 1)
-    setAnswered(true)
   }
 
   const handleNext = () => {
@@ -113,51 +89,19 @@ export default function Peli1() {
     )
 
   if (isFetching) {
-    console.log("return skeleton")
     return <Skeleton />
   } 
-
-  const imageUrl =
-    currentPhoto && "https://www.finna.fi" + currentPhoto.images[0]
-
-  currentPhoto.author = Object.keys(currentPhoto.authors.primary)[0]
-
-  var buildings = currentPhoto.buildings[0].translated
-  for (let i = 1; i < currentPhoto.buildings.length; i++) {
-    let building = currentPhoto.buildings[i].translated
-    if (building) buildings = buildings + ", " + building
-  }
 
   return (
     <div className="flex items-center justify-center">
       <div className="m-4 flex flex-col items-center rounded-md bg-secondary p-6 shadow-lg">
-        <div className="mb-4">
-          <Image
-            src={imageUrl}
-            alt={currentPhoto.title}
-            width={0}
-            height={0}
-            sizes="100vw"
-            className={
-              imageLoading
-                ? "h-0"
-                : "h-80 w-auto rounded object-cover shadow-md"
-            }
-            onLoad={() => setImageLoading(false)}
-            priority
-          />
-          {imageLoading && (
-            <div className="size-80 animate-pulse rounded bg-gray-100" />
-          )}
-        </div>
-
-        <div className="mb-4">
-          <MultipleChoiceButtons
-            correctYear={currentPhoto.year ? currentPhoto.year : undefined}
-            range={decadeRange}
-            returnAnswer={handleAnswer}
-          />
-        </div>
+        <PhotoAndAnswersContainer
+          currentPhoto={currentPhoto}
+          decadeRange={decadeRange}
+          score={score}
+          setScore={setScore}
+          setAnswered={setAnswered}
+        />
 
         <button
           className="btn-primary mb-4 shadow-md"
@@ -185,6 +129,18 @@ export default function Peli1() {
           )}
         </div>
       </div>
+
+      {preloadedPhoto && (
+        <div className="hidden">
+          <Image
+            src={preloadedPhoto && "https://www.finna.fi" + preloadedPhoto.records[0].images[0]}
+            width={0}
+            height={0}
+            alt={""}
+            priority
+          />
+        </div>
+      )}
     </div>
   )
 }
