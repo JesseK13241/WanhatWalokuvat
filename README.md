@@ -4,6 +4,8 @@ Wanhat Walokuvat -sivustolla voit selata vanhoja valokuvia sijainnin ja vuosikym
 
 Sivusto on luotu osana Jyväskylän Yliopiston [Aineopintojen projektityö (TIEA207)](https://opinto-opas.jyu.fi/2024/fi/opintojakso/tiea207/) -kurssia.
 
+Data ja kuvat perustuvat Kansalliskirjaston [Finna-palveluun](https://fi.wikipedia.org/wiki/Finna). 
+
 Kanban board: https://github.com/users/JesseK13241/projects/1/views/1
 
 # Sivusto
