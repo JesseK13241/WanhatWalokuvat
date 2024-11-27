@@ -62,7 +62,7 @@ export default function PhotoContainer({ photo }) {
             <span className="font-semibold">Museo:</span> {photo.building}
           </p>
         )}
-        {!photo.local && photo.recordPage && (
+        {isInitialPhoto && photo.recordPage && (
           <a
             href={`https://www.finna.fi${photo.recordPage}`}
             className="inline-block text-sm text-blue-600 hover:text-blue-800 hover:underline"
