@@ -1,6 +1,12 @@
 // Komponentti kuvan tietojen näyttämiseen (otsikko, tekijä, organisaatio, linkki)
 // photo = kuva, showTitle = boolean, otsikko ja linkki näytetään jos true
 export default function PhotoInfoContainer({ photo, showTitle }) {
+  // Seuraava mahdollistaa koodin toimimisen riippumatta siitä onko
+  // photo yksittäinen kuva vai koko API-kyselyn vastaus
+  if (photo.records) {
+    photo = photo.records[0]
+  }
+
   return (
     <div className="w-80 rounded bg-primary p-2 text-center shadow-md">
       {photo.title && showTitle && <p className="font-bold"> {photo.title} </p>}
