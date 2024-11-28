@@ -17,7 +17,6 @@ export const getInitialPhoto = () => {
     year: 1890,
     title: "Miesseurue Kauppatorilla, toinen oikealta on tohtori Wilh.",
     author: "Helsingin kaupunginmuseo",
-    local: true,
   }
   return initialPhoto
 }

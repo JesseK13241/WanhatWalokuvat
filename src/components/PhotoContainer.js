@@ -22,7 +22,7 @@ export default function PhotoContainer({ photo, infoElem }) {
   }
 
   if (!infoElem) {
-    infoElem = <SlideshowPhotoInfo photo={photo}/>
+    infoElem = <SlideshowPhotoInfo photo={photo} />
   }
 
   return (

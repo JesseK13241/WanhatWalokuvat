@@ -3,9 +3,7 @@
 export default function PhotoInfoContainer({ photo, showTitle }) {
   return (
     <div className="w-80 rounded bg-primary p-2 text-center shadow-md">
-      {photo.title && showTitle && (
-        <p className="font-bold"> {photo.title} </p>
-      )}
+      {photo.title && showTitle && <p className="font-bold"> {photo.title} </p>}
       {photo.author && <p> Tekijä: {photo.author} </p>}
       {photo.building && <p> Organisaatio: {photo.building} </p>}
       {showTitle && (

@@ -120,10 +120,7 @@ export default function Peli1() {
           Seuraava
         </button>
 
-        <PhotoInfoContainer 
-          photo={currentPhoto}
-          showTitle={answered}
-        />
+        <PhotoInfoContainer photo={currentPhoto} showTitle={answered} />
       </div>
 
       {preloadedPhoto && (

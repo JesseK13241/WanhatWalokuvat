@@ -1,5 +1,6 @@
 import SearchSlideshowContainer from "@/components/SearchSlideshowContainer"
 import { getInitialPhoto } from "@/services/photos"
+import { Suspense } from "react"
 
 export default async function HomePage() {
   //console.log("Rendering homepage (server-side)...")
@@ -9,7 +10,9 @@ export default async function HomePage() {
 
   return (
     <div className="flex flex-col items-center p-4 pb-14">
-      <SearchSlideshowContainer initialPhoto={initialPhoto} />
+      <Suspense>
+        <SearchSlideshowContainer initialPhoto={initialPhoto} />
+      </Suspense>
     </div>
   )
 }
