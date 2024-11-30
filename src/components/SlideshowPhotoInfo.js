@@ -11,7 +11,7 @@ export default function SlideshowPhotoInfo({ photo }) {
       
       <p className="text-sm">
         <span className="font-semibold">Sijainti: </span> 
-        {photo.location ? photo.location : "Ei tiedossa"}
+        {photo.subjects ? photo.subjects[photo.subjects.length - 1][0] : "Ei tiedossa"}
       </p>
 
       <p className="text-sm">
