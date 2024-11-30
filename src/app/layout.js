@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
   // Kaikki sivut muodostetaan tämän Layout-komponentin avulla.
   // Jokaiselle sivulle tulee automaattisesti Header ja Footer.
   return (
-    <html lang="en">
+    <html lang="en" className="overflow-x-hidden">
       <body className="flex min-h-screen flex-col bg-primary">
         <Header />
         <main className="grow">{children}</main>

@@ -1,6 +1,6 @@
 import "@/app/globals.css"
-import Link from "next/link"
 import { Bokor } from "next/font/google"
+import Link from "next/link"
 
 const bokor = Bokor({
   subsets: ["latin"],
@@ -9,7 +9,7 @@ const bokor = Bokor({
 
 const Header = () => {
   return (
-    <header className="flex flex-col items-center justify-between bg-secondary p-5 shadow-md sm:flex-row">
+    <header className="flex w-screen flex-col items-center justify-between bg-secondary p-5 pr-10 shadow-md sm:flex-row">
       <h1 className="text-5xl font-bold transition-all duration-200 hover:text-accent">
         <Link href="/" className={bokor.className}>
           Wanhat Walokuvat
