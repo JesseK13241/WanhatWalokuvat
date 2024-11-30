@@ -44,7 +44,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
       setPreloadedPhoto(null)
     } else {
       console.log("Using non-preloaded")
-      handleSearch({ location, decade })
+      getPhotos({ location, decade })
     }
   }, [decade, location, preloadedPhoto, currentIndex])
 
@@ -79,9 +79,8 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
     router.replace(`${pathname}?${params.toString()}`)
   }
 
-  const handleSearch = async (params) => {
+  const getPhotos = async (params) => {
     setIsLoading(true)
-    setCurrentIndex(1)
     try {
       const results = await getRandomPhoto(params)
       setDisplayedPhoto(results)
@@ -92,6 +91,11 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const handleSearch = async (params) => {
+    setCurrentIndex(1)
+    getPhotos(params)
   }
 
   return (
