@@ -2,8 +2,8 @@
 import PhotoContainer from "@/components/PhotoContainer"
 import Search from "@/components/Search"
 import { getRandomPhoto } from "@/services/photos"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
-import { useRouter, useSearchParams, usePathname } from "next/navigation"
 
 export default function SearchSlideshowContainer({ initialPhoto }) {
   // Hakupalkin ja kuvakomponentin tilat on nostettu tähän containeriin,
@@ -19,7 +19,12 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
 
   const [displayedPhoto, setDisplayedPhoto] = useState(initialPhoto)
   const [preloadedPhoto, setPreloadedPhoto] = useState(null)
-  const [location, setLocation] = useState("")
+  const [location, setLocation] = useState({
+    lat: 0,
+    lon: 0,
+    r: 10,
+    location: "",
+  })
   const [decade, setDecade] = useState("1970-1979")
   const [isLoading, setIsLoading] = useState(false)
 

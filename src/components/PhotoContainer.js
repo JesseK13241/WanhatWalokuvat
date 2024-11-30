@@ -9,16 +9,17 @@ export default function PhotoContainer({ photo, infoElem }) {
 
   //console.log("Rendering PhotoContainer (client-side)...")
 
-  if (!photo) {
-    return <p>No photos found</p>
-  }
-
   // Parametrillä (photo) on 2 eri mahdollista muotoa:
   // 1) staattinen 'initialPhoto' tai 2) Finnan sivuilta haettu
 
   const isInitialPhoto = photo?.element
   if (!isInitialPhoto) {
-    photo = photo.records[0]
+    if (photo.records) {
+      photo = photo.records[0]
+    } else {
+      return <div className="mx-auto w-[95%] max-w-xl rounded-lg border border-red-600 bg-primary p-12 text-red-500">No photos found</div>
+    }
+    
   }
 
   if (!infoElem) {
