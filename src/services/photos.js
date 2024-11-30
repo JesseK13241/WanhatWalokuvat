@@ -115,8 +115,12 @@ export const getRandomPhoto = async ({ location, decade }) => {
       throw new Error("Network response was not ok")
     }
     const data = await response.json()
-    const photo = data.records[0]
+    if (data.records.length === 0) {
+      console.log("No results found")
+      return
+    }
 
+    const photo = data.records[0]
     console.log(photo)
 
     // Siivotaan kuvan metadataa
