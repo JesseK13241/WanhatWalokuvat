@@ -1,11 +1,11 @@
 "use client"
-import PhotoAndAnswersContainer from "@/components/Peli1/PhotoAndAnswersContainer"
+import PhotoAndAnswersContainer from "@/app/pelit/peli1/PhotoAndAnswersContainer"
+import Tulokset from "@/app/pelit/peli1/Results"
+import Skeleton from "@/app/pelit/peli1/Skeleton"
+import Aloitus from "@/app/pelit/peli1/Start"
 import PhotoInfoContainer from "@/components/PhotoInfoContainer"
-import Tulokset from "@/components/Peli1/Results"
-import Skeleton from "@/components/Peli1/Skeleton"
-import Aloitus from "@/components/Peli1/Start"
-import Image from "next/image"
 import { getRandomPhoto } from "@/services/photos"
+import Image from "next/image"
 import { useEffect, useState } from "react"
 
 export default function Peli1() {
