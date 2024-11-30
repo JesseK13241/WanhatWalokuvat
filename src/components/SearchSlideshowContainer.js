@@ -3,7 +3,7 @@ import PhotoContainer from "@/components/PhotoContainer"
 import Search from "@/components/Search"
 import { getRandomPhoto } from "@/services/photos"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 export default function SearchSlideshowContainer({ initialPhoto }) {
   // Hakupalkin ja kuvakomponentin tilat on nostettu tähän containeriin,
@@ -27,6 +27,33 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
   })
   const [decade, setDecade] = useState("1970-1979")
   const [isLoading, setIsLoading] = useState(false)
+
+  const handlePrevious = useCallback(() => {
+    console.log("Previous button clicked. Not implemented yet.")
+    // TODO handle previous images (by pushing previous results to stack)
+  }, [])
+
+  const handleNext = useCallback(() => {
+    if (preloadedPhoto) {
+      // Näytä esiladattu kuva jos jo valmiina
+      console.log("Using preloaded")
+      setDisplayedPhoto(preloadedPhoto)
+      setPreloadedPhoto(null)
+    } else {
+      console.log("Using non-preloaded")
+      handleSearch({ location, decade })
+    }
+  }, [decade, location, preloadedPhoto])
+
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (e.key === "ArrowLeft") handlePrevious()
+      if (e.key === "ArrowRight") handleNext()
+    }
+
+    window.addEventListener("keydown", handleKeyPress)
+    return () => window.removeEventListener("keydown", handleKeyPress)
+  }, [handlePrevious, handleNext])
 
   useEffect(() => {
     const preloadNextPhoto = async () => {
@@ -60,23 +87,6 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
       console.error("Search failed:", error)
     } finally {
       setIsLoading(false)
-    }
-  }
-
-  const handlePrevious = () => {
-    console.log("Previous button clicked. Not implemented yet.")
-    // TODO handle previous images (by pushing previous results to stack)
-  }
-
-  const handleNext = () => {
-    if (preloadedPhoto) {
-      // Näytä esiladattu kuva jos jo valmiina
-      console.log("Using preloaded")
-      setDisplayedPhoto(preloadedPhoto)
-      setPreloadedPhoto(null)
-    } else {
-      console.log("Using non-preloaded")
-      handleSearch({ location, decade })
     }
   }
 
