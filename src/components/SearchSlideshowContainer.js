@@ -17,6 +17,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
   // /page/?a=1&b=2 | const a = searchParams.get('a') => a == 1
   const searchParams = useSearchParams()
 
+  const [currentIndex, setCurrentIndex] = useState(1)
   const [displayedPhoto, setDisplayedPhoto] = useState(initialPhoto)
   const [preloadedPhoto, setPreloadedPhoto] = useState(null)
   const [location, setLocation] = useState({
@@ -30,10 +31,12 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
 
   const handlePrevious = useCallback(() => {
     console.log("Previous button clicked. Not implemented yet.")
+    // setCurrentIndex(currentIndex - 1)
     // TODO handle previous images (by pushing previous results to stack)
   }, [])
 
   const handleNext = useCallback(() => {
+    setCurrentIndex(currentIndex + 1)
     if (preloadedPhoto) {
       // Näytä esiladattu kuva jos jo valmiina
       console.log("Using preloaded")
@@ -43,7 +46,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
       console.log("Using non-preloaded")
       handleSearch({ location, decade })
     }
-  }, [decade, location, preloadedPhoto])
+  }, [decade, location, preloadedPhoto, currentIndex])
 
   useEffect(() => {
     const handleKeyPress = (e) => {
@@ -78,6 +81,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
 
   const handleSearch = async (params) => {
     setIsLoading(true)
+    setCurrentIndex(1)
     try {
       const results = await getRandomPhoto(params)
       setDisplayedPhoto(results)
@@ -107,7 +111,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
           Edellinen
         </button>
         <div>
-          {displayedPhoto?.randomIndex} / {displayedPhoto?.resultCount}
+          {currentIndex} / {displayedPhoto?.resultCount}
         </div>
         <button
           onClick={handleNext}
