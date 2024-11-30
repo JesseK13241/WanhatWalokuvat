@@ -1,7 +1,7 @@
 "use client"
 import getRandomPhoto from "@/services/photos"
 import { useEffect, useState } from "react"
-import PhotoContainer from "@/components/PhotoContainer"
+import PhotoContainerClickable from "@/components/PhotoContainerClickable"
 import PhotoInfoContainer from "@/components/PhotoInfoContainer"
 import PhotoContainerSkeleton from "@/components/PhotoContainerSkeleton"
 
@@ -25,6 +25,14 @@ export default function Peli2({ decadeRange }) {
     })
   }, [])
 
+  const handleSelectLeft = () => {
+    console.log("Selected left photo")
+  }
+
+  const handleSelectRight = () => {
+    console.log("Selected right photo")
+  }
+
   if (leftPhoto == null || rightPhoto == null) {
     return (
       <div>
@@ -39,9 +47,6 @@ export default function Peli2({ decadeRange }) {
         </div>
       </div>
     )
-  } else {
-    console.log("left", leftPhoto)
-    console.log("right", rightPhoto)
   }
 
   return (
@@ -54,7 +59,7 @@ export default function Peli2({ decadeRange }) {
       <div className="flex flex-wrap justify-center p-4 pb-14">
         <div>
           {leftPhoto ? (
-            <PhotoContainer
+            <PhotoContainerClickable
               photo={leftPhoto}
               infoElem={
                 <PhotoInfoContainer
@@ -62,6 +67,7 @@ export default function Peli2({ decadeRange }) {
                   showTitle={answered}
                 />
               }
+              handleClick={handleSelectLeft}
             />
           ) : (
             <PhotoContainerSkeleton />
@@ -69,11 +75,12 @@ export default function Peli2({ decadeRange }) {
         </div>
         <div>
           {rightPhoto && (
-            <PhotoContainer
+            <PhotoContainerClickable
               photo={rightPhoto}
               infoElem={
                 <PhotoInfoContainer photo={rightPhoto} showTitle={answered} />
               }
+              handleClick={handleSelectRight}
             />
           )}
         </div>
