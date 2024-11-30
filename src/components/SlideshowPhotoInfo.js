@@ -3,26 +3,27 @@
 export default function SlideshowPhotoInfo({ photo }) {
   return (
     <div className="space-y-2 p-4">
-      {photo.year && (
-        <p className="text-lg">
-          <span className="font-semibold">Vuosi:</span> {photo.year}
-        </p>
-      )}
-      {photo.location && (
-        <p className="text-sm">
-          <span className="font-semibold">Sijainti:</span> {photo.location}
-        </p>
-      )}
-      {photo.author && (
-        <p className="text-sm">
-          <span className="font-semibold">Tekijä:</span> {photo.author}
-        </p>
-      )}
-      {photo.building && (
-        <p className="text-sm">
-          <span className="font-semibold">Museo:</span> {photo.building}
-        </p>
-      )}
+      
+      <p className="text-lg">
+        <span className="font-semibold">Vuosi: </span> 
+        {photo.year ? photo.year: "?"}
+      </p>
+      
+      <p className="text-sm">
+        <span className="font-semibold">Sijainti: </span> 
+        {photo.location ? photo.location : "Ei tiedossa"}
+      </p>
+
+      <p className="text-sm">
+        <span className="font-semibold">Tekijä: </span> 
+        {photo.author ? photo.author : "Ei tiedossa"}
+      </p>
+
+      <p className="text-sm">
+        <span className="font-semibold">Museo: </span> 
+        {photo.building ? photo.building : "Ei tiedossa"}
+      </p>
+
       {!photo.local && photo.recordPage && (
         <a
           href={`https://www.finna.fi${photo.recordPage}`}
