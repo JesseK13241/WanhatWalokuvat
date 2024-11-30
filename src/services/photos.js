@@ -55,7 +55,7 @@ const prepareRequest = ({ decade, location, randomIndex }) => {
       "location",
       "recordPage",
       "buildings",
-      "subjects"
+      "subjects",
     ],
     limit: 1,
     page: randomIndex,
