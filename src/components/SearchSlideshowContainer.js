@@ -29,6 +29,8 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
   const [decade, setDecade] = useState("1970-1979")
   const [isLoading, setIsLoading] = useState(false)
 
+  console.log("Displayed photo:", displayedPhoto)
+
   const handlePrevious = useCallback(() => {
     console.log("Previous button clicked. Not implemented yet.")
     // setCurrentIndex(currentIndex - 1)
@@ -36,7 +38,8 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
   }, [])
 
   const handleNext = useCallback(() => {
-    setCurrentIndex(currentIndex + 1)
+    setCurrentIndex((prevIndex) => prevIndex + 1)
+
     if (preloadedPhoto) {
       // Näytä esiladattu kuva jos jo valmiina
       console.log("Using preloaded")
@@ -46,7 +49,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
       console.log("Using non-preloaded")
       getPhotos({ location, decade })
     }
-  }, [decade, location, preloadedPhoto, currentIndex])
+  }, [decade, location, preloadedPhoto])
 
   useEffect(() => {
     const handleKeyPress = (e) => {
@@ -60,7 +63,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
 
   useEffect(() => {
     const preloadNextPhoto = async () => {
-      console.log("Preload")
+      console.log("Preloading photo")
       const nextPhoto = await getRandomPhoto({ location, decade })
       setPreloadedPhoto(nextPhoto)
     }
@@ -95,7 +98,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
 
   const handleSearch = async (params) => {
     setCurrentIndex(1)
-    getPhotos(params)
+    await getPhotos(params)
   }
 
   return (
@@ -110,21 +113,23 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
 
       <PhotoContainer photo={displayedPhoto} />
 
-      <div className="flex items-center justify-center gap-10">
-        <button onClick={handlePrevious} className="btn-primary">
-          Edellinen
-        </button>
-        <div>
-          {currentIndex} / {displayedPhoto?.resultCount}
+      {displayedPhoto?.resultCount && (
+        <div className="flex items-center justify-center gap-10">
+          <button onClick={handlePrevious} className="btn-primary">
+            Edellinen
+          </button>
+          <div>
+            {currentIndex} / {displayedPhoto?.resultCount}
+          </div>
+          <button
+            onClick={handleNext}
+            className="btn-primary"
+            disabled={isLoading}
+          >
+            Seuraava
+          </button>
         </div>
-        <button
-          onClick={handleNext}
-          className="btn-primary"
-          disabled={isLoading}
-        >
-          Seuraava
-        </button>
-      </div>
+      )}
 
       {/* Piilotettu DOM-komponentti kuvan esilataamista varten */}
       {preloadedPhoto && (

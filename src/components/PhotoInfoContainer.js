@@ -3,9 +3,6 @@
 export default function PhotoInfoContainer({ photo, showTitle }) {
   // Seuraava mahdollistaa koodin toimimisen riippumatta siitä onko
   // photo yksittäinen kuva vai koko API-kyselyn vastaus
-  if (photo.records) {
-    photo = photo.records[0]
-  }
 
   return (
     <div className="rounded bg-primary object-fill p-2 text-center shadow-md">

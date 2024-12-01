@@ -1,9 +1,9 @@
 "use client"
+import PhotoContainerClickable from "@/components/PhotoContainerClickable"
+import PhotoContainerSkeleton from "@/components/PhotoContainerSkeleton"
+import PhotoInfoContainer from "@/components/PhotoInfoContainer"
 import getRandomPhoto from "@/services/photos"
 import { useEffect, useState } from "react"
-import PhotoContainerClickable from "@/components/PhotoContainerClickable"
-import PhotoInfoContainer from "@/components/PhotoInfoContainer"
-import PhotoContainerSkeleton from "@/components/PhotoContainerSkeleton"
 
 // Peli, jossa pelaaja arvaa kumpi kuva on vanhempi
 export default function Peli2({ decadeRange }) {
@@ -63,7 +63,7 @@ export default function Peli2({ decadeRange }) {
               photo={leftPhoto}
               infoElem={
                 <PhotoInfoContainer
-                  photo={leftPhoto.records[0]}
+                  photo={leftPhoto}
                   showTitle={answered}
                 />
               }

@@ -50,7 +50,7 @@ export default function Peli1() {
       })
       setIsFetching(false)
     }
-    setCurrentPhoto(nextPhoto.records[0])
+    setCurrentPhoto(nextPhoto)
     setAnswered(false)
   }
 
