@@ -1,7 +1,7 @@
 export const getInitialPhoto = async () => {
   const initialID = "kouvolanmuseo.KMV85:1580"
   const initialPhoto = await getPhotoById(initialID)
-  return {...initialPhoto, recordPage: `/Record/${initialID}`}
+  return { ...initialPhoto, recordPage: `/Record/${initialID}` }
 }
 
 const prepareRequest = ({ decade, location, randomIndex }) => {
@@ -83,16 +83,17 @@ export const getResultCount = async ({ location, decade }) => {
 }
 
 export const getPhotoById = async (photoID) => {
-  const fields = "&field[]=authors&field[]=title&field[]=images&field[]=id&field[]=year&field[]=location&field[]=recordPage&field[]=buildings&field[]=subjects"
+  const fields =
+    "&field[]=authors&field[]=title&field[]=images&field[]=id&field[]=year&field[]=location&field[]=recordPage&field[]=buildings&field[]=subjects"
   const urlToFetch = "https://api.finna.fi/v1/record?id=" + photoID + fields
   const response = await fetch(urlToFetch)
-  
+
   if (!response.ok) {
     throw new Error("Network response was not ok")
   }
-  
+
   const data = await response.json()
-  
+
   if (!data?.records?.length) {
     throw new Error("No results found")
   }
@@ -120,9 +121,9 @@ export const getRandomPhoto = async ({ location, decade }) => {
     if (!response.ok) {
       throw new Error("Network response was not ok")
     }
-    
+
     const data = await response.json()
-    
+
     if (!data?.records?.length) {
       throw new Error("No results found")
     }
@@ -136,7 +137,7 @@ export const getRandomPhoto = async ({ location, decade }) => {
     return {
       ...photo,
       resultCount,
-      randomIndex
+      randomIndex,
     }
   } catch (error) {
     console.error("Error fetching photos:", error)

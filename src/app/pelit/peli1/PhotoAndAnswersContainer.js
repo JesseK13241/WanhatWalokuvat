@@ -34,8 +34,8 @@ export default function PhotoAndAnswersContainer({
           imageLoading
             ? "h-0"
             : `h-80 w-auto rounded bg-tertiary object-contain shadow-md ${
-              answered ? "" : "grayscale"
-            }`
+                answered ? "" : "grayscale"
+              }`
         }
         onLoad={() => {
           setImageLoading(false)

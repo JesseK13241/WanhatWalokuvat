@@ -8,7 +8,6 @@ export default function PhotoContainer({ photo, infoElem, handleClick }) {
 
   const IMAGE_BASE_URL = "https://www.finna.fi/Cover/Show?id="
 
-
   if (!infoElem) {
     infoElem = <SlideshowPhotoInfo photo={photo} />
   }
@@ -28,7 +27,6 @@ export default function PhotoContainer({ photo, infoElem, handleClick }) {
             className="object-contain group-hover:opacity-70"
             priority
           />
-          )
         </div>
       </div>
 
