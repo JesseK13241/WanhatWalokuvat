@@ -1,6 +1,6 @@
 import GameCard from "@/components/GameCard"
-import arvaa from "../../public/images/arvaa.jpg"
-import peli2Placeholder from "../../public/images/peli2_placeholder.jpg"
+import arvaa from "@/public/images/arvaa.jpg"
+import peli2 from "@/public/images/peli2.jpg"
 
 export default function Pelit() {
   return (
@@ -13,7 +13,7 @@ export default function Pelit() {
       />
       <GameCard
         title="Arvaa vanhempi"
-        imageSrc={peli2Placeholder}
+        imageSrc={peli2}
         description="Arvaa kumpi kuvista on vanhempi"
         path="/pelit/peli2"
       />
