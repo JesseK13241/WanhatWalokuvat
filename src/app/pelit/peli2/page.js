@@ -29,7 +29,6 @@ export default function Peli2({ decadeRange }) {
 
   useEffect(() => {
     if (started) {
-      console.log("useEffect")
       nextRound()
     }
   }, [started])
@@ -39,13 +38,15 @@ export default function Peli2({ decadeRange }) {
   }
 
   const nextRound = async () => {
+    setLeftPhoto(null)
+    setRightPhoto(null)
+    setAnswered(false)
+    setCorrectAnswer(false)
     let alternateOrder = false // Jos true, oikea kuva on vanhempi, muuten vasen
     if (Math.random() < 0.5) {
       // Noin 50% todennäköisyys kummallekin vaihtoehdolle
       alternateOrder = true
     }
-    setAnswered(false)
-    setCorrectAnswer(false)
 
     fetchOlder(alternateOrder)
     fetchNewer(alternateOrder)
@@ -53,49 +54,35 @@ export default function Peli2({ decadeRange }) {
 
   const fetchOlder = async (alternateOrder) => {
     // Vanhempi kuva:
-    console.log("fetching older")
     getRandomPhoto({
       decade: olderDecadeRange,
     }).then((older) => {
       older.isOlder = true
-      console.log("older fetched")
       alternateOrder ? setRightPhoto(older) : setLeftPhoto(older)
     })
   }
 
   const fetchNewer = async (alternateOrder) => {
     // Uudempi kuva:
-    console.log("fetching newer")
     getRandomPhoto({
       decade: newerDecadeRange,
     }).then((newer) => {
       newer.isOlder = false
-      console.log("newer fetched")
       alternateOrder ? setLeftPhoto(newer) : setRightPhoto(newer)
     })
   }
 
   const handleSelectLeft = () => {
-    console.log("Selected left photo")
     setAnswered(true)
-    console.log("left:", leftPhoto.isOlder, "right:", rightPhoto.isOlder)
     if (leftPhoto.isOlder) {
       setCorrectAnswer(true)
-      console.log("Oikein!")
-    } else {
-      console.log("Väärin!")
     }
   }
 
   const handleSelectRight = () => {
-    console.log("Selected right photo")
     setAnswered(true)
-    console.log("left:", leftPhoto.isOlder, "right:", rightPhoto.isOlder)
     if (rightPhoto.isOlder) {
       setCorrectAnswer(true)
-      console.log("Oikein!")
-    } else {
-      console.log("Väärin!")
     }
   }
 
@@ -112,7 +99,7 @@ export default function Peli2({ decadeRange }) {
 
   if (leftPhoto == null || rightPhoto == null) {
     return (
-      <div>
+      <div className="flex flex-col items-center">
         <div className="flex justify-center text-xl">
           <p className="mt-4 rounded-xl bg-tertiary p-4">
             Klikkaa vanhempaa kuvaa
@@ -122,59 +109,75 @@ export default function Peli2({ decadeRange }) {
           <PhotoContainerSkeleton />
           <PhotoContainerSkeleton />
         </div>
+        <button className="btn-primary mb-4 shadow-md p-4 px-6" disabled={true}>
+          Seuraava
+        </button>
       </div>
     )
   }
 
   return (
-    <div className="pb-14">
-      <div className="flex justify-center text-xl">
-        {!answered && (
-          <p className="mt-4 rounded-xl bg-tertiary p-4">
-            Klikkaa vanhempaa kuvaa
-          </p>
-        )}
-        {answered && correctAnswer && (
-          <p className="mt-4 rounded-xl bg-accent p-4">Vastasit oikein!</p>
-        )}
-        {answered && !correctAnswer && (
-          <p className="mt-4 rounded-xl bg-red-400 p-4">Vastasit väärin!</p>
-        )}
-      </div>
-      <div className="flex flex-wrap justify-center p-4">
-        <div>
-          {answered && (
-            <p
-              className={leftPhoto.isOlder ? styles.correct : styles.incorrect}
-            >
-              {leftPhoto.year}
+    <div className="flex flex-col items-center">
+      <div className="pb-14">
+        <div className="flex justify-center items-center text-xl">
+          {!answered && (
+            <p className="mt-4 rounded-xl bg-tertiary p-4">
+              Klikkaa vanhempaa kuvaa
             </p>
           )}
-          <PhotoContainerClickable
-            photo={leftPhoto}
-            infoElem={
-              <PhotoInfoContainer photo={leftPhoto} showTitle={answered} />
-            }
-            handleClick={handleSelectLeft}
-          />
-        </div>
-        <div>
-          {answered && (
-            <p
-              className={rightPhoto.isOlder ? styles.correct : styles.incorrect}
-            >
-              {rightPhoto.year}
-            </p>
+          {answered && correctAnswer && (
+            <p className="mt-4 rounded-xl bg-accent p-4">Vastasit oikein!</p>
           )}
-          <PhotoContainerClickable
-            photo={rightPhoto}
-            infoElem={
-              <PhotoInfoContainer photo={rightPhoto} showTitle={answered} />
-            }
-            handleClick={handleSelectRight}
-          />
+          {answered && !correctAnswer && (
+            <p className="mt-4 rounded-xl bg-red-400 p-4">Vastasit väärin!</p>
+          )}
+        </div>
+        <div className="flex flex-wrap justify-center p-4">
+          <div>
+            {answered && (
+              <p
+                className={
+                  leftPhoto.isOlder ? styles.correct : styles.incorrect
+                }
+              >
+                {leftPhoto.year}
+              </p>
+            )}
+            <PhotoContainerClickable
+              photo={leftPhoto}
+              infoElem={
+                <PhotoInfoContainer photo={leftPhoto} showTitle={answered} />
+              }
+              handleClick={handleSelectLeft}
+            />
+          </div>
+          <div>
+            {answered && (
+              <p
+                className={
+                  rightPhoto.isOlder ? styles.correct : styles.incorrect
+                }
+              >
+                {rightPhoto.year}
+              </p>
+            )}
+            <PhotoContainerClickable
+              photo={rightPhoto}
+              infoElem={
+                <PhotoInfoContainer photo={rightPhoto} showTitle={answered} />
+              }
+              handleClick={handleSelectRight}
+            />
+          </div>
         </div>
       </div>
+      <button
+        className="btn-primary mb-4 shadow-md p-4 px-6"
+        onClick={nextRound}
+        disabled={!answered}
+      >
+        Seuraava
+      </button>
     </div>
   )
 }
