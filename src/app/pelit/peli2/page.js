@@ -2,6 +2,7 @@
 import PhotoContainerClickable from "@/components/PhotoContainerClickable"
 import PhotoContainerSkeleton from "@/components/PhotoContainerSkeleton"
 import PhotoInfoContainer from "@/components/PhotoInfoContainer"
+import Start from "@/app/pelit/peli2/Start"
 import getRandomPhoto from "@/services/photos"
 import { useEffect, useState } from "react"
 
@@ -11,6 +12,7 @@ export default function Peli2({ decadeRange }) {
   const [rightPhoto, setRightPhoto] = useState(null)
   const [answered, setAnswered] = useState(false)
   const [correctAnswer, setCorrectAnswer] = useState(false)
+  const [started, setStarted] = useState(false)
 
   const startYear = 1880 // Minimivuosi
   const currentYear = new Date().getFullYear() // Tämä vuosi (maksimiarvo kuvan vuodelle)
@@ -26,9 +28,15 @@ export default function Peli2({ decadeRange }) {
   const newerDecadeRange = `${splitDecade + 10}-${currentYear}`
 
   useEffect(() => {
-    console.log("useEffect")
-    nextRound()
-  }, [])
+    if (started) {
+      console.log("useEffect")
+      nextRound()
+    }
+  }, [started])
+
+  const startGame = () => {
+    setStarted(true)
+  }
 
   const nextRound = async () => {
     let alternateOrder = false // Jos true, oikea kuva on vanhempi, muuten vasen
@@ -96,6 +104,10 @@ export default function Peli2({ decadeRange }) {
       "w-[95%] mx-[2.5%] text-center font-bold border-black border-2 rounded-xl bg-green-500 px-4 py-2 shadow-md",
     incorrect:
       "w-[95%] mx-[2.5%] text-center font-bold border-black border-2 rounded-xl bg-red-500 px-4 py-2 shadow-md",
+  }
+
+  if (!started) {
+    return <Start initGame={startGame} />
   }
 
   if (leftPhoto == null || rightPhoto == null) {
