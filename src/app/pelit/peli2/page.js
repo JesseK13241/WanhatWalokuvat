@@ -12,27 +12,65 @@ export default function Peli2({ decadeRange }) {
   const [answered, setAnswered] = useState(false)
   const [correctAnswer, setCorrectAnswer] = useState(false)
 
+  const startYear = 1880 // Minimivuosi
+  const currentYear = new Date().getFullYear() // Tämä vuosi (maksimiarvo kuvan vuodelle)
+  // Vanhempi kuva arvotaan splitDecade:a vanhemmista ja uudempi uudemmista kuvista
+  // Jos startYear=1920 ja currentYear=2014, splitDecade on joku seuraavista:
+  // [1930, 1940, 1950, 1960, 1970, 1980, 1990, 2000]
+  // Kuvat arvotaan niin, että jos splitDecade=1950, vanhempi kuva < 1950 ja uudempi > 1959
+  // Näin kuvien vuosilla on vähintään 10 vuoden ero
+  const splitYear = // Satunnainen vuosi väliltä [startYear+10, currentYear-11] (-11, koska Math.floor)
+    Math.floor(Math.random() * (currentYear - startYear - 20)) + startYear + 10
+  const splitDecade = splitYear - (splitYear % 10) // Vuosikymmenen alkuvuosi (esim. 1980 -> 1980-1989)
+  const olderDecadeRange = `${startYear}-${splitDecade - 1}`
+  const newerDecadeRange = `${splitDecade + 10}-${currentYear}`
+
   useEffect(() => {
+    console.log("useEffect")
+    nextRound()
+  }, [])
+
+  const nextRound = async () => {
+    let alternateOrder = false // Jos true, oikea kuva on vanhempi, muuten vasen
+    if (Math.random() < 0.5) {
+      // Noin 50% todennäköisyys kummallekin vaihtoehdolle
+      alternateOrder = true
+    }
     setAnswered(false)
     setCorrectAnswer(false)
-    getRandomPhoto({
-      decade: "1860-1930",
-    }).then((left) => {
-      left.isOlder = true
-      setLeftPhoto(left)
-    })
 
+    fetchOlder(alternateOrder)
+    fetchNewer(alternateOrder)
+  }
+
+  const fetchOlder = async (alternateOrder) => {
+    // Vanhempi kuva:
+    console.log("fetching older")
     getRandomPhoto({
-      decade: "1940-2029",
-    }).then((right) => {
-      right.isOlder = false
-      setRightPhoto(right)
+      decade: olderDecadeRange,
+    }).then((older) => {
+      older.isOlder = true
+      console.log("older fetched")
+      alternateOrder ? setRightPhoto(older) : setLeftPhoto(older)
     })
-  }, [])
+  }
+
+  const fetchNewer = async (alternateOrder) => {
+    // Uudempi kuva:
+    console.log("fetching newer")
+    getRandomPhoto({
+      decade: newerDecadeRange,
+    }).then((newer) => {
+      newer.isOlder = false
+      console.log("newer fetched")
+      alternateOrder ? setLeftPhoto(newer) : setRightPhoto(newer)
+    })
+  }
 
   const handleSelectLeft = () => {
     console.log("Selected left photo")
     setAnswered(true)
+    console.log("left:", leftPhoto.isOlder, "right:", rightPhoto.isOlder)
     if (leftPhoto.isOlder) {
       setCorrectAnswer(true)
       console.log("Oikein!")
@@ -44,6 +82,7 @@ export default function Peli2({ decadeRange }) {
   const handleSelectRight = () => {
     console.log("Selected right photo")
     setAnswered(true)
+    console.log("left:", leftPhoto.isOlder, "right:", rightPhoto.isOlder)
     if (rightPhoto.isOlder) {
       setCorrectAnswer(true)
       console.log("Oikein!")
@@ -92,7 +131,13 @@ export default function Peli2({ decadeRange }) {
       </div>
       <div className="flex flex-wrap justify-center p-4">
         <div>
-          {answered && <p className={styles.correct}>{leftPhoto.year}</p>}
+          {answered && (
+            <p
+              className={leftPhoto.isOlder ? styles.correct : styles.incorrect}
+            >
+              {leftPhoto.year}
+            </p>
+          )}
           <PhotoContainerClickable
             photo={leftPhoto}
             infoElem={
@@ -102,7 +147,13 @@ export default function Peli2({ decadeRange }) {
           />
         </div>
         <div>
-          {answered && <p className={styles.incorrect}>{rightPhoto.year}</p>}
+          {answered && (
+            <p
+              className={rightPhoto.isOlder ? styles.correct : styles.incorrect}
+            >
+              {rightPhoto.year}
+            </p>
+          )}
           <PhotoContainerClickable
             photo={rightPhoto}
             infoElem={
