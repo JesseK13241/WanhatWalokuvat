@@ -109,6 +109,7 @@ export default function Peli1() {
           decadeRange={decadeRange}
           score={score}
           setScore={setScore}
+          answered={answered}
           setAnswered={setAnswered}
         />
 

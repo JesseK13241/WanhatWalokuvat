@@ -7,6 +7,7 @@ export default function PhotoAndAnswersContainer({
   decadeRange,
   setScore,
   score,
+  answered,
   setAnswered,
 }) {
   const [imageLoading, setImageLoading] = useState(true)
@@ -32,7 +33,9 @@ export default function PhotoAndAnswersContainer({
         className={
           imageLoading
             ? "h-0"
-            : "h-80 w-auto rounded bg-tertiary object-contain shadow-md"
+            : `h-80 w-auto rounded bg-tertiary object-contain shadow-md ${
+              answered ? "" : "grayscale"
+            }`
         }
         onLoad={() => {
           setImageLoading(false)
