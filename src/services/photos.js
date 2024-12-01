@@ -115,7 +115,7 @@ export const getRandomPhoto = async ({ location, decade }) => {
       throw new Error("Network response was not ok")
     }
     const data = await response.json()
-    if (data.records.length === 0) {
+    if (!data?.records) {
       console.log("No results found")
       return
     }

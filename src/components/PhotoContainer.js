@@ -14,7 +14,7 @@ export default function PhotoContainer({ photo, infoElem }) {
 
   const isInitialPhoto = photo?.element
   if (!isInitialPhoto) {
-    if (photo.records) {
+    if (photo?.records) {
       photo = photo.records[0]
     } else {
       return (
