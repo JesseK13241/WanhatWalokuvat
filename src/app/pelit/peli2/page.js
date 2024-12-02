@@ -1,7 +1,7 @@
 "use client"
 import PhotoContainerClickable from "@/components/PhotoContainerClickable"
 import PhotoContainerSkeleton from "@/components/PhotoContainerSkeleton"
-import PhotoInfoContainer from "@/components/PhotoInfoContainer"
+import PhotoInfoContainer from "@/components/PhotoInfo"
 import Start from "@/app/pelit/peli2/Start"
 import getRandomPhoto from "@/services/photos"
 import { useEffect, useState } from "react"
@@ -146,7 +146,7 @@ export default function Peli2({ decadeRange }) {
             <PhotoContainerClickable
               photo={leftPhoto}
               infoElem={
-                <PhotoInfoContainer photo={leftPhoto} showTitle={answered} />
+                <PhotoInfoContainer photo={leftPhoto} showYear={answered} />
               }
               handleClick={handleSelectLeft}
             />
@@ -164,7 +164,7 @@ export default function Peli2({ decadeRange }) {
             <PhotoContainerClickable
               photo={rightPhoto}
               infoElem={
-                <PhotoInfoContainer photo={rightPhoto} showTitle={answered} />
+                <PhotoInfoContainer photo={rightPhoto} showYear={answered} />
               }
               handleClick={handleSelectRight}
             />

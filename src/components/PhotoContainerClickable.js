@@ -1,15 +1,19 @@
 "use client"
 import Image from "next/image"
-import SlideshowPhotoInfo from "./SlideshowPhotoInfo"
+import PhotoInfo from "./PhotoInfo"
 
-export default function PhotoContainer({ photo, infoElem, handleClick }) {
+export default function PhotoContainerClickable({
+  photo,
+  infoElem,
+  handleClick,
+}) {
   // Klikattava kuvakomponentti kuvien ja metadatan näyttämiseen
   // Funktiota {handleClick} kutsutaan, kun komponenttia klikataan
 
   const IMAGE_BASE_URL = "https://www.finna.fi/Cover/Show?id="
 
   if (!infoElem) {
-    infoElem = <SlideshowPhotoInfo photo={photo} />
+    infoElem = <PhotoInfo photo={photo} />
   }
 
   return (

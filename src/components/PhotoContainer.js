@@ -1,6 +1,6 @@
 "use client"
 import Image from "next/image"
-import SlideshowPhotoInfo from "./SlideshowPhotoInfo"
+import PhotoInfo from "./PhotoInfo"
 
 export default function PhotoContainer({ photo, infoElem }) {
   const IMAGE_BASE_URL = "https://www.finna.fi/Cover/Show?id="
@@ -13,7 +13,7 @@ export default function PhotoContainer({ photo, infoElem }) {
     )
   }
 
-  const defaultInfoElem = <SlideshowPhotoInfo photo={photo} />
+  const defaultInfoElem = <PhotoInfo photo={photo} />
 
   return (
     <div className="mx-auto w-[95%] max-w-xl overflow-hidden rounded-lg bg-primary shadow-md">

@@ -3,7 +3,7 @@ import PhotoAndAnswersContainer from "@/app/pelit/peli1/PhotoAndAnswersContainer
 import Tulokset from "@/app/pelit/peli1/Results"
 import Skeleton from "@/app/pelit/peli1/Skeleton"
 import Aloitus from "@/app/pelit/peli1/Start"
-import PhotoInfoContainer from "@/components/PhotoInfoContainer"
+import PhotoInfo from "@/components/PhotoInfo"
 import { getRandomPhoto } from "@/services/photos"
 import Image from "next/image"
 import { useEffect, useState } from "react"
@@ -121,7 +121,7 @@ export default function Peli1() {
           Seuraava
         </button>
 
-        <PhotoInfoContainer photo={currentPhoto} showTitle={answered} />
+        <PhotoInfo photo={currentPhoto} showYear={answered} />
       </div>
 
       {preloadedPhoto && (
