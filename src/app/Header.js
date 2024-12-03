@@ -9,14 +9,14 @@ const bokor = Bokor({
 
 const Header = () => {
   return (
-    <header className="flex w-screen flex-col items-center justify-between bg-secondary p-5 pr-10 shadow-md sm:flex-row">
+    <header className="flex w-screen flex-col items-center bg-secondary px-8 py-6 shadow-md sm:flex-row">
       <h1 className="text-5xl font-bold transition-all duration-200 hover:text-accent">
         <Link href="/" className={bokor.className}>
           Wanhat Walokuvat
         </Link>
       </h1>
       <nav>
-        <div className="flex justify-center rounded-3xl bg-accent px-4 py-2 shadow-md transition-all duration-200 hover:saturate-200">
+        <div className="ml-10 flex cursor-pointer justify-center rounded-3xl bg-accent px-6 py-2 shadow-md transition-all duration-200 hover:saturate-200">
           <Link href="/pelit/" className="sm:text-xl">
             Pelit
           </Link>
