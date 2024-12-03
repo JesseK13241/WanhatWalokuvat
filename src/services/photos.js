@@ -1,13 +1,16 @@
+import { API_RECORD_URL, API_SEARCH_URL } from "@/app/constants"
+
 export const getInitialPhoto = async () => {
   const initialID = "kouvolanmuseo.KMV85:1580"
   const initialPhoto = await getPhotoById(initialID)
   return { ...initialPhoto, recordPage: `/Record/${initialID}` }
 }
 
+
 const prepareRequest = ({ decade, location, randomIndex }) => {
   // Muodostaa API-hakuosoitteen parametrien perusteella
 
-  let urlToFetch = "https://api.finna.fi/v1/search?"
+  let urlToFetch = API_SEARCH_URL
 
   // 'B+BY': Vapaat, lähde nimettävä, 'A+FREE': Täysin vapaat
   const defaultFilters = [
@@ -55,7 +58,7 @@ const prepareRequest = ({ decade, location, randomIndex }) => {
     urlToFetch += `&filter[]={!geofilt+sfield=location_geo+pt=${location.lat},${location.lon}+d=${location.r}}`
   }
 
-  console.log("Request URL:", urlToFetch)
+  // console.log("Request URL:", urlToFetch)
 
   return urlToFetch
 }
@@ -81,7 +84,7 @@ export const getResultCount = async ({ location, decade }) => {
 export const getPhotoById = async (photoID) => {
   const fields =
     "&field[]=authors&field[]=title&field[]=images&field[]=id&field[]=year&field[]=location&field[]=recordPage&field[]=buildings&field[]=subjects"
-  const urlToFetch = "https://api.finna.fi/v1/record?id=" + photoID + fields
+  const urlToFetch = API_RECORD_URL + photoID + fields
   const response = await fetch(urlToFetch)
 
   if (!response.ok) {

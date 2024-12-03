@@ -1,3 +1,4 @@
+import { BASE_URL } from "@/app/constants"
 import Image from "next/image"
 import { useState } from "react"
 import MultipleChoiceButtons from "./MultipleChoiceButtons"
@@ -19,8 +20,7 @@ export default function PhotoAndAnswersContainer({
     setReadyToAnswer(false)
   }
 
-  const imageUrl =
-    currentPhoto && "https://www.finna.fi" + currentPhoto.images[0]
+  const imageUrl = currentPhoto && BASE_URL + currentPhoto.images[0]
 
   return (
     <div className="flex flex-col gap-4 px-2">

@@ -1,12 +1,17 @@
 "use client"
-import PhotoContainerClickable from "@/components/PhotoContainerClickable"
-import PhotoContainerSkeleton from "@/components/PhotoContainerSkeleton"
-import PhotoInfoContainer from "@/components/PhotoInfo"
 import Start from "@/app/pelit/peli2/Start"
+import PhotoContainer from "@/components/PhotoContainer"
+import PhotoInfo from "@/components/PhotoInfo"
 import getRandomPhoto from "@/services/photos"
 import { useEffect, useState } from "react"
 
-// Peli, jossa pelaaja arvaa kumpi kuva on vanhempi
+const PhotoContainerSkeleton = () => (
+  <div>
+    <div className="m-1 size-72 animate-pulse rounded bg-gray-300" />
+    <div className="m-1 h-14 w-72 rounded bg-gray-300" />
+  </div>
+)
+
 export default function Peli2({ decadeRange }) {
   const [leftPhoto, setLeftPhoto] = useState(null)
   const [rightPhoto, setRightPhoto] = useState(null)
@@ -33,57 +38,39 @@ export default function Peli2({ decadeRange }) {
     }
   }, [started])
 
-  const startGame = () => {
-    setStarted(true)
-  }
+  const startGame = () => setStarted(true)
 
   const nextRound = async () => {
     setLeftPhoto(null)
     setRightPhoto(null)
     setAnswered(false)
     setCorrectAnswer(false)
-    let alternateOrder = false // Jos true, oikea kuva on vanhempi, muuten vasen
-    if (Math.random() < 0.5) {
-      // Noin 50% todennäköisyys kummallekin vaihtoehdolle
-      alternateOrder = true
-    }
 
-    fetchOlder(alternateOrder)
-    fetchNewer(alternateOrder)
+    const alternateOrder = Math.random() < 0.5
+
+    await Promise.all([fetchOlder(alternateOrder), fetchNewer(alternateOrder)])
   }
 
   const fetchOlder = async (alternateOrder) => {
-    // Vanhempi kuva:
-    getRandomPhoto({
-      decade: olderDecadeRange,
-    }).then((older) => {
-      older.isOlder = true
-      alternateOrder ? setRightPhoto(older) : setLeftPhoto(older)
-    })
+    const older = await getRandomPhoto({ decade: olderDecadeRange })
+    older.isOlder = true
+    alternateOrder ? setRightPhoto(older) : setLeftPhoto(older)
   }
 
   const fetchNewer = async (alternateOrder) => {
-    // Uudempi kuva:
-    getRandomPhoto({
-      decade: newerDecadeRange,
-    }).then((newer) => {
-      newer.isOlder = false
-      alternateOrder ? setLeftPhoto(newer) : setRightPhoto(newer)
-    })
+    const newer = await getRandomPhoto({ decade: newerDecadeRange })
+    newer.isOlder = false
+    alternateOrder ? setLeftPhoto(newer) : setRightPhoto(newer)
   }
 
   const handleSelectLeft = () => {
     setAnswered(true)
-    if (leftPhoto.isOlder) {
-      setCorrectAnswer(true)
-    }
+    setCorrectAnswer(leftPhoto.isOlder)
   }
 
   const handleSelectRight = () => {
     setAnswered(true)
-    if (rightPhoto.isOlder) {
-      setCorrectAnswer(true)
-    }
+    setCorrectAnswer(rightPhoto.isOlder)
   }
 
   const styles = {
@@ -109,7 +96,7 @@ export default function Peli2({ decadeRange }) {
           <PhotoContainerSkeleton />
           <PhotoContainerSkeleton />
         </div>
-        <button className="btn-primary mb-4 shadow-md p-4 px-6" disabled={true}>
+        <button className="btn-primary mb-4 p-4 px-6 shadow-md" disabled>
           Seuraava
         </button>
       </div>
@@ -119,7 +106,7 @@ export default function Peli2({ decadeRange }) {
   return (
     <div className="flex flex-col items-center">
       <div className="pb-14">
-        <div className="flex justify-center items-center text-xl">
+        <div className="flex items-center justify-center text-xl">
           {!answered && (
             <p className="mt-4 rounded-xl bg-tertiary p-4">
               Klikkaa vanhempaa kuvaa
@@ -143,12 +130,10 @@ export default function Peli2({ decadeRange }) {
                 {leftPhoto.year}
               </p>
             )}
-            <PhotoContainerClickable
+            <PhotoContainer
               photo={leftPhoto}
-              infoElem={
-                <PhotoInfoContainer photo={leftPhoto} showYear={answered} />
-              }
-              handleClick={handleSelectLeft}
+              onClick={handleSelectLeft}
+              infoElem={<PhotoInfo photo={leftPhoto} showYear={answered} />}
             />
           </div>
           <div>
@@ -161,18 +146,16 @@ export default function Peli2({ decadeRange }) {
                 {rightPhoto.year}
               </p>
             )}
-            <PhotoContainerClickable
+            <PhotoContainer
               photo={rightPhoto}
-              infoElem={
-                <PhotoInfoContainer photo={rightPhoto} showYear={answered} />
-              }
-              handleClick={handleSelectRight}
+              onClick={handleSelectRight}
+              infoElem={<PhotoInfo photo={rightPhoto} showYear={answered} />}
             />
           </div>
         </div>
       </div>
       <button
-        className="btn-primary mb-4 shadow-md p-4 px-6"
+        className="btn-primary mb-4 p-4 px-6 shadow-md"
         onClick={nextRound}
         disabled={!answered}
       >

@@ -8,6 +8,8 @@ import { getRandomPhoto } from "@/services/photos"
 import Image from "next/image"
 import { useEffect, useState } from "react"
 
+import { BASE_URL } from "@/app/constants"
+
 export default function Peli1() {
   const [currentPhoto, setCurrentPhoto] = useState()
   const [decadeRange, setDecadeRange] = useState()
@@ -126,7 +128,7 @@ export default function Peli1() {
 
       {preloadedPhoto && (
         <Image
-          src={"https://www.finna.fi" + currentPhoto.images[0]}
+          src={BASE_URL + currentPhoto.images[0]}
           alt=""
           height={0}
           width={0}
