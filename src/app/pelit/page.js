@@ -4,7 +4,7 @@ import peli2 from "@/public/images/peli2.jpg"
 
 export default function Pelit() {
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-4 pl-4">
       <GameCard
         title="Arvaa vuosikymmen"
         imageSrc={peli1}
