@@ -20,12 +20,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
   const [currentIndex, setCurrentIndex] = useState(1)
   const [displayedPhoto, setDisplayedPhoto] = useState(initialPhoto)
   const [preloadedPhoto, setPreloadedPhoto] = useState(null)
-  const [location, setLocation] = useState({
-    lat: 0,
-    lon: 0,
-    r: 10,
-    location: "",
-  })
+  const [location, setLocation] = useState(null)
   const [decade, setDecade] = useState("1970-1979")
   const [isLoading, setIsLoading] = useState(false)
 

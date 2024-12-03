@@ -315,21 +315,31 @@ const LOCATIONS = {
 
 export default function LocationPicker({ value, onChange }) {
   return (
-    <select
-      className="cursor-pointer rounded bg-secondary p-2 shadow-md hover:saturate-200"
-      value={`${value.lat},${value.lon}`}
-      onChange={(e) => {
-        const location = e.target.options[e.target.selectedIndex].textContent
-        const coordinates = e.target.value
-        const [lat, lon] = coordinates.split(",")
-        onChange({ lat: lat, lon: lon, r: 10, location: location })
-      }}
-    >
-      {Object.entries(LOCATIONS).map(([location, coordinates]) => (
-        <option value={coordinates} key={location}>
-          {location}
+    <div className="">
+      <label className="text-lg">Alue: </label>
+      <select
+        className="cursor-pointer rounded bg-secondary p-2 shadow-md hover:saturate-200"
+        value={value ? `${value.lat},${value.lon}` : ""}
+        onChange={(e) => {
+          const location = e.target.options[e.target.selectedIndex].textContent
+          const coordinates = e.target.value
+          const [lat, lon] = coordinates.split(",")
+          onChange(
+            location == "Mikä tahansa"
+              ? null
+              : { lat: lat, lon: lon, r: 10, location: location }
+          )
+        }}
+      >
+        <option value={[0, 0]} key="Mikä tahansa">
+          Mikä tahansa
         </option>
-      ))}
-    </select>
+        {Object.entries(LOCATIONS).map(([location, coordinates]) => (
+          <option value={coordinates} key={location}>
+            {location}
+          </option>
+        ))}
+      </select>
+    </div>
   )
 }
