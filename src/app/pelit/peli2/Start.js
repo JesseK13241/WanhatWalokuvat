@@ -1,7 +1,13 @@
-export default function Start({ initGame }) {
+import { useState } from "react"
+
+export default function Start({ initGameWithParams }) {
   const handleSubmit = () => {
-    initGame()
+    initGameWithParams({
+      rounds: rounds,
+    })
   }
+
+  const [rounds, setRounds] = useState(0)
 
   return (
     <div className="flex items-center justify-center">
@@ -12,6 +18,22 @@ export default function Start({ initGame }) {
           valita kuva-vaihtoehdoista vanhempi. Kuvan iällä tarkoitetaan vuotta,
           jolloin kuva on otettu.
         </p>
+
+        <div className="flex w-64 justify-between">
+          <label className="font-bold" htmlFor="roundInput">
+            Kierroksia:
+          </label>
+          <input
+            name="roundInput"
+            className="mx-2 w-20 rounded border bg-primary p-1 text-center shadow-sm"
+            type="number"
+            value={rounds}
+            onChange={(e) => {
+              if (e.target.value >= 0) setRounds(e.target.valueAsNumber)
+            }}
+          />
+        </div>
+
         <button
           type="button"
           onClick={handleSubmit}

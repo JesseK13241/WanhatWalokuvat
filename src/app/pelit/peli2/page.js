@@ -18,6 +18,8 @@ export default function Peli2({ decadeRange }) {
   const [answered, setAnswered] = useState(false)
   const [correctAnswer, setCorrectAnswer] = useState(false)
   const [started, setStarted] = useState(false)
+  const [roundNumber, setRoundNumber] = useState(0)
+  const [totalRounds, setTotalRounds] = useState(0)
 
   const startYear = 1880 // Minimivuosi
   const currentYear = new Date().getFullYear() // Tämä vuosi (maksimiarvo kuvan vuodelle)
@@ -32,13 +34,18 @@ export default function Peli2({ decadeRange }) {
   const olderDecadeRange = `${startYear}-${splitDecade - 1}`
   const newerDecadeRange = `${splitDecade + 10}-${currentYear}`
 
+  // Kutsutaan kerran, kun peli aloitetaan
   useEffect(() => {
     if (started) {
+      setRoundNumber(1)
       nextRound()
     }
   }, [started])
 
-  const startGame = () => setStarted(true)
+  const startGame = (params) => {
+    params.rounds && setTotalRounds(params.rounds)
+    setStarted(true)
+  }
 
   const nextRound = async () => {
     setLeftPhoto(null)
@@ -73,6 +80,11 @@ export default function Peli2({ decadeRange }) {
     setCorrectAnswer(rightPhoto.isOlder)
   }
 
+  const handleNext = () => {
+    setRoundNumber(roundNumber + 1)
+    if (totalRounds == 0 || roundNumber < totalRounds) nextRound()
+  }
+
   const styles = {
     correct:
       "w-[95%] mx-[2.5%] text-center font-bold border-black border-2 rounded-xl bg-green-500 px-4 py-2 shadow-md",
@@ -81,7 +93,12 @@ export default function Peli2({ decadeRange }) {
   }
 
   if (!started) {
-    return <Start initGame={startGame} />
+    return <Start initGameWithParams={startGame} />
+  }
+
+  if (totalRounds == 0 || roundNumber > totalRounds) {
+    // TODO: Korvaa Tulokset-komponentilla
+    return <div>Peli päättyi!</div>
   }
 
   if (leftPhoto == null || rightPhoto == null) {
@@ -156,7 +173,7 @@ export default function Peli2({ decadeRange }) {
       </div>
       <button
         className="btn-primary mb-4 p-4 px-6 shadow-md"
-        onClick={nextRound}
+        onClick={handleNext}
         disabled={!answered}
       >
         Seuraava
