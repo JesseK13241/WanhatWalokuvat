@@ -1,6 +1,6 @@
 "use client"
 import PhotoAndAnswersContainer from "@/app/pelit/peli1/PhotoAndAnswersContainer"
-import Tulokset from "@/app/pelit/peli1/Results"
+import Tulokset from "@/components/Results"
 import Skeleton from "@/app/pelit/peli1/Skeleton"
 import Aloitus from "@/app/pelit/peli1/Start"
 import PhotoInfo from "@/components/PhotoInfo"

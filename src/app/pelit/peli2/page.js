@@ -2,6 +2,7 @@
 import Start from "@/app/pelit/peli2/Start"
 import PhotoContainer from "@/components/PhotoContainer"
 import PhotoInfo from "@/components/PhotoInfo"
+import Tulokset from "@/components/Results"
 import getRandomPhoto from "@/services/photos"
 import { useEffect, useState } from "react"
 
@@ -20,6 +21,7 @@ export default function Peli2({ decadeRange }) {
   const [started, setStarted] = useState(false)
   const [roundNumber, setRoundNumber] = useState(0)
   const [totalRounds, setTotalRounds] = useState(0)
+  const [score, setScore] = useState(0)
 
   const startYear = 1880 // Minimivuosi
   const currentYear = new Date().getFullYear() // Tämä vuosi (maksimiarvo kuvan vuodelle)
@@ -72,17 +74,35 @@ export default function Peli2({ decadeRange }) {
 
   const handleSelectLeft = () => {
     setAnswered(true)
-    setCorrectAnswer(leftPhoto.isOlder)
+    if (leftPhoto.isOlder) {
+      setScore(score + 1)
+      setCorrectAnswer(true)
+    }
   }
 
   const handleSelectRight = () => {
     setAnswered(true)
-    setCorrectAnswer(rightPhoto.isOlder)
+    if (rightPhoto.isOlder) {
+      setScore(score + 1)
+      setCorrectAnswer(true)
+    }
   }
 
   const handleNext = () => {
     setRoundNumber(roundNumber + 1)
     if (totalRounds == 0 || roundNumber < totalRounds) nextRound()
+  }
+
+  const handleRestart = () => {
+    setRoundNumber(0)
+    setScore(0)
+    setStarted(false)
+  }
+
+  const handleRetry = () => {
+    setRoundNumber(1)
+    setScore(0)
+    nextRound()
   }
 
   const styles = {
@@ -97,8 +117,14 @@ export default function Peli2({ decadeRange }) {
   }
 
   if (totalRounds == 0 || roundNumber > totalRounds) {
-    // TODO: Korvaa Tulokset-komponentilla
-    return <div>Peli päättyi!</div>
+    return (
+      <Tulokset
+        score={score}
+        totalRounds={totalRounds}
+        restart={handleRestart}
+        retry={handleRetry}
+      />
+    )
   }
 
   if (leftPhoto == null || rightPhoto == null) {
