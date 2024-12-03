@@ -7,8 +7,6 @@ export const getInitialPhoto = async () => {
 const prepareRequest = ({ decade, location, randomIndex }) => {
   // Muodostaa API-hakuosoitteen parametrien perusteella
 
-  //console.log("Preparing request with:", { decade, location, randomIndex })
-
   let urlToFetch = "https://api.finna.fi/v1/search?"
 
   // 'B+BY': Vapaat, lähde nimettävä, 'A+FREE': Täysin vapaat
@@ -20,7 +18,6 @@ const prepareRequest = ({ decade, location, randomIndex }) => {
   ]
 
   if (decade) {
-    //console.log("Decade specified:", decade)
     const [start, end] = decade.split("-")
     defaultFilters.push(
       `search_daterange_mv:"[${start} TO ${end}]"&search_daterange_mv_type=within`
@@ -58,7 +55,7 @@ const prepareRequest = ({ decade, location, randomIndex }) => {
     urlToFetch += `&filter[]={!geofilt+sfield=location_geo+pt=${location.lat},${location.lon}+d=${location.r}}`
   }
 
-  //console.log("Request URL:", urlToFetch)
+  console.log("Request URL:", urlToFetch)
 
   return urlToFetch
 }
@@ -67,7 +64,6 @@ export const getResultCount = async ({ location, decade }) => {
   // Palauttaa kuvien lukumäärän parametrien perusteella
   // Kokonaislukumäärällä arvotaan satunnaisen kuvan indeksin yläraja
 
-  //console.log("Fetching result count by:", { location, decade })
   const urlToFetch = prepareRequest({ location, decade })
   try {
     const response = await fetch(urlToFetch)
