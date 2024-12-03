@@ -1,5 +1,5 @@
 import GameCard from "@/components/GameCard"
-import arvaa from "@/public/images/arvaa.jpg"
+import peli1 from "@/public/images/peli1.jpg"
 import peli2 from "@/public/images/peli2.jpg"
 
 export default function Pelit() {
@@ -7,7 +7,7 @@ export default function Pelit() {
     <div className="flex flex-wrap gap-4">
       <GameCard
         title="Arvaa vuosikymmen"
-        imageSrc={arvaa}
+        imageSrc={peli1}
         description="Arvaa neljästä vaihtoehdosta, miltä vuosikymmeneltä kuva on"
         path="/pelit/peli1"
       />
