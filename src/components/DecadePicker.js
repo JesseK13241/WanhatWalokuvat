@@ -14,9 +14,11 @@ export default function DecadePicker({ value, onChange }) {
       className="cursor-pointer rounded bg-secondary p-2 shadow-md hover:saturate-200"
       value={value}
       onChange={(e) => {
-        onChange(e.target.value)
+        const selectedDecade = e.target.value
+        onChange(selectedDecade === "" ? null : selectedDecade)
       }}
     >
+      <option value="">Vuosi</option>
       {decades.map((decade, index) => (
         <option key={index} value={decade.value}>
           {decade.label}

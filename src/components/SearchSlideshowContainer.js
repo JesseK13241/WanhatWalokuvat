@@ -21,7 +21,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
   const [displayedPhoto, setDisplayedPhoto] = useState(initialPhoto)
   const [preloadedPhoto, setPreloadedPhoto] = useState(null)
   const [location, setLocation] = useState(null)
-  const [decade, setDecade] = useState("1970-1979")
+  const [decade, setDecade] = useState("vuosi")
   const [isLoading, setIsLoading] = useState(false)
 
   console.log("Displayed photo:", displayedPhoto)
