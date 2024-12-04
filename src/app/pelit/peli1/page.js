@@ -1,8 +1,8 @@
 "use client"
 import PhotoAndAnswersContainer from "@/app/pelit/peli1/PhotoAndAnswersContainer"
-import Tulokset from "@/components/Results"
+import Results from "@/components/Results"
 import Skeleton from "@/app/pelit/peli1/Skeleton"
-import Aloitus from "@/app/pelit/peli1/Start"
+import Start from "@/app/pelit/peli1/Start"
 import PhotoInfo from "@/components/PhotoInfo"
 import { getRandomPhoto } from "@/services/photos"
 import Image from "next/image"
@@ -17,6 +17,7 @@ export default function Peli1() {
   const [totalRounds, setTotalRounds] = useState()
   const [score, setScore] = useState(0)
   const [answered, setAnswered] = useState(false)
+  const [colorsOff, setColorsOff] = useState(false)
 
   const [readyToFetch, setReadyToFetch] = useState(false)
   const [isFetching, setIsFetching] = useState(true)
@@ -56,9 +57,10 @@ export default function Peli1() {
     setAnswered(false)
   }
 
-  const setParams = (decadeRange, rounds) => {
+  const setParams = (decadeRange, rounds, colorsOff) => {
     setDecadeRange(decadeRange)
     setTotalRounds(rounds)
+    setColorsOff(colorsOff)
     setReadyToFetch(true)
   }
 
@@ -79,11 +81,11 @@ export default function Peli1() {
     nextRound("handleRetry")
   }
 
-  if (roundNumber == 0) return <Aloitus returnParams={setParams} />
+  if (roundNumber == 0) return <Start returnParams={setParams} />
 
   if (roundNumber > totalRounds && totalRounds)
     return (
-      <Tulokset
+      <Results
         score={score}
         totalRounds={totalRounds}
         restart={handleRestart}
@@ -103,6 +105,8 @@ export default function Peli1() {
     if (building) buildings = buildings + ", " + building
   }
 
+  currentPhoto.building = buildings
+
   return (
     <div className="flex items-center justify-center">
       <div className="m-4 flex w-screen max-w-xl flex-col items-center rounded-md bg-secondary p-6 shadow-lg">
@@ -113,6 +117,7 @@ export default function Peli1() {
           setScore={setScore}
           answered={answered}
           setAnswered={setAnswered}
+          colorsOff={colorsOff}
         />
 
         <button

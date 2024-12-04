@@ -1,4 +1,3 @@
-import { getResultCount } from "@/services/photos"
 import { useState } from "react"
 
 export default function Aloitus({ returnParams }) {
@@ -8,6 +7,7 @@ export default function Aloitus({ returnParams }) {
     Math.floor(new Date().getFullYear() / 10) * 10
   )
   const [rounds, setRounds] = useState(0)
+  const [colorsOff, setColorsOff] = useState(false)
 
   const currentDecade = Math.floor(new Date().getFullYear() / 10) * 10
   const decades = []
@@ -17,19 +17,20 @@ export default function Aloitus({ returnParams }) {
 
   const handleSubmit = async () => {
     const decadeRange = `${startDecade}-${Number(endDecade) + 9}`
-    returnParams(decadeRange, rounds)
+    returnParams(decadeRange, rounds, colorsOff)
   }
 
   return (
     <div className="flex items-center justify-center">
       <form className="m-4 flex w-96 flex-col items-center space-y-4 rounded-md bg-secondary p-4 text-center shadow-lg">
-        <h1 className="font-bold">Peli1</h1>
+        <h1 className="font-bold">Veikkaa vuosikymmen</h1>
         <p className="rounded border bg-primary p-2 shadow-md">
           Pelin tavoitteena on arvata vuosikymmen, jolla annettu kuva on otettu.
           Sinulle annetaan neljä vastausvaihtoehtoa ja tehtävänäsi on valita
           niistä oikea. Kun kaikki kierrokset on pelattu, näytetään tulokset.
           Voit itse valita kierrosmäärän, sekä rajata vuosiväliä. Jos haluat
-          pelata ilman kierroksia valitse kierrosten määräksi nolla.
+          pelata ilman kierroksia valitse kierrosten määräksi nolla. Lisähaastetta 
+          saat piilottamalla värit.
         </p>
 
         <div className="flex w-64 justify-between">
@@ -86,6 +87,20 @@ export default function Aloitus({ returnParams }) {
               if (e.target.value >= 0) setRounds(e.target.valueAsNumber)
             }}
           />
+        </div>
+
+        <div className="flex w-64 justify-between font-bold">
+          Piilota värit:
+          <label className="relative mx-2 block h-8 w-14 cursor-pointer rounded-full bg-primary" htmlFor="bwInput">
+            <input
+              defaultChecked={colorsOff}
+              id="bwInput"
+              type="checkbox"
+              className="peer sr-only"
+              onChange={() => setColorsOff(!colorsOff)}
+            />
+            <span className="absolute left-1 top-1 size-6 rounded-full bg-white transition peer-checked:left-7 peer-checked:bg-accent"/>
+          </label>
         </div>
 
         <button

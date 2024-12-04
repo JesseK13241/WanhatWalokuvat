@@ -10,6 +10,7 @@ export default function PhotoAndAnswersContainer({
   score,
   answered,
   setAnswered,
+  colorsOff
 }) {
   const [imageLoading, setImageLoading] = useState(true)
   const [readyToAnswer, setReadyToAnswer] = useState(false)
@@ -34,7 +35,7 @@ export default function PhotoAndAnswersContainer({
           imageLoading
             ? "h-0"
             : `h-80 w-auto rounded bg-tertiary object-contain shadow-md ${
-                answered ? "" : "grayscale"
+                colorsOff ? (answered ? "" : "grayscale") : ""
               }`
         }
         onLoad={() => {
