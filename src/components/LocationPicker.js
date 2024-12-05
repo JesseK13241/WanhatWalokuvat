@@ -313,6 +313,14 @@ const LOCATIONS = {
   Äänekoski: [62.603307432, 25.72483135],
 }
 
+/**
+ * Komponentti sijainnin valinnalle.
+ *
+ * value    = Tällä hetkellä valittu sijainti.
+ * onChange = Funktio, jota kutsutaan, kun käyttäjä valitsee uuden sijainnin.
+ *            Funktio saa parametrina valitun sijainnin oliona:
+ *            { lat: [leveysaste], lon: [pituusaste], r: [alueen säde?], location: [sijainnin nimi] }
+ */
 export default function LocationPicker({ value, onChange }) {
   return (
     <div className="">
