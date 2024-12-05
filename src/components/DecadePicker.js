@@ -1,11 +1,11 @@
+// Komponentti, joka vastaa vuosikymmenen valinnasta.
 export default function DecadePicker({ value, onChange }) {
-  // Komponentti, joka vastaa vuosikymmenen valinnasta
-
   const startYear = 1880
   const currentYear = new Date().getFullYear()
   const endYear = currentYear - (currentYear % 10)
 
   const decades = []
+  // Lisätään taulukkoon kaikki vuosikymmenet vuodesta startYear aina nykyiseen vuosikymmeneen
   for (let year = startYear; year <= endYear; year += 10) {
     decades.push({ label: `${year}s`, value: `${year}-${year + 9}` })
   }
