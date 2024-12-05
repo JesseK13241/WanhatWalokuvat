@@ -24,7 +24,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
   const [decade, setDecade] = useState("vuosi")
   const [isLoading, setIsLoading] = useState(false)
 
-  console.log("Displayed photo:", displayedPhoto)
+  // console.log("Displayed photo:", displayedPhoto)
 
   const handlePrevious = useCallback(() => {
     console.log("Previous button clicked. Not implemented yet.")

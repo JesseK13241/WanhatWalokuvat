@@ -12,16 +12,23 @@ export default function PhotoInfo({
   showTitle = showTitle ?? showYear;
 
   const variantClasses = {
-    default: 'max-w-md space-y-2 rounded-xl bg-primary p-4',
+    default: 'space-y-2 rounded-xl bg-primary p-4',
     slideshow: 'space-y-2 p-4'
   }[variant];
+
+  const truncate = (text, maxLength = 45) => {
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + "…"
+    }
+    return text;
+  }
 
   return (
     <div className={`${variantClasses} ${className}`}>
       {showTitle && (
         <p className="text-lg">
           <span className="font-bold">Otsikko: </span>
-          {photo.title || "Piilotettu"}
+          {truncate(photo.title) || "Piilotettu"}
         </p>
       )}
       {showYear && (
@@ -32,14 +39,14 @@ export default function PhotoInfo({
       )}
       <p className="text-sm">
         <span className="font-semibold">Sijainti: </span>
-        {photo.subjects?.[photo.subjects.length - 1]?.[0] || "Ei tiedossa"}
+        {truncate(photo.subjects?.[photo.subjects.length - 1]?.[0]) || "Ei tiedossa"}
       </p>
       <p className="text-sm">
         <span className="font-semibold">Tekijä: </span>
         {photo.author || "Ei tiedossa"}
       </p>
       <p className="text-sm">
-        <span className="font-semibold">Organisaatio/Museo: </span>
+        <span className="font-semibold">Organisaatio: </span>
         {photo.building || "Ei tiedossa"}
       </p>
       {showLink && (
