@@ -1,4 +1,11 @@
-// Komponentti, joka vastaa vuosikymmenen valinnasta.
+/**
+ * Komponentti, joka vastaa vuosikymmenen valinnasta.
+ * Vuosikymmenen value on merkkijono muodossa esim. "1990-1999".
+ *
+ * value    = Nykyinen vuosikymmen, joka laitetaan valituksi komponenttiin.
+ * onChange = Funktio, jota kutsutaan, kun käyttäjä valitsee jonkin arvon.
+ *            Funktio saa parametrina valitun vuosikymmenen.
+ */
 export default function DecadePicker({ value, onChange }) {
   const startYear = 1880
   const currentYear = new Date().getFullYear()
