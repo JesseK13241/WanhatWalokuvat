@@ -17,7 +17,7 @@ export default function PhotoInfo({
   }[variant];
 
   const truncate = (text, maxLength = 45) => {
-    if (text.length > maxLength) {
+    if (text?.length > maxLength) {
       return text.substring(0, maxLength) + "…"
     }
     return text;
@@ -43,7 +43,7 @@ export default function PhotoInfo({
       </p>
       <p className="text-sm">
         <span className="font-semibold">Tekijä: </span>
-        {photo.author || "Ei tiedossa"}
+        {truncate(photo.author) || "Ei tiedossa"}
       </p>
       <p className="text-sm">
         <span className="font-semibold">Organisaatio: </span>
