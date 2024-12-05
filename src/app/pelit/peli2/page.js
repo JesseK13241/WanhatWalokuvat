@@ -6,6 +6,7 @@ import Tulokset from "@/components/Results"
 import getRandomPhoto from "@/services/photos"
 import { useEffect, useState } from "react"
 
+// Loading-componentti, joka näytetään photocontainerin tilalla, jos kuva vielä lataa
 const PhotoContainerSkeleton = () => (
   <div>
     <div className="m-1 size-72 animate-pulse rounded bg-gray-300" />
@@ -13,15 +14,18 @@ const PhotoContainerSkeleton = () => (
   </div>
 )
 
-export default function Peli2({ decadeRange }) {
-  const [leftPhoto, setLeftPhoto] = useState(null)
-  const [rightPhoto, setRightPhoto] = useState(null)
-  const [answered, setAnswered] = useState(false)
-  const [correctAnswer, setCorrectAnswer] = useState(false)
-  const [started, setStarted] = useState(false)
-  const [roundNumber, setRoundNumber] = useState(0)
-  const [totalRounds, setTotalRounds] = useState(0)
-  const [score, setScore] = useState(0)
+/**
+ *
+ */
+export default function Peli2() {
+  const [leftPhoto, setLeftPhoto] = useState(null) // Vasen kuva
+  const [rightPhoto, setRightPhoto] = useState(null) // Oikea kuva
+  const [answered, setAnswered] = useState(false) // Onko pelaaja vastannut
+  const [correctAnswer, setCorrectAnswer] = useState(false) // Onko vastaus oikein
+  const [started, setStarted] = useState(false) // Onko peli aloitettu
+  const [roundNumber, setRoundNumber] = useState(0) // Tämän kierroksen numero
+  const [totalRounds, setTotalRounds] = useState(0) // Kuinka monta kierrosta pelataan (0=loputtomasti)
+  const [score, setScore] = useState(0) // Kuinka monta kertaa pelaaja on vastannut oikein
 
   const startYear = 1880 // Minimivuosi
   const currentYear = new Date().getFullYear() // Tämä vuosi (maksimiarvo kuvan vuodelle)
@@ -36,75 +40,99 @@ export default function Peli2({ decadeRange }) {
   const olderDecadeRange = `${startYear}-${splitDecade - 1}`
   const newerDecadeRange = `${splitDecade + 10}-${currentYear}`
 
-  // Kutsutaan kerran, kun peli aloitetaan
-  useEffect(() => {
-    if (started) {
-      setRoundNumber(1)
-      nextRound()
-    }
-  }, [started])
-
+  /**
+   * Asettaa pelille valitut asetukset ja aloittaa pelin.
+   * Kutsutaan, kun aloitusvalikossa valitaan "aloita".
+   * Funktiota kutsutaan aloitusvalikko(Start)-komponentissa.
+   * @param {Object} params Objekti, joka sisältää aloitusvalikossa valitut asetukset.
+   */
   const startGame = (params) => {
-    params.rounds && setTotalRounds(params.rounds)
-    setStarted(true)
+    setTotalRounds(params.rounds ?? 0) // Asetetaan kierrosten määrä
+    setScore(0) // Nollataan pisteet
+    setRoundNumber(1) // Asetetaan kierroksen numeroksi 1
+    setStarted(true) // Merkataan started=true, jotta osataan palauttaa peli aloitussivun sijaan
+    nextRound() // Aloitetaan 1. kierros
   }
 
+  /**
+   * Hakee uudet kuvat ja aloittaa uuden kierroksen
+   */
   const nextRound = async () => {
-    setLeftPhoto(null)
+    setLeftPhoto(null) // Alustetaan kuvat null, jotta löydetään virheet helpommin
     setRightPhoto(null)
-    setAnswered(false)
+    setAnswered(false) // Alustetaan peli tilaan, jossa pelaaja ei ole vastannut vielä
     setCorrectAnswer(false)
 
-    const alternateOrder = Math.random() < 0.5
+    const alternateOrder = Math.random() < 0.5 // Arvotaan totuusarvo n. 50% - 50% todennäköisyydellä
 
+    // Haetaan kuvat (await Promise.all odottaa, kunnes kummatkin kuvat on haettu)
     await Promise.all([fetchOlder(alternateOrder), fetchNewer(alternateOrder)])
   }
 
+  /**
+   * Hakee vanhemman kuvan ja asettaa sen vasemmaksi kuvaksi
+   * (tai oikea, jos alternate order).
+   * @param {Boolean} alternateOrder Jos true, asetetaan vanhempi kuva oikealle, muuten vasemmalle
+   */
   const fetchOlder = async (alternateOrder) => {
-    const older = await getRandomPhoto({ decade: olderDecadeRange })
-    older.isOlder = true
-    alternateOrder ? setRightPhoto(older) : setLeftPhoto(older)
+    const older = await getRandomPhoto({ decade: olderDecadeRange }) // Haetaan kuva
+    older.isOlder = true // Asetetaan kuva-objectille attribuutti isOlder jotta tunnistetaan myöhemmin
+    alternateOrder ? setRightPhoto(older) : setLeftPhoto(older) // Asetetaan kuva tilamuuttujaan
   }
 
+  /**
+   * Hakee uudemman kuvan ja asettaa sen oikean puoleiseksi kuvaksi
+   * (tai vasen, jos alternate order).
+   * @param {Boolean} alternateOrder Jos true, asetetaan uudempi kuva vasemmalle, muuten oikealle
+   */
   const fetchNewer = async (alternateOrder) => {
+    // Toiminta: katso fetchOlder() kommentit
     const newer = await getRandomPhoto({ decade: newerDecadeRange })
     newer.isOlder = false
     alternateOrder ? setLeftPhoto(newer) : setRightPhoto(newer)
   }
 
-  const handleSelectLeft = () => {
-    setAnswered(true)
-    if (leftPhoto.isOlder) {
-      setScore(score + 1)
-      setCorrectAnswer(true)
+  /**
+   * Pelaaja klikkaa vasenta kuvaa. Muutetaan peli tilaan, jossa pelaaja on vastannut.
+   * Tarkistetaan oliko vastaus oikein ja näytetään tulos (oikein vai väärin).
+   */
+  const handleSelectPhoto = (photo) => {
+    setAnswered(true) // Asetetaan, jotta tiedetään pelaajan vastanneen
+    if (photo.isOlder) {
+      setScore(score + 1) // Jos oikea vastaus, score += 1
+      setCorrectAnswer(true) // Ja merkitään pelaajan vastanneen oikein
     }
   }
 
-  const handleSelectRight = () => {
-    setAnswered(true)
-    if (rightPhoto.isOlder) {
-      setScore(score + 1)
-      setCorrectAnswer(true)
-    }
-  }
-
+  /**
+   * Tarkistaa ollaanko pelattu kaikki kierrokset ja jos ei, aloittaa seuraavan.
+   * Kutsutaan, kun pelaaja painaa Seuraava-nappia.
+   */
   const handleNext = () => {
-    setRoundNumber(roundNumber + 1)
+    setRoundNumber(roundNumber + 1) // Kasvatetaan kierroksen numeroa yhdellä
     if (totalRounds == 0 || roundNumber < totalRounds) nextRound()
   }
 
+  /**
+   * Nollaa pelin ja asettaa pelin takaisin aloitusnäkymään, jossa voi vaihtaa asetuksia.
+   * Kutsutaan, kun pelaaja painaa tulosnäkymässä "Palaa alkuun"
+   */
   const handleRestart = () => {
-    setRoundNumber(0)
+    setRoundNumber(0) // Nollataan kierroksen numero ja pisteet
     setScore(0)
-    setStarted(false)
+    setStarted(false) // Pelin tila: ei aloitettu -> pelaajalle näytetään aloitusnäkymä
   }
 
+  /**
+   * Nollaa pisteet ja kierrokset ja aloittaa pelin uudestaan kierroksesta 1.
+   * Asetukset pidetään samoina.
+   * Kutsutaan, kun pelaaja painaa tulosnäkymässä "Pelaa uudestaan"
+   */
   const handleRetry = () => {
-    setRoundNumber(1)
-    setScore(0)
-    nextRound()
+    startGame({ rounds: totalRounds })
   }
 
+  // Tyylit, joilla näytetään onko vastaus oikein (vanhempi kuva).
   const styles = {
     correct:
       "w-[95%] mx-[2.5%] text-center font-bold border-black border-2 rounded-xl bg-green-500 px-4 py-2 shadow-md",
@@ -112,10 +140,13 @@ export default function Peli2({ decadeRange }) {
       "w-[95%] mx-[2.5%] text-center font-bold border-black border-2 rounded-xl bg-red-500 px-4 py-2 shadow-md",
   }
 
+  // Jos peliä ei ole aloitettu, palautetaan pelin aloitusnäkymä (Start-komponentti)
   if (!started) {
     return <Start initGameWithParams={startGame} />
   }
 
+  // Jos ollaan pelattu aikaisemmin asetettu kierrosten määrä, palautetaan tulosnäkymä.
+  // Jos pelattavien kierrosten määräksi on asetettu 0, peliä voi jatkaa loputtomasti.
   if (totalRounds != 0 && roundNumber > totalRounds) {
     return (
       <Tulokset
@@ -127,6 +158,7 @@ export default function Peli2({ decadeRange }) {
     )
   }
 
+  // Jos jompikumpi kuvista ei ole vielä ladannut, palautetaan loading-komponentti (skeleton)
   if (leftPhoto == null || rightPhoto == null) {
     return (
       <div className="flex flex-col items-center">
@@ -175,7 +207,7 @@ export default function Peli2({ decadeRange }) {
             )}
             <PhotoContainer
               photo={leftPhoto}
-              onClick={handleSelectLeft}
+              onClick={() => handleSelectPhoto(leftPhoto)}
               infoElem={<PhotoInfo photo={leftPhoto} showYear={answered} />}
             />
           </div>
@@ -191,7 +223,7 @@ export default function Peli2({ decadeRange }) {
             )}
             <PhotoContainer
               photo={rightPhoto}
-              onClick={handleSelectRight}
+              onClick={() => handleSelectPhoto(rightPhoto)}
               infoElem={<PhotoInfo photo={rightPhoto} showYear={answered} />}
             />
           </div>
