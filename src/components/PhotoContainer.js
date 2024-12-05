@@ -10,8 +10,8 @@ export default function PhotoContainer({
 }) {
   if (!photo?.id) {
     return (
-      <div className="mx-auto w-[95%] max-w-xl rounded-lg border border-red-600 bg-primary p-12 text-red-500">
-        No photos found
+      <div className="mx-auto w-[95%] max-w-xl rounded-lg border border-red-500 bg-primary p-12 font-bold text-red-500">
+        Hakuehtoja vastaavia kuvia ei löytynyt!
       </div>
     );
   }

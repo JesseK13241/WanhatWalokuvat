@@ -110,7 +110,7 @@ export const getRandomPhoto = async ({ location, decade }) => {
 
   console.log("Fetching a random photo by:", { location, decade })
 
-  var resultCount = await getResultCount({ location, decade })
+  let resultCount = await getResultCount({ location, decade })
   const randomIndex = Math.ceil(Math.random() * Math.min(resultCount, 100000))
 
   const urlToFetch = prepareRequest({ location, decade, randomIndex })
@@ -124,7 +124,8 @@ export const getRandomPhoto = async ({ location, decade }) => {
     const data = await response.json()
 
     if (!data?.records?.length) {
-      throw new Error("No results found")
+      console.warn("No results found")
+      return
     }
 
     const photo = data.records[0]
