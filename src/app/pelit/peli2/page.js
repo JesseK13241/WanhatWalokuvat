@@ -116,7 +116,7 @@ export default function Peli2({ decadeRange }) {
     return <Start initGameWithParams={startGame} />
   }
 
-  if (totalRounds == 0 || roundNumber > totalRounds) {
+  if (totalRounds != 0 && roundNumber > totalRounds) {
     return (
       <Tulokset
         score={score}
