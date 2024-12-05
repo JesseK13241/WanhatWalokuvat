@@ -1,43 +1,59 @@
-import { IMAGE_BASE_URL } from "@/app/constants";
-import PhotoInfo from "@/components/PhotoInfo";
-import Image from "next/image";
+import { IMAGE_BASE_URL } from "@/app/constants"
+import PhotoInfo from "@/components/PhotoInfo"
+import Image from "next/image"
 
-export default function PhotoContainer({ 
-  photo, 
-  infoElem, 
-  onClick, 
-  className = '' 
+/**
+ * Komponentti, jolla esitetään kuva ja siihen liittyvät tiedot.
+ * Komponenttia voi myös käyttää painikkeena, jos propertyna onClick
+ * annetaan funktio, jota kutsutaan komponenttia klikatessa.
+ * Tällöin myös kursori ja komponentin tyyli muuttuvan, kun hiiri viedään komponentin päälle
+ *
+ * Käyttö esim.:
+ * <PhotoContainer photo={kuvaOlio} />
+ * <PhotoContainer photo={kuva} infoElem={<PhotoInfo photo={kuva} />} onClick={handleClick} className="p-4 m-2" />
+ */
+export default function PhotoContainer({
+  photo, // Kuva-olio (pakollinen).
+  infoElem, // Komponentti, jolla näytetään kuvan tiedot (oletuksena perus <PhotoInfo photo={photo} />).
+  onClick, // Funktio, jota kutsutaan, kun komponenttia (kuvaa) klikataan. Jos tyhjä, komponentti ei toimi nappina.
+  className = "", // Komponentin oletustyyliin lisättävät tailwind-tyylit
 }) {
+  // Näytetään ilmoitus, jos hakuehdoilla ei löydy kuvia
   if (!photo?.id) {
     return (
       <div className="mx-auto w-[95%] max-w-xl rounded-lg border border-red-500 bg-primary p-12 font-bold text-red-500">
         Hakuehtoja vastaavia kuvia ei löytynyt!
       </div>
-    );
+    )
   }
 
-  const defaultInfoElem = <PhotoInfo photo={photo} />;
+  const defaultInfoElem = <PhotoInfo photo={photo} /> // PhotoInfo, jossa kaikki tiedot näytetään
+
+  // Koko Containerin (uloin div) tyyli.
+  // Jos onClick-funktio on annettu, muutetaan tyyliä napin tapaan, kun hiiri viedään komponentin päälle.
+  // Jos propertynä className on annettu lisää tailwind-luokkia, ne lisätään tyylin perään.
   const containerClasses = `
     mx-auto w-[95%] max-w-xl overflow-hidden rounded-lg bg-primary shadow-md
-    ${onClick ? 'cursor-pointer group' : ''}
+    ${onClick ? "cursor-pointer group" : ""}
     ${className}
-  `;
+  `
 
+  // Image-komponentin tyylit.
   const imageClasses = `
     object-contain 
-    ${onClick ? 'group-hover:opacity-70' : ''}
-  `;
+    ${onClick ? "group-hover:opacity-70" : ""}
+  `
 
+  // Kuvan taustan tyylit.
   const backgroundClasses = `
     absolute inset-0 bg-tertiary
-    ${onClick ? 'group-hover:bg-accent' : ''}
-  `;
+    ${onClick ? "group-hover:bg-accent" : ""}
+  `
 
+  // Palautetaan komponentti.
+  // Jos info-elementtiä ei ole annettu propertynä, käytetään oletusta (defaultInfoElem)
   return (
-    <div 
-      className={containerClasses}
-      onClick={onClick}
-    >
+    <div className={containerClasses} onClick={onClick}>
       <div className="relative w-full pt-[100%]">
         <div className={backgroundClasses}>
           <Image
@@ -53,5 +69,5 @@ export default function PhotoContainer({
 
       {infoElem || defaultInfoElem}
     </div>
-  );
+  )
 }
