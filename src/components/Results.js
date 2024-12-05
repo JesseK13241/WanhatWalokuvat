@@ -1,5 +1,16 @@
 import React from "react"
 
+/**
+ * Komponentti, jolla näytetään pelin tulokset kierrosten loputtua.
+ *
+ * score       = Oikeiden vastausten määrä.
+ * totalRounds = Kaikkien kierrosten/vastausten määrä. (Käytetään onnistumisprosentin laskemisessa).
+ * restart     = Funktio, jota kutsutaan, jos pelaaja haluaa aloittaa
+ *               pelin kokonaan alusta (mahdollisesti eri asetuksilla).
+ * retry       = Funktio, jota kutsutaan, jos pelaaja haluaa yrittää peliä uudestaan (samoilla asetuksilla)
+ *
+ * Käyttö: <Tulokset score={pisteet} totalRounds={kierrostenMaara} restart={takaisinValikkoon} retry={uudestaan} />
+ */
 export default function Tulokset({ score, totalRounds, restart, retry }) {
   return (
     <div className="flex justify-center">
