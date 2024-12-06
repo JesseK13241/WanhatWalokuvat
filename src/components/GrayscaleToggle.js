@@ -11,7 +11,7 @@ import ToggleInput from "./ToggleInput"
 export default function GrayscaleToggle({ grayscale, setGrayscale }) {
   return (
     <ToggleInput
-      labelText={"Piilota värit"}
+      labelText={"Piilota värit:"}
       value={grayscale}
       setValue={setGrayscale}
     />
