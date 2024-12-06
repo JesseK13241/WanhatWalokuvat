@@ -1,5 +1,6 @@
 import GrayscaleToggle from "@/components/GrayscaleToggle"
 import RoundsSelector from "@/components/RoundsSelector"
+import SelectOption from "@/components/SelectOption"
 import { useState } from "react"
 
 export default function Aloitus({ returnParams }) {
@@ -35,46 +36,33 @@ export default function Aloitus({ returnParams }) {
           Lisähaastetta saat piilottamalla värit.
         </p>
 
-        <div className="flex w-64 justify-between">
-          <label className="font-bold" htmlFor="startSelect">
-            Vuosikymmenestä:
-          </label>
-          <select
-            name="startSelect"
-            className="mx-2 w-20 rounded bg-primary p-2 text-center shadow-sm"
-            onChange={(e) => setStartDecade(parseInt(e.target.value))}
-          >
-            {decades.map(
-              (decade, index) =>
-                decade < Math.min(currentDecade - 40, endDecade - 40) && (
-                  <option key={index} value={decade}>
-                    {decade}
-                  </option>
-                )
-            )}
-          </select>
-        </div>
+        <SelectOption
+          labelText={"Vuosikymmenestä:"}
+          options={decades.map(
+            (decade, index) =>
+              decade < Math.min(currentDecade - 40, endDecade - 40) && (
+                <option key={index} value={decade}>
+                  {decade}
+                </option>
+              )
+          )}
+          defaultValue={minDecade}
+          setValue={(value) => setStartDecade(parseInt(value))}
+        />
 
-        <div className="flex w-64 justify-between">
-          <label className="font-bold" htmlFor="endSelect">
-            Vuosikymmeneen:
-          </label>
-          <select
-            name="endSelect"
-            className="mx-2 w-20 rounded bg-primary p-2 text-center shadow-sm"
-            defaultValue={endDecade}
-            onChange={(e) => setEndingDecade(parseInt(e.target.value))}
-          >
-            {decades.map(
-              (decade, index) =>
-                decade > startDecade + 40 && (
-                  <option key={index} value={decade}>
-                    {decade}
-                  </option>
-                )
-            )}
-          </select>
-        </div>
+        <SelectOption
+          labelText={"Vuosikymmeneen:"}
+          options={decades.map(
+            (decade, index) =>
+              decade > startDecade + 40 && (
+                <option key={index} value={decade}>
+                  {decade}
+                </option>
+              )
+          )}
+          defaultValue={endDecade}
+          setValue={(value) => setEndingDecade(parseInt(value))}
+        />
 
         <RoundsSelector rounds={rounds} setRounds={setRounds} />
 
