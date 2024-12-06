@@ -1,3 +1,4 @@
+import RoundsSelector from "@/components/RoundsSelector"
 import { useState } from "react"
 
 export default function Aloitus({ returnParams }) {
@@ -29,8 +30,8 @@ export default function Aloitus({ returnParams }) {
           Sinulle annetaan neljä vastausvaihtoehtoa ja tehtävänäsi on valita
           niistä oikea. Kun kaikki kierrokset on pelattu, näytetään tulokset.
           Voit itse valita kierrosmäärän, sekä rajata vuosiväliä. Jos haluat
-          pelata ilman kierroksia valitse kierrosten määräksi nolla. Lisähaastetta 
-          saat piilottamalla värit.
+          pelata ilman kierroksia valitse kierrosten määräksi nolla.
+          Lisähaastetta saat piilottamalla värit.
         </p>
 
         <div className="flex w-64 justify-between">
@@ -74,24 +75,14 @@ export default function Aloitus({ returnParams }) {
           </select>
         </div>
 
-        <div className="flex w-64 justify-between">
-          <label className="font-bold" htmlFor="roundInput">
-            Kierroksia:
-          </label>
-          <input
-            name="roundInput"
-            className="mx-2 w-20 rounded border bg-primary p-1 text-center shadow-sm"
-            type="number"
-            value={rounds}
-            onChange={(e) => {
-              if (e.target.value >= 0) setRounds(e.target.valueAsNumber)
-            }}
-          />
-        </div>
+        <RoundsSelector rounds={rounds} setRounds={setRounds} />
 
         <div className="flex w-64 justify-between font-bold">
           Piilota värit:
-          <label className="relative mx-2 block h-8 w-14 cursor-pointer rounded-full bg-primary" htmlFor="bwInput">
+          <label
+            className="relative mx-2 block h-8 w-14 cursor-pointer rounded-full bg-primary"
+            htmlFor="bwInput"
+          >
             <input
               defaultChecked={colorsOff}
               id="bwInput"
@@ -99,7 +90,7 @@ export default function Aloitus({ returnParams }) {
               className="peer sr-only"
               onChange={() => setColorsOff(!colorsOff)}
             />
-            <span className="absolute left-1 top-1 size-6 rounded-full bg-white transition peer-checked:left-7 peer-checked:bg-accent"/>
+            <span className="absolute left-1 top-1 size-6 rounded-full bg-white transition peer-checked:left-7 peer-checked:bg-accent" />
           </label>
         </div>
 

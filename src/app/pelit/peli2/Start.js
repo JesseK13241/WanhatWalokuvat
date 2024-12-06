@@ -1,8 +1,8 @@
+import RoundsSelector from "@/components/RoundsSelector"
 import { useState } from "react"
 
 export default function Start({ initGameWithParams }) {
   const handleSubmit = () => {
-    console.log("grayscale", isGrayscale)
     initGameWithParams({
       rounds: rounds,
       grayscale: isGrayscale,
@@ -24,20 +24,7 @@ export default function Start({ initGameWithParams }) {
           mustavalkoisina kunnes pelaaja on vastannut.
         </p>
 
-        <div className="flex w-64 justify-between">
-          <label className="font-bold" htmlFor="roundInput">
-            Kierroksia:
-          </label>
-          <input
-            name="roundInput"
-            className="mx-2 w-20 rounded border bg-primary p-1 text-center shadow-sm"
-            type="number"
-            value={rounds}
-            onChange={(e) => {
-              if (e.target.value >= 0) setRounds(e.target.valueAsNumber)
-            }}
-          />
-        </div>
+        <RoundsSelector rounds={rounds} setRounds={setRounds} />
 
         <div className="flex w-64 justify-between font-bold">
           Piilota värit:
