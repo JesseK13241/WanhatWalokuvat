@@ -14,6 +14,7 @@ import Image from "next/image"
  */
 export default function PhotoContainer({
   photo, // Kuva-olio (pakollinen).
+  grayscale = false, // Näytetäänkö kaikki kuvat mustavalkoisina. Oletuksena näytetään alkuperäisessä värissä.
   infoElem, // Komponentti, jolla näytetään kuvan tiedot (oletuksena perus <PhotoInfo photo={photo} />).
   onClick, // Funktio, jota kutsutaan, kun komponenttia (kuvaa) klikataan. Jos tyhjä, komponentti ei toimi nappina.
   className = "", // Komponentin oletustyyliin lisättävät tailwind-tyylit
@@ -42,6 +43,7 @@ export default function PhotoContainer({
   const imageClasses = `
     object-contain 
     ${onClick ? "group-hover:opacity-70" : ""}
+    ${grayscale ? "grayscale" : ""}
   `
 
   // Kuvan taustan tyylit.
