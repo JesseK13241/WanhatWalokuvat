@@ -1,3 +1,4 @@
+import GrayscaleToggle from "@/components/GrayscaleToggle"
 import RoundsSelector from "@/components/RoundsSelector"
 import { useState } from "react"
 
@@ -77,22 +78,7 @@ export default function Aloitus({ returnParams }) {
 
         <RoundsSelector rounds={rounds} setRounds={setRounds} />
 
-        <div className="flex w-64 justify-between font-bold">
-          Piilota värit:
-          <label
-            className="relative mx-2 block h-8 w-14 cursor-pointer rounded-full bg-primary"
-            htmlFor="bwInput"
-          >
-            <input
-              defaultChecked={colorsOff}
-              id="bwInput"
-              type="checkbox"
-              className="peer sr-only"
-              onChange={() => setColorsOff(!colorsOff)}
-            />
-            <span className="absolute left-1 top-1 size-6 rounded-full bg-white transition peer-checked:left-7 peer-checked:bg-accent" />
-          </label>
-        </div>
+        <GrayscaleToggle grayscale={colorsOff} setGrayscale={setColorsOff} />
 
         <button
           type="button"

@@ -5,6 +5,7 @@
  * rounds    = Tällä hetkellä valittu kierrosten määrä.
  * setRounds = Funktio, jolla asetetaan uusi kierrosten määrä,
  *             kun valittu kierrosten määrä muuttuu.
+ *             Funktio saa parametrina uuden kierrosten määrän.
  */
 export default function RoundsSelector({ rounds, setRounds }) {
   return (
