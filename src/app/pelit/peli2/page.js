@@ -25,6 +25,7 @@ export default function Peli2() {
   const [started, setStarted] = useState(false) // Onko peli aloitettu
   const [roundNumber, setRoundNumber] = useState(0) // Tämän kierroksen numero
   const [totalRounds, setTotalRounds] = useState(0) // Kuinka monta kierrosta pelataan (0=loputtomasti)
+  const [grayscale, setGrayscale] = useState(false) // Määrää näytetäänkö kaikki kuva mustavalkoisina
   const [score, setScore] = useState(0) // Kuinka monta kertaa pelaaja on vastannut oikein
 
   const startYear = 1880 // Minimivuosi
@@ -48,6 +49,7 @@ export default function Peli2() {
    */
   const startGame = (params) => {
     setTotalRounds(params.rounds ?? 0) // Asetetaan kierrosten määrä
+    setGrayscale(params.grayscale ?? false)
     setScore(0) // Nollataan pisteet
     setRoundNumber(1) // Asetetaan kierroksen numeroksi 1
     setStarted(true) // Merkataan started=true, jotta osataan palauttaa peli aloitussivun sijaan
@@ -209,6 +211,7 @@ export default function Peli2() {
               photo={leftPhoto}
               onClick={() => handleSelectPhoto(leftPhoto)}
               infoElem={<PhotoInfo photo={leftPhoto} showYear={answered} />}
+              grayscale={answered ? false : grayscale}
             />
           </div>
           <div>
@@ -225,6 +228,7 @@ export default function Peli2() {
               photo={rightPhoto}
               onClick={() => handleSelectPhoto(rightPhoto)}
               infoElem={<PhotoInfo photo={rightPhoto} showYear={answered} />}
+              grayscale={answered ? false : grayscale}
             />
           </div>
         </div>
