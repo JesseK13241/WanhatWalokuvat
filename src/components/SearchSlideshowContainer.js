@@ -5,6 +5,8 @@ import { getRandomPhoto } from "@/services/photos"
 import { Shuffle } from "lucide-react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
+import { LoaderCircle } from "lucide-react"
+import PhotoInfoSkeleton from "./PhotoInfoSkeleton"
 
 export default function SearchSlideshowContainer({ initialPhoto }) {
   // Hakupalkin ja kuvakomponentin tilat on nostettu tähän containeriin,
@@ -107,7 +109,18 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
         setDecade={setDecade}
       />
 
-      <PhotoContainer photo={displayedPhoto} />
+      {displayedPhoto ? ( // Jos kuva on null (eli lataa), palautetaan skeleton
+        <PhotoContainer photo={displayedPhoto} useLoading={true} />
+      ) : (
+        <div className="mx-auto w-[95%] max-w-xl overflow-hidden rounded-lg bg-primary shadow-md">
+          <div className="relative w-full bg-tertiary pt-[100%]">
+            <div className="flex absolute inset-0 animate-pulse rounded items-center justify-center">
+              <LoaderCircle className="animate-spin w-32 h-32 stroke-primary" />
+            </div>
+          </div>
+          <PhotoInfoSkeleton />
+        </div>
+      )}
 
       {displayedPhoto?.resultCount && (
         <div className="flex flex-wrap items-center justify-center gap-10">
@@ -121,7 +134,10 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
               {currentIndex} / {displayedPhoto?.resultCount}
             </div>
             <button
-              onClick={handleNext}
+              onClick={() => {
+                setDisplayedPhoto(null) // Asetetaan null, jotta kuva häviää näkyvistä
+                handleNext()
+              }}
               className="btn-primary"
               disabled={isLoading}
             >

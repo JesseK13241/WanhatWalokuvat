@@ -10,6 +10,7 @@ export default function PhotoInfo({
   showLink = true, // Totuusarvo. Jos true, kuvan linkki näytetään, muuten piilotetaan.
   variant = "default", // Haluttu versio komponentista. Määrää tyylin.
   className = "", // Mahdolliset lisäluokat komponentin tailwind tyyliin
+  loading = false, // Jos true, ei näytetä tietoja vaan niiden sijasta "ladataan..."
 }) {
   // Jos showTitle ei ole erikseen määritetty, asetetaan arvoksi sama kuin showYear.
   // Syynä tähän on se, että showYear=false piilottaa oletuksena myös otsikon, joka saattaa muuten paljastaa vuoden.
@@ -28,32 +29,37 @@ export default function PhotoInfo({
     <div className={`${variantClasses} ${className}`}>
       <p className="text-lg whitespace-nowrap overflow-hidden text-ellipsis">
         <span className="font-bold">Otsikko: </span>
-        {showTitle && photo.title || "Piilotettu"}
+        {loading ? "Ladataan..." : (showTitle && photo.title) || "Piilotettu"}
       </p>
       <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
         <span className="font-semibold">Vuosi: </span>
-        {showYear && photo.year || "Piilotettu"}
+        {loading ? "Ladataan..." : (showYear && photo.year) || "Piilotettu"}
       </p>
       <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
         <span className="font-semibold">Sijainti: </span>
-        {photo.subjects?.[photo.subjects.length - 1]?.[0] ||
-          "Ei tiedossa"}
+        {loading
+          ? "Ladataan..."
+          : photo.subjects?.[photo.subjects.length - 1]?.[0] || "Ei tiedossa"}
       </p>
       <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
         <span className="font-semibold">Tekijä: </span>
-        {photo.author || "Ei tiedossa"}
+        {loading ? "Ladataan..." : photo.author || "Ei tiedossa"}
       </p>
       <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
         <span className="font-semibold">Organisaatio: </span>
-        {photo.building || "Ei tiedossa"}
+        {loading ? "Ladataan..." : photo.building || "Ei tiedossa"}
       </p>
-      {showLink && (
-        <a
-          href={`${BASE_URL}${photo.recordPage}`}
-          className="inline-block text-sm text-blue-600 hover:text-blue-800 hover:underline"
-        >
-          Linkki aineistoon
-        </a>
+      {loading ? (
+        <p className="inline-block text-sm">Ladataan</p>
+      ) : (
+        showLink && (
+          <a
+            href={`${BASE_URL}${photo.recordPage}`}
+            className="inline-block text-sm text-blue-600 hover:text-blue-800 hover:underline"
+          >
+            Linkki aineistoon
+          </a>
+        )
       )}
     </div>
   )

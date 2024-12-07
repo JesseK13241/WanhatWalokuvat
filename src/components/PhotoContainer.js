@@ -21,6 +21,7 @@ export default function PhotoContainer({
   onClick, // Funktio, jota kutsutaan, kun komponenttia (kuvaa) klikataan. Jos tyhjä, komponentti ei toimi nappina.
   className = "", // Komponentin oletustyyliin lisättävät tailwind-tyylit
   useLoading = false, // Totuusarvo, joka kertoo käytetäänkö loading-komponenttia
+  infoProps, // PhotoInfo-komponentille välitettävät propertyt objectina
 }) {
   const [isLoading, setIsLoading] = useState(useLoading)
 
@@ -36,8 +37,9 @@ export default function PhotoContainer({
   const handleOnLoad = () => {
     setIsLoading(false)
   }
-
-  const defaultInfoElem = <PhotoInfo photo={photo} /> // PhotoInfo, jossa kaikki tiedot näytetään
+  // PhotoInfo, jossa kaikki tiedot näytetään
+  const defaultInfoElem = // ...infoProps levittää infoProps-objectin sisällön komponentin propseiksi
+    <PhotoInfo photo={photo} loading={isLoading} {...infoProps} />
 
   // Koko Containerin (uloin div) tyyli.
   // Jos onClick-funktio on annettu, muutetaan tyyliä napin tapaan, kun hiiri viedään komponentin päälle.
@@ -82,7 +84,9 @@ export default function PhotoContainer({
         </div>
       </div>
 
-      {infoElem || defaultInfoElem}
+      {infoElem || (
+        <PhotoInfo photo={photo} loading={isLoading} {...infoProps} />
+      )}
     </div>
   )
 }

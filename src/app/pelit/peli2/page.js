@@ -20,7 +20,29 @@ const PhotoContainerSkeleton = ({ styles }) => (
           <LoaderCircle className="animate-spin w-32 h-32 stroke-primary" />
         </div>
       </div>
-      <div className="space-y-2 h-48 rounded-xl bg-primary p-4" />
+      <div className="space-y-2 h-48 rounded-xl bg-primary p-4">
+        <p className="text-lg whitespace-nowrap overflow-hidden text-ellipsis">
+          <span className="font-bold">Otsikko: </span>
+          Ladataan...
+        </p>
+        <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+          <span className="font-semibold">Vuosi: </span>
+          Ladataan...
+        </p>
+        <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+          <span className="font-semibold">Sijainti: </span>
+          Ladataan...
+        </p>
+        <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+          <span className="font-semibold">Tekijä: </span>
+          Ladataan...
+        </p>
+        <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+          <span className="font-semibold">Organisaatio: </span>
+          Ladataan...
+        </p>
+        <p className="inline-block text-sm">Ladataan</p>
+      </div>
     </div>
   </div>
 )
@@ -46,9 +68,9 @@ const ChoosePhotoContainer = ({
     <PhotoContainer
       photo={photo}
       onClick={handleSelectPhoto ? () => handleSelectPhoto(photo) : null}
-      infoElem={<PhotoInfo photo={photo} showYear={answered} />}
       grayscale={answered ? false : grayscale}
       useLoading={useLoading}
+      infoProps={{ showYear: answered }}
     />
   </div>
 )
