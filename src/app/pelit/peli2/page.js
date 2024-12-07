@@ -5,6 +5,7 @@ import PhotoInfo from "@/components/PhotoInfo"
 import Tulokset from "@/components/Results"
 import { getRandomPhoto } from "@/services/photos"
 import { useEffect, useState } from "react"
+import { LoaderCircle } from "lucide-react"
 
 // Loading-componentti, joka näytetään photocontainerin tilalla, jos kuva vielä lataa
 const PhotoContainerSkeleton = ({ styles }) => (
@@ -14,20 +15,23 @@ const PhotoContainerSkeleton = ({ styles }) => (
     </div>
     {/* Vastaa default PhotoContaineria: */}
     <div className="mx-auto w-[95%] max-w-xl overflow-hidden rounded-lg bg-primary shadow-md">
-      <div className="relative w-full bg-gray-300 pt-[100%]">
-        <div className="absolute inset-0 animate-pulse rounded" />
+      <div className="relative w-full bg-tertiary pt-[100%]">
+        <div className="flex absolute inset-0 animate-pulse rounded items-center justify-center">
+          <LoaderCircle className="animate-spin w-32 h-32 stroke-primary" />
+        </div>
       </div>
       <div className="space-y-2 h-48 rounded-xl bg-primary p-4" />
     </div>
   </div>
 )
 
-const ChooseOlderPhotoContainer = ({
+const ChoosePhotoContainer = ({
   photo,
   styles,
   answered,
   grayscale,
   handleSelectPhoto,
+  useLoading,
 }) => (
   <div className="flex-1 border">
     <div className="m-auto flex w-max border">
@@ -44,6 +48,7 @@ const ChooseOlderPhotoContainer = ({
       onClick={handleSelectPhoto ? () => handleSelectPhoto(photo) : null}
       infoElem={<PhotoInfo photo={photo} showYear={answered} />}
       grayscale={answered ? false : grayscale}
+      useLoading={useLoading}
     />
   </div>
 )
@@ -54,6 +59,9 @@ const ChooseOlderPhotoContainer = ({
 export default function Peli2() {
   const [leftPhoto, setLeftPhoto] = useState(null) // Vasen kuva
   const [rightPhoto, setRightPhoto] = useState(null) // Oikea kuva
+  // Loading-muuttujia käytetään loading-spinnerin näyttämisessä, kun kuvaa ladataan
+  const [leftLoading, setLeftLoading] = useState(false) // Onko vasen kuva lataamassa (fetchattu, mutta ei vielä renderöity)
+  const [rightLoading, setRightLoading] = useState(false) // Onko oikea kuva lataamasssa...
   const [preloadedLeft, setPreloadedLeft] = useState(null) // Esiladattu vasen kuva
   const [preloadedRight, setPreloadedRight] = useState(null) // Esiladattu oikea kuva
   const [answered, setAnswered] = useState(false) // Onko pelaaja vastannut
@@ -125,7 +133,9 @@ export default function Peli2() {
         // Tänne mennään, jos esiladatut kuvat ovat valmiita
         console.log("Asetetaan esiladatut kuvat")
         setLeftPhoto(preloadedLeft)
+        setLeftLoading(true) // Asetetaan true, jotta tiedetään näyttää latauskomponentti kuvan sijaan
         setRightPhoto(preloadedRight)
+        setRightLoading(true)
         // Alustetaan ja haetaan seuraavat kuvat:
         setPreloadedLeft(null)
         setPreloadedRight(null)
@@ -288,20 +298,22 @@ export default function Peli2() {
           )}
         </div>
         <div className="flex flex-wrap justify-center gap-10 p-4">
-          <ChooseOlderPhotoContainer
+          <ChoosePhotoContainer
             photo={leftPhoto}
             styles={styles}
             answered={answered}
             grayscale={grayscale}
             handleSelectPhoto={!answered ? handleSelectPhoto : null}
+            useLoading={true}
           />
 
-          <ChooseOlderPhotoContainer
+          <ChoosePhotoContainer
             photo={rightPhoto}
             styles={styles}
             answered={answered}
             grayscale={grayscale}
             handleSelectPhoto={!answered ? handleSelectPhoto : null}
+            useLoading={true}
           />
         </div>
       </div>
