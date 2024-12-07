@@ -6,6 +6,7 @@ import Tulokset from "@/components/Results"
 import { getRandomPhoto } from "@/services/photos"
 import { useEffect, useState } from "react"
 import { LoaderCircle } from "lucide-react"
+import PhotoInfoSkeleton from "@/components/PhotoInfoSkeleton"
 
 // Loading-componentti, joka näytetään photocontainerin tilalla, jos kuva vielä lataa
 const PhotoContainerSkeleton = ({ styles }) => (
@@ -20,40 +21,22 @@ const PhotoContainerSkeleton = ({ styles }) => (
           <LoaderCircle className="animate-spin w-32 h-32 stroke-primary" />
         </div>
       </div>
-      <div className="space-y-2 h-48 rounded-xl bg-primary p-4">
-        <p className="text-lg whitespace-nowrap overflow-hidden text-ellipsis">
-          <span className="font-bold">Otsikko: </span>
-          Ladataan...
-        </p>
-        <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
-          <span className="font-semibold">Vuosi: </span>
-          Ladataan...
-        </p>
-        <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
-          <span className="font-semibold">Sijainti: </span>
-          Ladataan...
-        </p>
-        <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
-          <span className="font-semibold">Tekijä: </span>
-          Ladataan...
-        </p>
-        <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
-          <span className="font-semibold">Organisaatio: </span>
-          Ladataan...
-        </p>
-        <p className="inline-block text-sm">Ladataan</p>
-      </div>
+      <PhotoInfoSkeleton />
     </div>
   </div>
 )
 
+/**
+ * Komponentti, joka pitää sisällään vuoden ja PhotoContainerin.
+ */
 const ChoosePhotoContainer = ({
-  photo,
-  styles,
-  answered,
-  grayscale,
-  handleSelectPhoto,
-  useLoading,
+  photo, // Kuva
+  styles, // Object, komponentissa käytetään tyylejä styles.correct, styles.incorrect, styles.neutral
+  // Correct tyyli merkkaa vanhempaa kuvaa, incorrect uudempaa ja neutral sitä että ei ole vastattu
+  answered, // Onko pelaaja vastannut (näytetään vuosi)
+  grayscale, // Halutaanko näyttää kuvat mustavalkoisina ennen vastaamista
+  handleSelectPhoto, // Funktio, jota kutsutaan, kun kuvaa klikataan. Saa parametrina kuvan
+  useLoading = true, // Käytetäänkö loading-spinneriä kun kuva lataa
 }) => (
   <div className="flex-1 border">
     <div className="m-auto flex w-max border">
@@ -326,7 +309,6 @@ export default function Peli2() {
             answered={answered}
             grayscale={grayscale}
             handleSelectPhoto={!answered ? handleSelectPhoto : null}
-            useLoading={true}
           />
 
           <ChoosePhotoContainer
@@ -335,7 +317,6 @@ export default function Peli2() {
             answered={answered}
             grayscale={grayscale}
             handleSelectPhoto={!answered ? handleSelectPhoto : null}
-            useLoading={true}
           />
         </div>
       </div>

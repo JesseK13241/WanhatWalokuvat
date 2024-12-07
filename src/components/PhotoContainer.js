@@ -17,11 +17,17 @@ import { LoaderCircle } from "lucide-react"
 export default function PhotoContainer({
   photo, // Kuva-olio (pakollinen).
   grayscale = false, // Näytetäänkö kaikki kuvat mustavalkoisina. Oletuksena näytetään alkuperäisessä värissä.
-  infoElem, // Komponentti, jolla näytetään kuvan tiedot (oletuksena perus <PhotoInfo photo={photo} />).
   onClick, // Funktio, jota kutsutaan, kun komponenttia (kuvaa) klikataan. Jos tyhjä, komponentti ei toimi nappina.
+  onLoad, // Funktio, jota kutsutaan, kun kuva latautuu
   className = "", // Komponentin oletustyyliin lisättävät tailwind-tyylit
   useLoading = false, // Totuusarvo, joka kertoo käytetäänkö loading-komponenttia
   infoProps, // PhotoInfo-komponentille välitettävät propertyt objectina
+  children, // Ei tarkoitus käyttää suoraan. Tähän muuttujaan tulee elementit, jotka laitetaan PhotoContainerin lapsiksi.
+  // Esim. <PhotoContainer photo={kuva} >
+  //         <Button />
+  //       </PhotoContainer>
+  // children pitää sisällään <Button />
+  // Oletuksena children on <PhotoInfo photo={photo} loading={isLoading} {...infoProps} />
 }) {
   const [isLoading, setIsLoading] = useState(useLoading)
 
@@ -36,6 +42,9 @@ export default function PhotoContainer({
 
   const handleOnLoad = () => {
     setIsLoading(false)
+    if (onLoad) {
+      onLoad()
+    }
   }
   // PhotoInfo, jossa kaikki tiedot näytetään
   const defaultInfoElem = // ...infoProps levittää infoProps-objectin sisällön komponentin propseiksi
@@ -83,10 +92,8 @@ export default function PhotoContainer({
           />
         </div>
       </div>
-
-      {infoElem || (
-        <PhotoInfo photo={photo} loading={isLoading} {...infoProps} />
-      )}
+      {children ?? defaultInfoElem}{" "}
+      {/* Jos komponentille ei ole laitettu lapsia, oletuksena PhotoInfo */}
     </div>
   )
 }
