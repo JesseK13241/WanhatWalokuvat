@@ -22,36 +22,28 @@ export default function PhotoInfo({
     slideshow: "space-y-2 p-4",
   }[variant]
 
-  // Lyhentää tekstin, jos olisi muuten liian pitkä. Lisää perään "..."
-  const truncate = (text, maxLength = 45) => {
-    if (text?.length > maxLength) {
-      return text.substring(0, maxLength) + "…"
-    }
-    return text
-  }
-
   // Palauttaa itse komponentin, jonka sisällä tarkistukset booleanien arvoille
   // ja niiden perusteella näytetään kuvan tiedot tai jätetään näyttämättä.
   return (
     <div className={`${variantClasses} ${className}`}>
-      <p className="text-lg">
+      <p className="text-lg whitespace-nowrap overflow-hidden text-ellipsis">
         <span className="font-bold">Otsikko: </span>
-        {showTitle && truncate(photo.title) || "Piilotettu"}
+        {showTitle && photo.title || "Piilotettu"}
       </p>
-      <p className="text-sm">
+      <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
         <span className="font-semibold">Vuosi: </span>
         {showYear && photo.year || "Piilotettu"}
       </p>
-      <p className="text-sm">
+      <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
         <span className="font-semibold">Sijainti: </span>
-        {truncate(photo.subjects?.[photo.subjects.length - 1]?.[0]) ||
+        {photo.subjects?.[photo.subjects.length - 1]?.[0] ||
           "Ei tiedossa"}
       </p>
-      <p className="text-sm">
+      <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
         <span className="font-semibold">Tekijä: </span>
-        {truncate(photo.author) || "Ei tiedossa"}
+        {photo.author || "Ei tiedossa"}
       </p>
-      <p className="text-sm">
+      <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
         <span className="font-semibold">Organisaatio: </span>
         {photo.building || "Ei tiedossa"}
       </p>
