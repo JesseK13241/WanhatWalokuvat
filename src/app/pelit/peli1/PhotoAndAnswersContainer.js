@@ -2,6 +2,8 @@ import { BASE_URL } from "@/app/constants"
 import Image from "next/image"
 import { useState } from "react"
 import MultipleChoiceButtons from "./MultipleChoiceButtons"
+import PhotoContainer from "@/components/PhotoContainer"
+import PhotoInfo from "@/components/PhotoInfo"
 
 export default function PhotoAndAnswersContainer({
   currentPhoto,
@@ -11,6 +13,7 @@ export default function PhotoAndAnswersContainer({
   answered,
   setAnswered,
   colorsOff,
+  handleNext,
 }) {
   const [imageLoading, setImageLoading] = useState(true)
   const [readyToAnswer, setReadyToAnswer] = useState(false)
@@ -21,7 +24,37 @@ export default function PhotoAndAnswersContainer({
     setReadyToAnswer(false)
   }
 
+  const onLoad = () => {
+    setImageLoading(false)
+    setReadyToAnswer(true)
+  }
+
   const imageUrl = currentPhoto && BASE_URL + currentPhoto.images[0]
+
+  return (
+    <PhotoContainer
+      photo={currentPhoto}
+      onLoad={onLoad}
+      className="flex flex-col items-center gap-4 px-2 bg-secondary shadow-none"
+    >
+      <div className="mb-4">
+        <MultipleChoiceButtons
+          correctYear={currentPhoto.year}
+          range={decadeRange}
+          returnAnswer={handleAnswer}
+          disabled={!readyToAnswer}
+        />
+      </div>
+      <button
+        className="btn-primary mb-4 shadow-md w-32 min-w-28"
+        onClick={handleNext}
+        disabled={!answered}
+      >
+        Seuraava
+      </button>
+      <PhotoInfo photo={currentPhoto} showYear={answered} />
+    </PhotoContainer>
+  )
 
   return (
     <div className="flex flex-col gap-4 px-2">

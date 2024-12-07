@@ -108,8 +108,8 @@ export default function Peli1() {
   currentPhoto.building = buildings
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="m-4 flex w-screen max-w-xl flex-col items-center rounded-md bg-secondary p-6 shadow-lg">
+    <div className="flex items-center justify-center border">
+      <div className="m-4 flex w-screen max-w-2xl flex-col items-center rounded-md bg-secondary p-6 shadow-lg">
         <PhotoAndAnswersContainer
           currentPhoto={currentPhoto}
           decadeRange={decadeRange}
@@ -118,17 +118,8 @@ export default function Peli1() {
           answered={answered}
           setAnswered={setAnswered}
           colorsOff={colorsOff}
+          handleNext={handleNext}
         />
-
-        <button
-          className="btn-primary mb-4 shadow-md"
-          onClick={handleNext}
-          disabled={!answered}
-        >
-          Seuraava
-        </button>
-
-        <PhotoInfo photo={currentPhoto} showYear={answered} />
       </div>
 
       {preloadedPhoto && (
@@ -144,3 +135,14 @@ export default function Peli1() {
     </div>
   )
 }
+
+/*
+        <button
+          className="btn-primary mb-4 shadow-md"
+          onClick={handleNext}
+          disabled={!answered}
+        >
+          Seuraava
+        </button>
+
+        <PhotoInfo photo={currentPhoto} showYear={answered} />*/
