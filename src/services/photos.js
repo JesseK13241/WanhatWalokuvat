@@ -1,11 +1,10 @@
-import { API_RECORD_URL, API_SEARCH_URL } from "@/app/constants"
+import { API_RECORD_URL, API_SEARCH_URL } from "@/app/constants";
 
 export const getInitialPhoto = async () => {
   const initialID = "kouvolanmuseo.KMV85:1580"
   const initialPhoto = await getPhotoById(initialID)
   return { ...initialPhoto, recordPage: `/Record/${initialID}` }
 }
-
 
 const prepareRequest = ({ decade, location, randomIndex }) => {
   // Muodostaa API-hakuosoitteen parametrien perusteella
@@ -62,10 +61,12 @@ const prepareRequest = ({ decade, location, randomIndex }) => {
 
   return urlToFetch
 }
-
-export const getResultCount = async ({ location, decade }) => {
   // Palauttaa kuvien lukumäärän parametrien perusteella
   // Kokonaislukumäärällä arvotaan satunnaisen kuvan indeksin yläraja
+
+export const getResultCount = async ({ location, decade }) => {
+
+  console.log("Fetching result count by:", { location, decade })
 
   const urlToFetch = prepareRequest({ location, decade })
   try {
@@ -108,6 +109,8 @@ export const getPhotoById = async (photoID) => {
 export const getRandomPhoto = async ({ location, decade }) => {
   // Palauttaa satunnaisen kuvan parametrien perusteella
 
+  console.warn("Deprecated function, use getPhotoByIndex instead")
+
   console.log("Fetching a random photo by:", { location, decade })
 
   let resultCount = await getResultCount({ location, decade })
@@ -145,4 +148,35 @@ export const getRandomPhoto = async ({ location, decade }) => {
   }
 }
 
-export default getRandomPhoto
+export const getPhotoByIndex = async ({ location, decade, index }) => {
+
+  console.log("Fetching a photo with:", { location, decade, index })
+  const urlToFetch = prepareRequest({ location, decade, index })
+
+  try {
+    const response = await fetch(urlToFetch)
+    if (!response.ok) {
+      throw new Error("Network response was not ok")
+    }
+
+    const data = await response.json()
+
+    if (!data?.records?.length) {
+      console.warn("No results found")
+      return
+    }
+
+    const photo = data.records[0]
+
+    // Siivotaan kuvan metadataa
+    photo.author = Object.keys(photo.authors.primary)[0]
+    photo.building = photo.buildings[0].translated
+    return photo
+
+  } catch (error) {
+    console.error("Error fetching photos:", error)
+    throw error
+  }
+}
+
+export default getPhotoByIndex
