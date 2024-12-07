@@ -3,8 +3,8 @@ import Start from "@/app/pelit/peli2/Start"
 import PhotoContainer from "@/components/PhotoContainer"
 import PhotoInfo from "@/components/PhotoInfo"
 import Tulokset from "@/components/Results"
-import getRandomPhoto from "@/services/photos"
-import { useState } from "react"
+import { getRandomPhoto } from "@/services/photos"
+import { useEffect, useState } from "react"
 
 // Loading-componentti, joka näytetään photocontainerin tilalla, jos kuva vielä lataa
 const PhotoContainerSkeleton = () => (
@@ -15,11 +15,13 @@ const PhotoContainerSkeleton = () => (
 )
 
 /**
- *
+ * Peli, jossa pitää arvata kumpi kahdesta kuvasta on vanhempi
  */
 export default function Peli2() {
   const [leftPhoto, setLeftPhoto] = useState(null) // Vasen kuva
   const [rightPhoto, setRightPhoto] = useState(null) // Oikea kuva
+  const [preloadedLeft, setPreloadedLeft] = useState(null) // Esiladattu vasen kuva
+  const [preloadedRight, setPreloadedRight] = useState(null) // Esiladattu oikea kuva
   const [answered, setAnswered] = useState(false) // Onko pelaaja vastannut
   const [correctAnswer, setCorrectAnswer] = useState(false) // Onko vastaus oikein
   const [started, setStarted] = useState(false) // Onko peli aloitettu
@@ -48,8 +50,9 @@ export default function Peli2() {
    * @param {Object} params Objekti, joka sisältää aloitusvalikossa valitut asetukset.
    */
   const startGame = (params) => {
+    fetchPreload() // Haetaan ensimmäiset kuvat
     setTotalRounds(params.rounds ?? 0) // Asetetaan kierrosten määrä
-    setGrayscale(params.grayscale ?? false)
+    setGrayscale(params.grayscale ?? false) // Asetetaan mustavalkoisuus (oletuksena false)
     setScore(0) // Nollataan pisteet
     setRoundNumber(1) // Asetetaan kierroksen numeroksi 1
     setStarted(true) // Merkataan started=true, jotta osataan palauttaa peli aloitussivun sijaan
@@ -60,38 +63,88 @@ export default function Peli2() {
    * Hakee uudet kuvat ja aloittaa uuden kierroksen
    */
   const nextRound = async () => {
+    console.log("nextRound, left:", preloadedLeft, "right", preloadedRight)
     setLeftPhoto(null) // Alustetaan kuvat null, jotta löydetään virheet helpommin
     setRightPhoto(null)
     setAnswered(false) // Alustetaan peli tilaan, jossa pelaaja ei ole vastannut vielä
     setCorrectAnswer(false)
-
-    const alternateOrder = Math.random() < 0.5 // Arvotaan totuusarvo n. 50% - 50% todennäköisyydellä
-
-    // Haetaan kuvat (await Promise.all odottaa, kunnes kummatkin kuvat on haettu)
-    await Promise.all([fetchOlder(alternateOrder), fetchNewer(alternateOrder)])
+    // Asetetaan uudet kuvat
+    console.log("Asetetaan kuvat:", preloadedLeft, preloadedRight)
+    // Tässä laitetaan kuvat nulliksi, jotta ne osataan useEffectissä korvata seuraavilla kuvilla
+    setLeftPhoto(null)
+    setRightPhoto(null)
   }
+
+  /**
+   * Tarkistaa ovatko pelin kuvat null ja jos ovat, tarkistaa ovatko esiladatut kuvat valmiit.
+   * Jos esiladatut kuvat ovat valmiit, asetetaan ne pelin kuviksi ja esiladataan seuraavat.
+   *
+   * Funktiota kutsutaan aina, kun leftPhoto:n, rightPhoto:n, preloadedLeft:n tai preloadedRight:n
+   * arvo muuttuu. Käytännössä siis kun pelin kuva asetetaan nulliksi (nextRoundissa), tarkistetaan
+   * onko saatavilla esiladattuja kuvia. Jos esiladattu kuva tulee valmiiksi, tarkistetaan
+   * onko peliin jo vastattu, jolloin pelin kuvat voi korvata esiladatuilla.
+   */
+  useEffect(() => {
+    // Käytännössä tämän if-lauseen sisälle mennään, kun pelaaja on valinnut "seuraava"
+    if (started && leftPhoto == null && rightPhoto == null) {
+      if (preloadedLeft && preloadedRight) {
+        // Tänne mennään, jos esiladatut kuvat ovat valmiita
+        console.log("Asetetaan esiladatut kuvat")
+        setLeftPhoto(preloadedLeft)
+        setRightPhoto(preloadedRight)
+        // Alustetaan ja haetaan seuraavat kuvat:
+        setPreloadedLeft(null)
+        setPreloadedRight(null)
+        fetchPreload()
+      } else {
+        // Tänne mennään, jos pelaaja on valinnut seuraava, mutta esiladatut kuvat eivät ole valmiina
+        console.log("Odotetaan seuraavia kuvia...")
+      }
+    }
+  }, [leftPhoto, rightPhoto, preloadedLeft, preloadedRight])
 
   /**
    * Hakee vanhemman kuvan ja asettaa sen vasemmaksi kuvaksi
    * (tai oikea, jos alternate order).
-   * @param {Boolean} alternateOrder Jos true, asetetaan vanhempi kuva oikealle, muuten vasemmalle
+   * @param {import("react").Dispatch} setPhoto Funktio, jolla asetetaan kuva
    */
-  const fetchOlder = async (alternateOrder) => {
+  const fetchOlder = async (setPhoto) => {
     const older = await getRandomPhoto({ decade: olderDecadeRange }) // Haetaan kuva
     older.isOlder = true // Asetetaan kuva-objectille attribuutti isOlder jotta tunnistetaan myöhemmin
-    alternateOrder ? setRightPhoto(older) : setLeftPhoto(older) // Asetetaan kuva tilamuuttujaan
+    setPhoto(older) // Asetetaan kuva tilamuuttujaan
   }
 
   /**
    * Hakee uudemman kuvan ja asettaa sen oikean puoleiseksi kuvaksi
    * (tai vasen, jos alternate order).
-   * @param {Boolean} alternateOrder Jos true, asetetaan uudempi kuva vasemmalle, muuten oikealle
+   * @param {import("react").Dispatch} setPhoto Funktio, jolla asetetaan kuva
    */
-  const fetchNewer = async (alternateOrder) => {
+  const fetchNewer = async (setPhoto) => {
     // Toiminta: katso fetchOlder() kommentit
     const newer = await getRandomPhoto({ decade: newerDecadeRange })
     newer.isOlder = false
-    alternateOrder ? setLeftPhoto(newer) : setRightPhoto(newer)
+    setPhoto(newer)
+  }
+
+  /**
+   * Hakee taustalla seuraavat kuvat valmiiksi.
+   */
+  const fetchPreload = async () => {
+    console.log("Preloading next photos...")
+    const alternateOrder = Math.random() < 0.5
+    if (alternateOrder) {
+      // Jos alternateOrder=false, vasen on vanhempi ja oikea uudempi, muuten päinvastoin
+      await Promise.all([
+        fetchOlder(setPreloadedRight),
+        fetchNewer(setPreloadedLeft),
+      ])
+    } else {
+      await Promise.all([
+        fetchOlder(setPreloadedLeft),
+        fetchNewer(setPreloadedRight),
+      ])
+    }
+    console.log("Preloaded!")
   }
 
   /**
@@ -207,7 +260,9 @@ export default function Peli2() {
                 >
                   {leftPhoto.year}
                 </div>
-              ): <div className={styles.neutral}>Vuosi</div>}
+              ) : (
+                <div className={styles.neutral}>Vuosi</div>
+              )}
             </div>
             <PhotoContainer
               photo={leftPhoto}
@@ -226,7 +281,9 @@ export default function Peli2() {
                 >
                   {rightPhoto.year}
                 </div>
-              ) : <div className={styles.neutral}>Vuosi</div>}
+              ) : (
+                <div className={styles.neutral}>Vuosi</div>
+              )}
             </div>
             <PhotoContainer
               photo={rightPhoto}
