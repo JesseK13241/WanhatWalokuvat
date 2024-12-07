@@ -137,9 +137,11 @@ export default function Peli2() {
   // Tyylit, joilla näytetään onko vastaus oikein (vanhempi kuva).
   const styles = {
     correct:
-      "w-[95%] mx-[2.5%] text-center font-bold border-black border-2 rounded-xl bg-green-500 px-4 py-2 shadow-md",
+      "text-center font-bold border-black border-2 rounded-md bg-green-500 px-8 py-4 mb-2 shadow-md",
     incorrect:
-      "w-[95%] mx-[2.5%] text-center font-bold border-black border-2 rounded-xl bg-red-500 px-4 py-2 shadow-md",
+      "text-center font-bold border-black border-2 rounded-md bg-red-500 px-8 py-4 mb-2 shadow-md",
+    neutral:
+      "text-center font-bold border-black border-2 rounded-md bg-gray-500 px-8 py-4 mb-2 shadow-md",
   }
 
   // Jos peliä ei ole aloitettu, palautetaan pelin aloitusnäkymä (Start-komponentti)
@@ -165,9 +167,7 @@ export default function Peli2() {
     return (
       <div className="flex flex-col items-center">
         <div className="flex justify-center text-xl">
-          <p className="mt-4 rounded-xl bg-tertiary p-4">
-            Klikkaa vanhempaa kuvaa
-          </p>
+          <p className="mt-4 rounded-xl p-4">Klikkaa vanhempaa kuvaa</p>
         </div>
         <div className="flex flex-wrap justify-center p-4 pb-14">
           <PhotoContainerSkeleton />
@@ -181,8 +181,8 @@ export default function Peli2() {
   }
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="border border-red-500 pb-14">
+    <div className="flex flex-col items-center px-40">
+      <div className="pb-14">
         <div className="flex items-center justify-center text-xl">
           {!answered && (
             <p className="mt-4 rounded-xl bg-tertiary p-4">
@@ -196,17 +196,19 @@ export default function Peli2() {
             <p className="mt-4 rounded-xl bg-red-400 p-4">Vastasit väärin!</p>
           )}
         </div>
-        <div className="flex flex-wrap justify-center border border-green-500 p-4">
-          <div className="flex-1">
-            {answered && (
-              <div
-                className={
-                  leftPhoto.isOlder ? styles.correct : styles.incorrect
-                }
-              >
-                {leftPhoto.year}
-              </div>
-            )}
+        <div className="w-50 flex flex-wrap justify-center gap-10 p-4">
+          <div className="flex-1 border">
+            <div className="m-auto flex w-max border">
+              {answered ? (
+                <div
+                  className={
+                    leftPhoto.isOlder ? styles.correct : styles.incorrect
+                  }
+                >
+                  {leftPhoto.year}
+                </div>
+              ): <div className={styles.neutral}>Vuosi</div>}
+            </div>
             <PhotoContainer
               photo={leftPhoto}
               onClick={() => handleSelectPhoto(leftPhoto)}
@@ -214,16 +216,18 @@ export default function Peli2() {
               grayscale={answered ? false : grayscale}
             />
           </div>
-          <div className="flex-1">
-            {answered && (
-              <div
-                className={
-                  rightPhoto.isOlder ? styles.correct : styles.incorrect
-                }
-              >
-                {rightPhoto.year}
-              </div>
-            )}
+          <div className="flex-1 border">
+            <div className="m-auto flex w-max border">
+              {answered ? (
+                <div
+                  className={
+                    rightPhoto.isOlder ? styles.correct : styles.incorrect
+                  }
+                >
+                  {rightPhoto.year}
+                </div>
+              ) : <div className={styles.neutral}>Vuosi</div>}
+            </div>
             <PhotoContainer
               photo={rightPhoto}
               onClick={() => handleSelectPhoto(rightPhoto)}
