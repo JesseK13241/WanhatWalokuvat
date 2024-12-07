@@ -10,7 +10,7 @@ export default function PhotoAndAnswersContainer({
   score,
   answered,
   setAnswered,
-  colorsOff
+  colorsOff,
 }) {
   const [imageLoading, setImageLoading] = useState(true)
   const [readyToAnswer, setReadyToAnswer] = useState(false)

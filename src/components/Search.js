@@ -10,7 +10,6 @@ export default function Search({
   setDecade,
   onSearch,
 }) {
-
   return (
     <div className="mx-auto flex w-[95%] justify-evenly rounded bg-tertiary p-8">
       <LocationPicker value={location} onChange={setLocation} />

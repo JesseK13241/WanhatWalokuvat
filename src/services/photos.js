@@ -1,4 +1,4 @@
-import { API_RECORD_URL, API_SEARCH_URL } from "@/app/constants";
+import { API_RECORD_URL, API_SEARCH_URL } from "@/app/constants"
 
 export const getInitialPhoto = async () => {
   const initialID = "kouvolanmuseo.KMV85:1580"
@@ -61,11 +61,10 @@ const prepareRequest = ({ decade, location, randomIndex }) => {
 
   return urlToFetch
 }
-  // Palauttaa kuvien lukumäärän parametrien perusteella
-  // Kokonaislukumäärällä arvotaan satunnaisen kuvan indeksin yläraja
+// Palauttaa kuvien lukumäärän parametrien perusteella
+// Kokonaislukumäärällä arvotaan satunnaisen kuvan indeksin yläraja
 
 export const getResultCount = async ({ location, decade }) => {
-
   console.log("Fetching result count by:", { location, decade })
 
   const urlToFetch = prepareRequest({ location, decade })
@@ -149,7 +148,6 @@ export const getRandomPhoto = async ({ location, decade }) => {
 }
 
 export const getPhotoByIndex = async ({ location, decade, index }) => {
-
   console.log("Fetching a photo with:", { location, decade, index })
   const urlToFetch = prepareRequest({ location, decade, index })
 
@@ -172,7 +170,6 @@ export const getPhotoByIndex = async ({ location, decade, index }) => {
     photo.author = Object.keys(photo.authors.primary)[0]
     photo.building = photo.buildings[0].translated
     return photo
-
   } catch (error) {
     console.error("Error fetching photos:", error)
     throw error
