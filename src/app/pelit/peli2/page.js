@@ -8,9 +8,19 @@ import { useEffect, useState } from "react"
 
 // Loading-componentti, joka näytetään photocontainerin tilalla, jos kuva vielä lataa
 const PhotoContainerSkeleton = () => (
-  <div>
-    <div className="m-1 size-72 animate-pulse rounded bg-gray-300" />
-    <div className="m-1 h-14 w-72 rounded bg-gray-300" />
+  <div className="flex-1 border">
+    <div className="m-auto flex w-max border">
+      <div className="text-center font-bold border-black border-2 rounded-md bg-gray-500 px-8 py-4 mb-2 shadow-md">
+        Vuosi
+      </div>
+    </div>
+    {/* Vastaa default PhotoContaineria: */}
+    <div className="mx-auto w-[95%] max-w-xl overflow-hidden rounded-lg bg-primary shadow-md">
+      <div className="relative w-full bg-gray-300 pt-[100%]">
+        <div className="absolute inset-0 animate-pulse rounded" />
+      </div>
+      <div className="space-y-2 h-48 rounded-xl bg-primary p-4" />
+    </div>
   </div>
 )
 
@@ -218,13 +228,17 @@ export default function Peli2() {
   // Jos jompikumpi kuvista ei ole vielä ladannut, palautetaan loading-komponentti (skeleton)
   if (leftPhoto == null || rightPhoto == null) {
     return (
-      <div className="flex flex-col items-center">
-        <div className="flex justify-center text-xl">
-          <p className="mt-4 rounded-xl p-4">Klikkaa vanhempaa kuvaa</p>
-        </div>
-        <div className="flex flex-wrap justify-center p-4 pb-14">
-          <PhotoContainerSkeleton />
-          <PhotoContainerSkeleton />
+      <div className="flex flex-col items-center px-40">
+        <div className="w-full pb-14">
+          <div className="flex items-center justify-center text-xl">
+            <p className="mt-4 rounded-xl bg-tertiary p-4">
+              Klikkaa vanhempaa kuvaa
+            </p>
+          </div>
+          <div className="flex flex-wrap justify-center gap-10 p-4">
+            <PhotoContainerSkeleton />
+            <PhotoContainerSkeleton />
+          </div>
         </div>
         <button className="btn-primary mb-4 p-4 px-6 shadow-md" disabled>
           Seuraava
