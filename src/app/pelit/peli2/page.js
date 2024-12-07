@@ -182,7 +182,7 @@ export default function Peli2() {
 
   return (
     <div className="flex flex-col items-center px-40">
-      <div className="pb-14">
+      <div className="w-full pb-14">
         <div className="flex items-center justify-center text-xl">
           {!answered && (
             <p className="mt-4 rounded-xl bg-tertiary p-4">
@@ -196,7 +196,7 @@ export default function Peli2() {
             <p className="mt-4 rounded-xl bg-red-400 p-4">Vastasit väärin!</p>
           )}
         </div>
-        <div className="w-50 flex flex-wrap justify-center gap-10 p-4">
+        <div className="flex flex-wrap justify-center gap-10 p-4">
           <div className="flex-1 border">
             <div className="m-auto flex w-max border">
               {answered ? (
