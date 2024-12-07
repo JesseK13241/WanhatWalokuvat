@@ -1,6 +1,8 @@
 import { IMAGE_BASE_URL } from "@/app/constants"
 import PhotoInfo from "@/components/PhotoInfo"
 import Image from "next/image"
+import { useState } from "react"
+import { LoaderCircle } from "lucide-react"
 
 /**
  * Komponentti, jolla esitetään kuva ja siihen liittyvät tiedot.
@@ -18,7 +20,10 @@ export default function PhotoContainer({
   infoElem, // Komponentti, jolla näytetään kuvan tiedot (oletuksena perus <PhotoInfo photo={photo} />).
   onClick, // Funktio, jota kutsutaan, kun komponenttia (kuvaa) klikataan. Jos tyhjä, komponentti ei toimi nappina.
   className = "", // Komponentin oletustyyliin lisättävät tailwind-tyylit
+  useLoading = false, // Totuusarvo, joka kertoo käytetäänkö loading-komponenttia
 }) {
+  const [isLoading, setIsLoading] = useState(useLoading)
+
   // Näytetään ilmoitus, jos hakuehdoilla ei löydy kuvia
   if (!photo?.id) {
     return (
@@ -26,6 +31,10 @@ export default function PhotoContainer({
         Hakuehtoja vastaavia kuvia ei löytynyt!
       </div>
     )
+  }
+
+  const handleOnLoad = () => {
+    setIsLoading(false)
   }
 
   const defaultInfoElem = <PhotoInfo photo={photo} /> // PhotoInfo, jossa kaikki tiedot näytetään
@@ -48,7 +57,7 @@ export default function PhotoContainer({
 
   // Kuvan taustan tyylit.
   const backgroundClasses = `
-    absolute inset-0 bg-tertiary
+    flex absolute inset-0 bg-tertiary items-center justify-center
     ${onClick ? "group-hover:bg-accent" : ""}
   `
 
@@ -58,6 +67,9 @@ export default function PhotoContainer({
     <div className={containerClasses} onClick={onClick}>
       <div className="relative w-full pt-[100%]">
         <div className={backgroundClasses}>
+          {isLoading && (
+            <LoaderCircle className="animate-spin w-32 h-32 stroke-primary" />
+          )}
           <Image
             src={`${IMAGE_BASE_URL}${encodeURIComponent(photo.id)}`}
             alt={photo.title || "Photo"}
@@ -65,6 +77,7 @@ export default function PhotoContainer({
             fill
             className={imageClasses}
             priority
+            onLoad={handleOnLoad}
           />
         </div>
       </div>
