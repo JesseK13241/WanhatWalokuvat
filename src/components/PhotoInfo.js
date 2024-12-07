@@ -34,18 +34,14 @@ export default function PhotoInfo({
   // ja niiden perusteella näytetään kuvan tiedot tai jätetään näyttämättä.
   return (
     <div className={`${variantClasses} ${className}`}>
-      {showTitle && (
-        <p className="text-lg">
-          <span className="font-bold">Otsikko: </span>
-          {truncate(photo.title) || "Piilotettu"}
-        </p>
-      )}
-      {showYear && (
-        <p className="text-sm">
-          <span className="font-semibold">Vuosi: </span>
-          {photo.year || "Piilotettu"}
-        </p>
-      )}
+      <p className="text-lg">
+        <span className="font-bold">Otsikko: </span>
+        {showTitle && truncate(photo.title) || "Piilotettu"}
+      </p>
+      <p className="text-sm">
+        <span className="font-semibold">Vuosi: </span>
+        {showYear && photo.year || "Piilotettu"}
+      </p>
       <p className="text-sm">
         <span className="font-semibold">Sijainti: </span>
         {truncate(photo.subjects?.[photo.subjects.length - 1]?.[0]) ||

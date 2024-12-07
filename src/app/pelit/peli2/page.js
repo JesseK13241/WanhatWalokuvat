@@ -4,7 +4,7 @@ import PhotoContainer from "@/components/PhotoContainer"
 import PhotoInfo from "@/components/PhotoInfo"
 import Tulokset from "@/components/Results"
 import getRandomPhoto from "@/services/photos"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 // Loading-componentti, joka näytetään photocontainerin tilalla, jos kuva vielä lataa
 const PhotoContainerSkeleton = () => (
@@ -182,7 +182,7 @@ export default function Peli2() {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="pb-14">
+      <div className="border border-red-500 pb-14">
         <div className="flex items-center justify-center text-xl">
           {!answered && (
             <p className="mt-4 rounded-xl bg-tertiary p-4">
@@ -196,16 +196,16 @@ export default function Peli2() {
             <p className="mt-4 rounded-xl bg-red-400 p-4">Vastasit väärin!</p>
           )}
         </div>
-        <div className="flex flex-wrap justify-center p-4">
-          <div>
+        <div className="flex flex-wrap justify-center border border-green-500 p-4">
+          <div className="flex-1">
             {answered && (
-              <p
+              <div
                 className={
                   leftPhoto.isOlder ? styles.correct : styles.incorrect
                 }
               >
                 {leftPhoto.year}
-              </p>
+              </div>
             )}
             <PhotoContainer
               photo={leftPhoto}
@@ -214,15 +214,15 @@ export default function Peli2() {
               grayscale={answered ? false : grayscale}
             />
           </div>
-          <div>
+          <div className="flex-1">
             {answered && (
-              <p
+              <div
                 className={
                   rightPhoto.isOlder ? styles.correct : styles.incorrect
                 }
               >
                 {rightPhoto.year}
-              </p>
+              </div>
             )}
             <PhotoContainer
               photo={rightPhoto}
