@@ -7,12 +7,10 @@ import { getRandomPhoto } from "@/services/photos"
 import { useEffect, useState } from "react"
 
 // Loading-componentti, joka näytetään photocontainerin tilalla, jos kuva vielä lataa
-const PhotoContainerSkeleton = () => (
+const PhotoContainerSkeleton = ({ styles }) => (
   <div className="flex-1 border">
     <div className="m-auto flex w-max border">
-      <div className="text-center font-bold border-black border-2 rounded-md bg-gray-500 px-8 py-4 mb-2 shadow-md">
-        Vuosi
-      </div>
+      <div className={styles.neutral}>Vuosi</div>
     </div>
     {/* Vastaa default PhotoContaineria: */}
     <div className="mx-auto w-[95%] max-w-xl overflow-hidden rounded-lg bg-primary shadow-md">
@@ -21,6 +19,32 @@ const PhotoContainerSkeleton = () => (
       </div>
       <div className="space-y-2 h-48 rounded-xl bg-primary p-4" />
     </div>
+  </div>
+)
+
+const ChooseOlderPhotoContainer = ({
+  photo,
+  styles,
+  answered,
+  grayscale,
+  handleSelectPhoto,
+}) => (
+  <div className="flex-1 border">
+    <div className="m-auto flex w-max border">
+      {answered ? (
+        <div className={photo.isOlder ? styles.correct : styles.incorrect}>
+          {photo.year}
+        </div>
+      ) : (
+        <div className={styles.neutral}>Vuosi</div>
+      )}
+    </div>
+    <PhotoContainer
+      photo={photo}
+      onClick={handleSelectPhoto ? () => handleSelectPhoto(photo) : null}
+      infoElem={<PhotoInfo photo={photo} showYear={answered} />}
+      grayscale={answered ? false : grayscale}
+    />
   </div>
 )
 
@@ -236,8 +260,8 @@ export default function Peli2() {
             </p>
           </div>
           <div className="flex flex-wrap justify-center gap-10 p-4">
-            <PhotoContainerSkeleton />
-            <PhotoContainerSkeleton />
+            <PhotoContainerSkeleton styles={styles} />
+            <PhotoContainerSkeleton styles={styles} />
           </div>
         </div>
         <button className="btn-primary mb-4 p-4 px-6 shadow-md" disabled>
@@ -264,48 +288,21 @@ export default function Peli2() {
           )}
         </div>
         <div className="flex flex-wrap justify-center gap-10 p-4">
-          <div className="flex-1 border">
-            <div className="m-auto flex w-max border">
-              {answered ? (
-                <div
-                  className={
-                    leftPhoto.isOlder ? styles.correct : styles.incorrect
-                  }
-                >
-                  {leftPhoto.year}
-                </div>
-              ) : (
-                <div className={styles.neutral}>Vuosi</div>
-              )}
-            </div>
-            <PhotoContainer
-              photo={leftPhoto}
-              onClick={() => handleSelectPhoto(leftPhoto)}
-              infoElem={<PhotoInfo photo={leftPhoto} showYear={answered} />}
-              grayscale={answered ? false : grayscale}
-            />
-          </div>
-          <div className="flex-1 border">
-            <div className="m-auto flex w-max border">
-              {answered ? (
-                <div
-                  className={
-                    rightPhoto.isOlder ? styles.correct : styles.incorrect
-                  }
-                >
-                  {rightPhoto.year}
-                </div>
-              ) : (
-                <div className={styles.neutral}>Vuosi</div>
-              )}
-            </div>
-            <PhotoContainer
-              photo={rightPhoto}
-              onClick={() => handleSelectPhoto(rightPhoto)}
-              infoElem={<PhotoInfo photo={rightPhoto} showYear={answered} />}
-              grayscale={answered ? false : grayscale}
-            />
-          </div>
+          <ChooseOlderPhotoContainer
+            photo={leftPhoto}
+            styles={styles}
+            answered={answered}
+            grayscale={grayscale}
+            handleSelectPhoto={!answered ? handleSelectPhoto : null}
+          />
+
+          <ChooseOlderPhotoContainer
+            photo={rightPhoto}
+            styles={styles}
+            answered={answered}
+            grayscale={grayscale}
+            handleSelectPhoto={!answered ? handleSelectPhoto : null}
+          />
         </div>
       </div>
       <button
