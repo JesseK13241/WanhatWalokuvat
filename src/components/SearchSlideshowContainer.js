@@ -2,6 +2,7 @@
 import PhotoContainer from "@/components/PhotoContainer"
 import Search from "@/components/Search"
 import { getRandomPhoto } from "@/services/photos"
+import { Shuffle } from "lucide-react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
 
@@ -109,23 +110,31 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
       <PhotoContainer photo={displayedPhoto} />
 
       {displayedPhoto?.resultCount && (
-        <div className="flex items-center justify-center gap-10">
-          <button onClick={handlePrevious} className="btn-primary">
-            Edellinen
-          </button>
-          <div>
-            {currentIndex} / {displayedPhoto?.resultCount}
+        <div className="flex flex-wrap items-center justify-center gap-10">
+          <div className="flex items-center gap-4">
+            <button onClick={handlePrevious} className="btn-primary">
+              Edellinen
+            </button>
+            <div className="flex w-24 justify-center">
+              {" "}
+              {/* Fixed width for counter */}
+              {currentIndex} / {displayedPhoto?.resultCount}
+            </div>
+            <button
+              onClick={handleNext}
+              className="btn-primary"
+              disabled={isLoading}
+            >
+              Seuraava
+            </button>
           </div>
-          <button
-            onClick={handleNext}
-            className="btn-primary"
-            disabled={isLoading}
-          >
-            Seuraava
-          </button>
+          <div className="flex w-full justify-center">
+            <button className="btn-primary px-6">
+              <Shuffle />
+            </button>
+          </div>
         </div>
       )}
-
       {/* Piilotettu DOM-komponentti kuvan esilataamista varten */}
       {preloadedPhoto && (
         <div className="hidden">
