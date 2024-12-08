@@ -11,7 +11,7 @@ export default function Search({
   onSearch,
 }) {
   return (
-    <div className="mx-auto flex w-[95%] justify-evenly rounded bg-tertiary p-8">
+    <div className="mx-auto flex min-w-full justify-evenly rounded bg-tertiary p-8">
       <LocationPicker value={location} onChange={setLocation} />
       <DecadePicker value={decade} onChange={setDecade} />
       <button

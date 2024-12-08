@@ -1,17 +1,19 @@
-import Link from "next/link";
+import { DeploymentDate } from "@/services/deploymentDate"
+import Link from "next/link"
 
-import { Github } from 'lucide-react';
+import { Github } from "lucide-react"
 
 const Footer = () => {
   return (
-    <footer className="flex bg-secondary p-5 shadow-inner">
+    <footer className="flex items-center bg-secondary p-5 shadow-inner">
       <Link
         href="https://github.com/JesseK13241/TIEA207-projekti/"
-        className="flex w-auto items-center gap-2 p-3 border border-black rounded-lg bg-inherit hover:saturate-200"
+        className="flex w-auto items-center gap-2 rounded-lg border border-black bg-inherit p-3 hover:saturate-200"
       >
-        <Github/>
+        <Github />
         View on GitHub
       </Link>
+      <DeploymentDate />
     </footer>
   )
 }
