@@ -39,7 +39,27 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
     // TODO handle previous images (by pushing previous results to stack)
   }, [])
 
-  const handleNext = useCallback(() => {
+  const getPhotos = useCallback(
+    async ({ location, decade }) => {
+      setIsLoading(true)
+      try {
+        const results = await getPhotoByIndex({
+          location,
+          decade,
+          index: currentIndex,
+        })
+        console.log("Got photo:", results)
+        setDisplayedPhoto(results)
+      } catch (error) {
+        console.error("Search failed:", error)
+      } finally {
+        setIsLoading(false)
+      }
+    },
+    [currentIndex]
+  )
+
+  const handleNext = useCallback(async () => {
     if (preloadedPhoto) {
       console.log("Using preloaded")
       setDisplayedPhoto(preloadedPhoto)
@@ -47,11 +67,12 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
       setCurrentIndex((prevIndex) => prevIndex + 1)
     } else {
       console.log("Using non-preloaded")
-      getPhotos({ location, decade }).then(() => {
-        setCurrentIndex((prevIndex) => prevIndex + 1)
-      })
+      setIsLoading(true)
+      await getPhotos({ location, decade })
+      setCurrentIndex((prevIndex) => prevIndex + 1)
+      setIsLoading(false)
     }
-  }, [decade, location, preloadedPhoto])
+  }, [decade, location, preloadedPhoto, getPhotos])
 
   useEffect(() => {
     const handleKeyPress = (e) => {
@@ -79,27 +100,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
     if (displayedPhoto !== initialPhoto) {
       preloadNextPhoto()
     }
-  }, [displayedPhoto, location, decade, initialPhoto])
-
-
-
-  const getPhotos = async ({ location, decade }) => {
-    setIsLoading(true)
-    try {
-      const results = await getPhotoByIndex({
-        location,
-        decade,
-        index: currentIndex,
-      })
-      console.log("Got photo:", results)
-      setDisplayedPhoto(results)
-      
-    } catch (error) {
-      console.error("Search failed:", error)
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  }, [displayedPhoto, location, decade, initialPhoto, currentIndex])
 
   const handleSearch = async (params) => {
     setCurrentIndex(1)
@@ -137,7 +138,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
             <button onClick={handlePrevious} className="btn-primary">
               Edellinen
             </button>
-            <div className="flex w-28 justify-center">
+            <div className="flex w-32 justify-center">
               {" "}
               {/* Fixed width for counter */}
               {currentIndex} / {Math.min(resultCount, 100000)}
@@ -154,11 +155,18 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
             </button>
           </div>
           <div className="flex w-full justify-center">
-            <button onClick={() => {
-              const randomIndex = Math.ceil(Math.random() * Math.min(resultCount, 100000))
-              setCurrentIndex(randomIndex)
-              getPhotos({ location, decade })
-            }} className="btn-primary px-6">
+            <button
+              onClick={async () => {
+                const randomIndex = Math.ceil(
+                  Math.random() * Math.min(resultCount, 100000)
+                )
+                setCurrentIndex(randomIndex)
+                setDisplayedPhoto(null)
+                setPreloadedPhoto(null)
+                await getPhotos({ location, decade })
+              }}
+              className="btn-primary px-6"
+            >
               <Shuffle />
             </button>
           </div>
