@@ -97,3 +97,30 @@ export default function PhotoContainer({
     </div>
   )
 }
+
+export function PhotoContainerSkeleton({ className = "", children }) {
+  // Koko Containerin (uloin div) tyyli.
+  // Jos onClick-funktio on annettu, muutetaan tyyliä napin tapaan, kun hiiri viedään komponentin päälle.
+  // Jos propertynä className on annettu lisää tailwind-luokkia, ne lisätään tyylin perään.
+  const containerClasses = `
+    mx-auto w-[95%] max-w-xl overflow-hidden rounded-lg bg-primary shadow-md
+    ${className}
+  `
+
+  // Kuvan taustan tyylit.
+  const backgroundClasses = `
+    flex absolute inset-0 bg-tertiary items-center justify-center
+  `
+
+  return (
+    <div className={containerClasses}>
+      <div className="relative w-full pt-[100%]">
+        <div className={backgroundClasses}>
+          <LoaderCircle className="size-32 animate-spin stroke-primary" />
+        </div>
+      </div>
+      {children ?? <PhotoInfo loading={true} />}{" "}
+      {/* Jos komponentille ei ole laitettu lapsia, oletuksena PhotoInfo */}
+    </div>
+  )
+}
