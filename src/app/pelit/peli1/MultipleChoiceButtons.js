@@ -83,3 +83,23 @@ export default function MultipleChoiceButtons({
     </div>
   )
 }
+
+export function MultipleChoiceButtonsSkeleton() {
+  const buttonSkeleton = (
+    <button
+      disabled
+      className="border-primary border-2 rounded bg-primary px-4 py-2 enabled:hover:bg-tertiary enabled:hover:border-accent"
+    >
+      {"----"}
+    </button>
+  )
+
+  return (
+    <div className="flex items-center justify-center space-x-4">
+      {buttonSkeleton}
+      {buttonSkeleton}
+      {buttonSkeleton}
+      {buttonSkeleton}
+    </div>
+  )
+}
