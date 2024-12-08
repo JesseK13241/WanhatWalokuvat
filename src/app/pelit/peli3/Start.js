@@ -16,11 +16,11 @@ export default function Start({ initGameWithParams }) {
 
   return (
     <GameStartMenu
-      name={"Arvaa vanhempi"}
+      name={"Mikä ei kuulu joukkoon?"}
       description={
         "Pelissä sinulle näytetään kolme kuvaa kerrallaan. Pelin tavoitteena " +
         "on valita kuva-vaihtoehdoista se, joka ainoana on otettu eri " +
-        "vuosikymmeneltä. Halutessaan pelistä voi tehdä haastavamman" +
+        "vuosikymmeneltä. Halutessaan pelistä voi tehdä haastavamman " +
         "valitsemalla Piilota värit, jolloin kaikki kuvat " +
         "näytetään mustavalkoisina kunnes pelaaja on vastannut."
       }
