@@ -105,14 +105,25 @@ export const getPhotoById = async (photoID) => {
   return photo
 }
 
-export const getRandomPhoto = async ({ location, decade }) => {
+export const getRandomPhoto = async ({
+  location,
+  decade,
+  resultCountParam = null,
+}) => {
   // Palauttaa satunnaisen kuvan parametrien perusteella
 
   console.warn("Deprecated function, use getPhotoByIndex instead")
 
   console.log("Fetching a random photo by:", { location, decade })
 
-  let resultCount = await getResultCount({ location, decade })
+  // Haetaan resultCount vaan jos sitä ei ole annettu parametrina
+  let resultCount
+  if (resultCountParam != null) {
+    resultCount = resultCountParam
+  } else {
+    resultCount = await getResultCount({ location, decade })
+  }
+
   const randomIndex = Math.ceil(Math.random() * Math.min(resultCount, 100000))
 
   const urlToFetch = prepareRequest({ location, decade, randomIndex })

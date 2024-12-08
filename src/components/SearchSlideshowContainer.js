@@ -1,7 +1,7 @@
 "use client"
 import PhotoContainer from "@/components/PhotoContainer"
 import Search from "@/components/Search"
-import { getRandomPhoto } from "@/services/photos"
+import { getRandomPhoto, getResultCount } from "@/services/photos"
 import { Shuffle } from "lucide-react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
@@ -26,6 +26,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
   const [location, setLocation] = useState(null)
   const [decade, setDecade] = useState("vuosi")
   const [isLoading, setIsLoading] = useState(false)
+  const [resultCount, setResultCount] = useState(null)
 
   // console.log("Displayed photo:", displayedPhoto)
 
@@ -62,7 +63,11 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
   useEffect(() => {
     const preloadNextPhoto = async () => {
       console.log("Preloading photo")
-      const nextPhoto = await getRandomPhoto({ location, decade })
+      const nextPhoto = await getRandomPhoto({
+        location,
+        decade,
+        resultCountParam: resultCount,
+      })
       setPreloadedPhoto(nextPhoto)
     }
 
@@ -80,12 +85,20 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
     router.replace(`${pathname}?${params.toString()}`)
   }
 
-  const getPhotos = async (params) => {
+  const getPhotos = async ({ location, decade }) => {
     setIsLoading(true)
     try {
-      const results = await getRandomPhoto(params)
+      const results = await getRandomPhoto({
+        location,
+        decade,
+        resultCountParam: resultCount,
+      })
       setDisplayedPhoto(results)
-      const nextPhoto = await getRandomPhoto(params)
+      const nextPhoto = await getRandomPhoto({
+        location,
+        decade,
+        resultCountParam: resultCount,
+      })
       setPreloadedPhoto(nextPhoto)
     } catch (error) {
       console.error("Search failed:", error)
@@ -96,6 +109,8 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
 
   const handleSearch = async (params) => {
     setCurrentIndex(1)
+    let results = await getResultCount(params)
+    setResultCount(results)
     await getPhotos(params)
   }
 
@@ -122,7 +137,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
         </div>
       )}
 
-      {displayedPhoto?.resultCount && (
+      {resultCount && (
         <div className="flex flex-wrap items-center justify-center gap-10">
           <div className="flex items-center gap-4">
             <button onClick={handlePrevious} className="btn-primary">
@@ -131,7 +146,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
             <div className="flex w-24 justify-center">
               {" "}
               {/* Fixed width for counter */}
-              {currentIndex} / {displayedPhoto?.resultCount}
+              {currentIndex} / {resultCount}
             </div>
             <button
               onClick={() => {
