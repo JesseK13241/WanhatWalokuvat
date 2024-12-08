@@ -23,6 +23,7 @@ export default function PhotoInfo({
     slideshow: "space-y-2 p-4",
   }[variant]
 
+  // Jos loading=true, näytetään tekstit "Ladataan..." tietojen sijasta.
   if (loading) {
     return (
       <div className="space-y-2 h-48 rounded-xl bg-primary p-4">

@@ -31,7 +31,9 @@ export default function PhotoContainer({
 }) {
   const [isLoading, setIsLoading] = useState(useLoading)
 
-  // Näytetään ilmoitus, jos hakuehdoilla ei löydy kuvia
+  // Näytetään ilmoitus, jos hakuehdoilla ei löydy kuvia.
+  // Jos photos.js ei saa tuloksia, palautetaan objekti { noPhotos: true }.
+  // Tässä tarkistetaan onko annettu photo tuollainen objekti.
   if (photo.noPhotos) {
     return (
       <div className="mx-auto w-[95%] max-w-xl rounded-lg border border-red-500 bg-primary p-12 font-bold text-red-500">
@@ -40,6 +42,10 @@ export default function PhotoContainer({
     )
   }
 
+  /**
+   * Funktio, jota kutsutaan, kun kuva latautuu.
+   * Asetetaan tilamuuttuja isLoading falseksi ja kutsutaan onLoad(), jos se on parametrina annettu.
+   */
   const handleOnLoad = () => {
     setIsLoading(false)
     if (onLoad) {
@@ -98,6 +104,17 @@ export default function PhotoContainer({
   )
 }
 
+/**
+ * Photokontainer, jossa näytetään kuvan sijasta latauskomponentti.
+ * Käytetään, kun kuvaa haetaan (fetch). Jos kuva on haettu ja odotetaan sen latausta,
+ * käytetään PhotoContaineria ja asetetaan useLoading=true (oletusarvo).
+ *
+ * Params:
+ * className = Mahdolliset lisäluokat (tailwind) komponentin tyylittelyyn
+ * children  = Ei käytetä suoraan. Tähän tulee komponentit, jotka laitetaan
+ *             tämän komponentin lapseksi. Jos lapsia ei ole, käytetään
+ *             oletuksena <PhotoInfo loading={true} />, eli photoInfon latauskomponentti (skeleton)
+ */
 export function PhotoContainerSkeleton({ className = "", children }) {
   // Koko Containerin (uloin div) tyyli.
   // Jos onClick-funktio on annettu, muutetaan tyyliä napin tapaan, kun hiiri viedään komponentin päälle.
