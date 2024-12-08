@@ -6,7 +6,6 @@ import Tulokset from "@/components/Results"
 import { getRandomPhoto } from "@/services/photos"
 import { useEffect, useState } from "react"
 import { LoaderCircle } from "lucide-react"
-import PhotoInfoSkeleton from "@/components/PhotoInfoSkeleton"
 
 // Loading-componentti, joka näytetään photocontainerin tilalla, jos kuva vielä lataa
 const PhotoContainerSkeleton = ({ styles }) => (
@@ -21,7 +20,7 @@ const PhotoContainerSkeleton = ({ styles }) => (
           <LoaderCircle className="animate-spin w-32 h-32 stroke-primary" />
         </div>
       </div>
-      <PhotoInfoSkeleton />
+      <PhotoInfo loading={true} />
     </div>
   </div>
 )

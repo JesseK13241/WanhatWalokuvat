@@ -6,7 +6,7 @@ import { Shuffle } from "lucide-react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
 import { LoaderCircle } from "lucide-react"
-import PhotoInfoSkeleton from "./PhotoInfoSkeleton"
+import PhotoInfo from "./PhotoInfo"
 
 export default function SearchSlideshowContainer({ initialPhoto }) {
   // Hakupalkin ja kuvakomponentin tilat on nostettu tähän containeriin,
@@ -118,7 +118,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
               <LoaderCircle className="animate-spin w-32 h-32 stroke-primary" />
             </div>
           </div>
-          <PhotoInfoSkeleton />
+          <PhotoInfo loading={true} />
         </div>
       )}
 

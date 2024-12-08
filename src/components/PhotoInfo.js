@@ -23,43 +23,65 @@ export default function PhotoInfo({
     slideshow: "space-y-2 p-4",
   }[variant]
 
+  if (loading) {
+    return (
+      <div className="space-y-2 h-48 rounded-xl bg-primary p-4">
+        <p className="text-lg whitespace-nowrap overflow-hidden text-ellipsis">
+          <span className="font-bold">Otsikko: </span>
+          Ladataan...
+        </p>
+        <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+          <span className="font-semibold">Vuosi: </span>
+          Ladataan...
+        </p>
+        <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+          <span className="font-semibold">Sijainti: </span>
+          Ladataan...
+        </p>
+        <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+          <span className="font-semibold">Tekijä: </span>
+          Ladataan...
+        </p>
+        <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+          <span className="font-semibold">Organisaatio: </span>
+          Ladataan...
+        </p>
+        <p className="inline-block text-sm">Ladataan</p>
+      </div>
+    )
+  }
+
   // Palauttaa itse komponentin, jonka sisällä tarkistukset booleanien arvoille
   // ja niiden perusteella näytetään kuvan tiedot tai jätetään näyttämättä.
   return (
     <div className={`${variantClasses} ${className}`}>
       <p className="text-lg whitespace-nowrap overflow-hidden text-ellipsis">
         <span className="font-bold">Otsikko: </span>
-        {loading ? "Ladataan..." : (showTitle && photo.title) || "Piilotettu"}
+        {(showTitle && photo.title) || "Piilotettu"}
       </p>
       <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
         <span className="font-semibold">Vuosi: </span>
-        {loading ? "Ladataan..." : (showYear && photo.year) || "Piilotettu"}
+        {(showYear && photo.year) || "Piilotettu"}
       </p>
       <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
         <span className="font-semibold">Sijainti: </span>
-        {loading
-          ? "Ladataan..."
-          : photo.subjects?.[photo.subjects.length - 1]?.[0] || "Ei tiedossa"}
+        {photo.subjects?.[photo.subjects.length - 1]?.[0] || "Ei tiedossa"}
       </p>
       <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
         <span className="font-semibold">Tekijä: </span>
-        {loading ? "Ladataan..." : photo.author || "Ei tiedossa"}
+        {photo.author || "Ei tiedossa"}
       </p>
       <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
         <span className="font-semibold">Organisaatio: </span>
-        {loading ? "Ladataan..." : photo.building || "Ei tiedossa"}
+        {photo.building || "Ei tiedossa"}
       </p>
-      {loading ? (
-        <p className="inline-block text-sm">Ladataan</p>
-      ) : (
-        showLink && (
-          <a
-            href={`${BASE_URL}${photo.recordPage}`}
-            className="inline-block text-sm text-blue-600 hover:text-blue-800 hover:underline"
-          >
-            Linkki aineistoon
-          </a>
-        )
+      {showLink && (
+        <a
+          href={`${BASE_URL}${photo.recordPage}`}
+          className="inline-block text-sm text-blue-600 hover:text-blue-800 hover:underline"
+        >
+          Linkki aineistoon
+        </a>
       )}
     </div>
   )
