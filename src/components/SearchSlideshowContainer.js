@@ -34,13 +34,13 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
   const [lastSearchParams, setLastSearchParams] = useState(null)
 
   const getPhotos = useCallback(
-    async ({ location, decade }) => {
+    async ({ location, decade, index = currentIndex }) => {
       setIsLoading(true)
       try {
         const results = await getPhotoByIndex({
           location,
           decade,
-          index: currentIndex,
+          index,
         })
         setDisplayedPhoto(results)
         return results
@@ -66,7 +66,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
         await getPhotos({ location, decade })
       }
     }
-  }, [currentIndex, getPhotos, location, decade, preloadedPreviousPhoto])
+  }, [currentIndex, location, decade, getPhotos, preloadedPreviousPhoto])
 
   const handleNext = useCallback(async () => {
     if (preloadedNextPhoto) {
@@ -78,7 +78,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
       await getPhotos({ location, decade })
       setCurrentIndex((prevIndex) => prevIndex + 1)
     }
-  }, [decade, location, preloadedNextPhoto, getPhotos])
+  }, [preloadedNextPhoto, getPhotos, location, decade])
 
   const handleRandomPhoto = useCallback(async () => {
     if (resultCount === null || resultCount === 0) {
@@ -86,12 +86,14 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
       return
     }
 
-    const randomIndex = Math.ceil(Math.random() * Math.min(resultCount, 100000))
-    setCurrentIndex(randomIndex)
     setDisplayedPhoto(null)
     setPreloadedPreviousPhoto(null)
     setPreloadedNextPhoto(null)
-    await getPhotos({ location, decade })
+
+    const randomIndex = Math.ceil(Math.random() * Math.min(resultCount, 100000))
+    await getPhotos({ location, decade, index: randomIndex })
+
+    setCurrentIndex(randomIndex)
   }, [resultCount, getPhotos, location, decade])
 
   useEffect(() => {
@@ -165,7 +167,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
     setPreloadedPreviousPhoto(null)
     setPreloadedNextPhoto(null)
     setCurrentIndex(1)
-    await getPhotos(params)
+    await getPhotos({ location, decade })
   }
 
   return (
