@@ -1,32 +1,48 @@
 import { BASE_URL } from "@/app/constants"
-import Image from "next/image"
 import { useState } from "react"
 import MultipleChoiceButtons from "./MultipleChoiceButtons"
 import PhotoContainer from "@/components/PhotoContainer"
 import PhotoInfo from "@/components/PhotoInfo"
 
+/**
+ * Komponentti, joka pitää sisällään kuvan, vuosilukuvaihtoehdot
+ * "seuraava"-napin ja kuvan tiedot.
+ *
+ * Params:
+ * currentPhoto    = Tämän kierroksen kuva
+ * decadeRange     = Pelin vuosilukurange (vuosilukuväli, jolta kuvia haetaan)
+ * onCorrectAnswer = Funktio, jota kutsutaan kun pelaaja vastaa oikein. (Käytetään esim. pisteiden asettamiseen)
+ * answered        = Tilamuuttuja, joka kertoo onko pelaaja vastannut tällä kierroksella
+ * setAnswered     = Funktio, jolla answered-muuttujan tilaa muutetaan
+ * colorsOff       = Totuusarvo, halutaanko näyttää kaikki kuvat mustavalkoisina ennen vastaamista.
+ * handleNext      = Funktio, jota kutsutaan, kun pelaaja on vastannut ja painaa "seuraava"
+ */
 export default function PhotoAndAnswersContainer({
   currentPhoto,
   decadeRange,
-  setScore,
-  score,
+  onCorrectAnswer,
   answered,
   setAnswered,
   colorsOff,
   handleNext,
 }) {
-  const [imageLoading, setImageLoading] = useState(true)
-  const [readyToAnswer, setReadyToAnswer] = useState(false)
+  const [readyToAnswer, setReadyToAnswer] = useState(false) // Kertoo voidaanko pelaajan antaa vastata
 
+  /**
+   * Kutsutaan, kun pelaaja arvaa kuvan vuosilukua.
+   * @param {Boolean} isCorrect - Vastasiko pelaaja väärin
+   */
   const handleAnswer = (isCorrect) => {
-    if (isCorrect) setScore(score + 1)
-    setAnswered(true)
-    setReadyToAnswer(false)
+    if (isCorrect) onCorrectAnswer() // Kutsutaan onCorrectAnswer, jos vastaus oli oikein
+    setAnswered(true) // Merkataan vastatuksi
+    setReadyToAnswer(false) // Ei voi vastata uudelleen
   }
 
+  /**
+   * Kutsutaan, kun kuva saadaan ladattua
+   */
   const onLoad = () => {
-    setImageLoading(false)
-    setReadyToAnswer(true)
+    setReadyToAnswer(true) // Merkataan, että pelaaja voi vastata
   }
 
   const imageUrl = currentPhoto && BASE_URL + currentPhoto.images[0]
@@ -36,6 +52,7 @@ export default function PhotoAndAnswersContainer({
       photo={currentPhoto}
       onLoad={onLoad}
       className="flex flex-col gap-4 bg-secondary px-2 shadow-none"
+      grayscale={answered ? false : colorsOff}
     >
       <div className="mb-4">
         <MultipleChoiceButtons
@@ -54,42 +71,5 @@ export default function PhotoAndAnswersContainer({
       </button>
       <PhotoInfo photo={currentPhoto} showYear={answered} />
     </PhotoContainer>
-  )
-
-  // Ei käytössä:
-  return (
-    <div className="flex flex-col gap-4 px-2">
-      <Image
-        src={imageUrl}
-        alt={currentPhoto.title}
-        width={0}
-        height={0}
-        sizes="100vw"
-        className={
-          imageLoading
-            ? "h-0"
-            : `h-80 w-auto rounded bg-tertiary object-contain shadow-md ${
-                colorsOff ? (answered ? "" : "grayscale") : ""
-              }`
-        }
-        onLoad={() => {
-          setImageLoading(false)
-          setReadyToAnswer(true)
-        }}
-        priority
-      />
-      {imageLoading && (
-        <div className="size-80 animate-pulse rounded bg-gray-100" />
-      )}
-
-      <div className="mb-4">
-        <MultipleChoiceButtons
-          correctYear={currentPhoto.year}
-          range={decadeRange}
-          returnAnswer={handleAnswer}
-          disabled={!readyToAnswer}
-        />
-      </div>
-    </div>
   )
 }
