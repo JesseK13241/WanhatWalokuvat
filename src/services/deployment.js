@@ -4,8 +4,15 @@ export const DeploymentSha = ({ url }) => {
   let commitUrl = url
   if (sha) {
     shortSha = sha.substring(0, 7)
-    commitUrl = `${url}/commits/master/${sha}`
+    commitUrl = `${url}/commit/${sha}`
   }
 
-  return <a className="ml-auto text-sm" href={commitUrl}>Version {shortSha}</a>
+  return (
+    <p>
+      Version 
+      <a className="external-link p-1" href={commitUrl}>
+        {shortSha}
+      </a>
+    </p>
+  )
 }

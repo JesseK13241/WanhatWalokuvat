@@ -79,7 +79,7 @@ export default function PhotoInfo({
       {showLink && (
         <a
           href={`${BASE_URL}${photo.recordPage}`}
-          className="inline-block text-sm text-blue-600 hover:text-blue-800 hover:underline"
+          className="external-link inline-block text-sm"
         >
           Linkki aineistoon
         </a>
