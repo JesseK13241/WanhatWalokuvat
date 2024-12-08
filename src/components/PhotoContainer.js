@@ -20,7 +20,7 @@ export default function PhotoContainer({
   onClick, // Funktio, jota kutsutaan, kun komponenttia (kuvaa) klikataan. Jos tyhjä, komponentti ei toimi nappina.
   onLoad, // Funktio, jota kutsutaan, kun kuva latautuu
   className = "", // Komponentin oletustyyliin lisättävät tailwind-tyylit
-  useLoading = false, // Totuusarvo, joka kertoo käytetäänkö loading-komponenttia
+  useLoading = true, // Totuusarvo, joka kertoo käytetäänkö loading-komponenttia
   infoProps, // PhotoInfo-komponentille välitettävät propertyt objectina
   children, // Ei tarkoitus käyttää suoraan. Tähän muuttujaan tulee elementit, jotka laitetaan PhotoContainerin lapsiksi.
   // Esim. <PhotoContainer photo={kuva} >
@@ -79,7 +79,7 @@ export default function PhotoContainer({
       <div className="relative w-full pt-[100%]">
         <div className={backgroundClasses}>
           {isLoading && (
-            <LoaderCircle className="animate-spin w-32 h-32 stroke-primary" />
+            <LoaderCircle className="size-32 animate-spin stroke-primary" />
           )}
           <Image
             src={`${IMAGE_BASE_URL}${encodeURIComponent(photo.id)}`}
