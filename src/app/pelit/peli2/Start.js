@@ -18,11 +18,9 @@ export default function Start({ initGameWithParams }) {
     <GameStartMenu
       name={"Arvaa vanhempi"}
       description={
-        "Pelissä sinulle näytetään kaksi kuvaa kerrallaa. Pelin tavoitteena " +
-        "on valita kuva-vaihtoehdoista vanhempi. Kuvan iällä tarkoitetaan " +
-        "vuotta, jolloin kuva on otettu. Halutessaan pelistä voi tehdä " +
-        "haastavamman valitsemalla Piilota värit, jolloin kaikki kuvat " +
-        "näytetään mustavalkoisina kunnes pelaaja on vastannut."
+        `Tehtävänäsi on valita vanhin kuva kahdesta eri vaihtoehdosta.         
+        Halutessasi pelistä voi tehdä haastavamman piilottamalla värit, 
+        jolloin kuvat näytetään mustavalkoisina ennen vastausta.`
       }
       handleSubmit={handleSubmit}
     >
