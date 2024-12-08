@@ -210,7 +210,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
                 handleNext()
               }}
               className="btn-primary"
-              disabled={isLoading}
+              disabled={currentIndex === resultCount || isLoading}
             >
               Seuraava
             </button>
