@@ -3,7 +3,7 @@ import PhotoAndAnswersContainer from "@/app/pelit/peli1/PhotoAndAnswersContainer
 import Results from "@/components/Results"
 import Peli1Skeleton from "@/app/pelit/peli1/Skeleton"
 import Start from "@/app/pelit/peli1/Start"
-import { getRandomPhoto } from "@/services/photos"
+import { getRandomPhoto, getResultCount } from "@/services/photos"
 import Image from "next/image"
 import { useEffect, useState } from "react"
 
@@ -18,6 +18,7 @@ export default function Peli1() {
   const [score, setScore] = useState(0)
   const [answered, setAnswered] = useState(false)
   const [colorsOff, setColorsOff] = useState(false)
+  const [resultCount, setResultCount] = useState(null)
 
   const [readyToFetch, setReadyToFetch] = useState(false)
   const [preloadedPhoto, setPreloadedPhoto] = useState(null)
@@ -33,6 +34,7 @@ export default function Peli1() {
   const preloadNextPhoto = async () => {
     const img = await getRandomPhoto({
       decade: decadeRange,
+      resultCountParam: resultCount,
     })
     setPreloadedPhoto(img)
   }
@@ -51,11 +53,13 @@ export default function Peli1() {
     }
   }, [currentPhoto, preloadedPhoto])
 
-  const setParams = (decadeRange, rounds, colorsOff) => {
+  const setParams = async (decadeRange, rounds, colorsOff) => {
     setDecadeRange(decadeRange)
     setTotalRounds(rounds)
     setColorsOff(colorsOff)
     setReadyToFetch(true)
+    const results = await getResultCount({ decade: decadeRange })
+    setResultCount(results)
   }
 
   const handleNext = () => {
