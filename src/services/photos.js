@@ -6,7 +6,7 @@ export const getInitialPhoto = async () => {
   return { ...initialPhoto, recordPage: `/Record/${initialID}` }
 }
 
-const prepareRequest = ({ decade, location, randomIndex }) => {
+const prepareRequest = ({ decade, location, index }) => {
   // Muodostaa API-hakuosoitteen parametrien perusteella
 
   let urlToFetch = API_SEARCH_URL
@@ -19,7 +19,7 @@ const prepareRequest = ({ decade, location, randomIndex }) => {
     '~usage_rights_ext_str_mv:"0/A+Free/"',
   ]
 
-  if (decade) {
+  if (decade && decade !== "vuosi") {
     const [start, end] = decade.split("-")
     defaultFilters.push(
       `search_daterange_mv:"[${start} TO ${end}]"&search_daterange_mv_type=within`
@@ -40,7 +40,7 @@ const prepareRequest = ({ decade, location, randomIndex }) => {
       "subjects",
     ],
     limit: 1,
-    page: randomIndex,
+    page: index,
   }
 
   for (const [key, value] of Object.entries(params)) {
@@ -161,6 +161,7 @@ export const getRandomPhoto = async ({
 export const getPhotoByIndex = async ({ location, decade, index }) => {
   console.log("Fetching a photo with:", { location, decade, index })
   const urlToFetch = prepareRequest({ location, decade, index })
+  console.log("URL:", urlToFetch)
 
   try {
     const response = await fetch(urlToFetch)

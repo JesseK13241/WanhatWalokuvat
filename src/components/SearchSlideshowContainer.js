@@ -1,24 +1,27 @@
 "use client"
 import PhotoContainer from "@/components/PhotoContainer"
 import Search from "@/components/Search"
-import { getRandomPhoto, getResultCount } from "@/services/photos"
-import { Shuffle } from "lucide-react"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { getPhotoByIndex, getResultCount } from "@/services/photos"
+import { LoaderCircle, Shuffle } from "lucide-react"
 import { useCallback, useEffect, useState } from "react"
-import { LoaderCircle } from "lucide-react"
 import PhotoInfo from "./PhotoInfo"
 
 export default function SearchSlideshowContainer({ initialPhoto }) {
   // Hakupalkin ja kuvakomponentin tilat on nostettu tähän containeriin,
   // Sillä kuvakomponentti tarvitsee hakupalkin palauttaman datan
 
-  // Tätä komponenttia voi myöhemmin käyttää myös varmistamaan, että
-  // uudet satunnaiset kuvat eivät ole jo aikaisemmin haettuja
-
-  const router = useRouter()
-  const pathname = usePathname()
+  // const router = useRouter()
+  // const pathname = usePathname()
   // /page/?a=1&b=2 | const a = searchParams.get('a') => a == 1
-  const searchParams = useSearchParams()
+  // const searchParams = useSearchParams()
+  //
+  // const setRouteParams = () => {
+  //   const params = new URLSearchParams(searchParams)
+  //   params.set("photoId", displayedPhoto.records[0].id)
+  //   params.set("decade", decade)
+  //   console.log(params)
+  //   router.replace(`${pathname}?${params.toString()}`)
+  // }
 
   const [currentIndex, setCurrentIndex] = useState(1)
   const [displayedPhoto, setDisplayedPhoto] = useState(initialPhoto)
@@ -37,16 +40,16 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
   }, [])
 
   const handleNext = useCallback(() => {
-    setCurrentIndex((prevIndex) => prevIndex + 1)
-
     if (preloadedPhoto) {
-      // Näytä esiladattu kuva jos jo valmiina
       console.log("Using preloaded")
       setDisplayedPhoto(preloadedPhoto)
       setPreloadedPhoto(null)
+      setCurrentIndex((prevIndex) => prevIndex + 1)
     } else {
       console.log("Using non-preloaded")
-      getPhotos({ location, decade })
+      getPhotos({ location, decade }).then(() => {
+        setCurrentIndex((prevIndex) => prevIndex + 1)
+      })
     }
   }, [decade, location, preloadedPhoto])
 
@@ -63,11 +66,12 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
   useEffect(() => {
     const preloadNextPhoto = async () => {
       console.log("Preloading photo")
-      const nextPhoto = await getRandomPhoto({
+      const nextPhoto = await getPhotoByIndex({
         location,
         decade,
-        resultCountParam: resultCount,
+        index: currentIndex + 1,
       })
+      console.log("Got next photo:", nextPhoto)
       setPreloadedPhoto(nextPhoto)
     }
 
@@ -77,29 +81,19 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
     }
   }, [displayedPhoto, location, decade, initialPhoto])
 
-  const setRouteParams = () => {
-    const params = new URLSearchParams(searchParams)
-    params.set("photoId", displayedPhoto.records[0].id)
-    params.set("decade", decade)
-    console.log(params)
-    router.replace(`${pathname}?${params.toString()}`)
-  }
+
 
   const getPhotos = async ({ location, decade }) => {
     setIsLoading(true)
     try {
-      const results = await getRandomPhoto({
+      const results = await getPhotoByIndex({
         location,
         decade,
-        resultCountParam: resultCount,
+        index: currentIndex,
       })
+      console.log("Got photo:", results)
       setDisplayedPhoto(results)
-      const nextPhoto = await getRandomPhoto({
-        location,
-        decade,
-        resultCountParam: resultCount,
-      })
-      setPreloadedPhoto(nextPhoto)
+      
     } catch (error) {
       console.error("Search failed:", error)
     } finally {
@@ -129,8 +123,8 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
       ) : (
         <div className="mx-auto w-[95%] max-w-xl overflow-hidden rounded-lg bg-primary shadow-md">
           <div className="relative w-full bg-tertiary pt-[100%]">
-            <div className="flex absolute inset-0 animate-pulse rounded items-center justify-center">
-              <LoaderCircle className="animate-spin w-32 h-32 stroke-primary" />
+            <div className="absolute inset-0 flex animate-pulse items-center justify-center rounded">
+              <LoaderCircle className="size-32 animate-spin stroke-primary" />
             </div>
           </div>
           <PhotoInfo loading={true} />
@@ -143,10 +137,10 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
             <button onClick={handlePrevious} className="btn-primary">
               Edellinen
             </button>
-            <div className="flex w-24 justify-center">
+            <div className="flex w-28 justify-center">
               {" "}
               {/* Fixed width for counter */}
-              {currentIndex} / {resultCount}
+              {currentIndex} / {Math.min(resultCount, 100000)}
             </div>
             <button
               onClick={() => {
@@ -160,7 +154,11 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
             </button>
           </div>
           <div className="flex w-full justify-center">
-            <button className="btn-primary px-6">
+            <button onClick={() => {
+              const randomIndex = Math.ceil(Math.random() * Math.min(resultCount, 100000))
+              setCurrentIndex(randomIndex)
+              getPhotos({ location, decade })
+            }} className="btn-primary px-6">
               <Shuffle />
             </button>
           </div>
