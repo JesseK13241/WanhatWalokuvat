@@ -147,6 +147,8 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
     initialPhoto,
     currentIndex,
     resultCount,
+    location,
+    decade,
   ])
 
   const handleSearch = async (params) => {
@@ -155,17 +157,18 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
       params.location !== lastSearchParams.location ||
       params.decade !== lastSearchParams.decade
 
-    console.log("Search params have changed, fetching result count...")
     if (searchParamsChanged) {
+      console.log("Search params have changed, fetching result count...")
       let results = await getResultCount(params)
       setResultCount(results)
       setLastSearchParams(params)
+      setPreloadedPreviousPhoto(null)
+      setPreloadedNextPhoto(null)
+      setCurrentIndex(1)
+      await getPhotos({ location, decade })
+    } else {
+      console.log("Search params not changed")
     }
-
-    setPreloadedPreviousPhoto(null)
-    setPreloadedNextPhoto(null)
-    setCurrentIndex(1)
-    await getPhotos({ location, decade })
   }
 
   return (
