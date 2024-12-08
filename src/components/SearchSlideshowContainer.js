@@ -28,7 +28,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
   const [preloadedPreviousPhoto, setPreloadedPreviousPhoto] = useState(null)
   const [preloadedNextPhoto, setPreloadedNextPhoto] = useState(null)
   const [location, setLocation] = useState(null)
-  const [decade, setDecade] = useState("vuosi")
+  const [decade, setDecade] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [resultCount, setResultCount] = useState(null)
   const [lastSearchParams, setLastSearchParams] = useState(null)
@@ -144,8 +144,6 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
     }
   }, [
     displayedPhoto,
-    location,
-    decade,
     initialPhoto,
     currentIndex,
     resultCount,
