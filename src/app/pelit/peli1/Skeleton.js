@@ -2,6 +2,9 @@ import { MultipleChoiceButtonsSkeleton } from "./MultipleChoiceButtons"
 import { PhotoContainerSkeleton } from "@/components/PhotoContainer"
 import PhotoInfo from "@/components/PhotoInfo"
 
+/**
+ * Komponentti, joka näytetään, kun pelin ensimmäistä kuvaa haetaan.
+ */
 export default function Peli1Skeleton() {
   return (
     <div className="flex items-center justify-center border">

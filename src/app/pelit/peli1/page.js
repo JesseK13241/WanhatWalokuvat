@@ -81,6 +81,10 @@ export default function Peli1() {
     nextRound("handleRetry")
   }
 
+  const increaseScore = () => {
+    setScore(score + 1)
+  }
+
   if (roundNumber == 0) return <Start returnParams={setParams} />
 
   if (roundNumber > totalRounds && totalRounds)
@@ -113,8 +117,7 @@ export default function Peli1() {
         <PhotoAndAnswersContainer
           currentPhoto={currentPhoto}
           decadeRange={decadeRange}
-          score={score}
-          setScore={setScore}
+          onCorrectAnswer={increaseScore}
           answered={answered}
           setAnswered={setAnswered}
           colorsOff={colorsOff}
