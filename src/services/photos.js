@@ -127,7 +127,7 @@ export const getRandomPhoto = async ({ location, decade }) => {
 
     if (!data?.records?.length) {
       console.warn("No results found")
-      return
+      return { noPhotos: true } // Palauttaa objektin, jolla on attribuutti noPhotos. Tämä tunnistetaan Photocontainerissa
     }
 
     const photo = data.records[0]
@@ -161,7 +161,7 @@ export const getPhotoByIndex = async ({ location, decade, index }) => {
 
     if (!data?.records?.length) {
       console.warn("No results found")
-      return
+      return { noPhotos: true } // Palauttaa objektin, joka voidaan erottaa null-arvosta
     }
 
     const photo = data.records[0]

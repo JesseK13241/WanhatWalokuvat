@@ -32,7 +32,7 @@ export default function PhotoContainer({
   const [isLoading, setIsLoading] = useState(useLoading)
 
   // Näytetään ilmoitus, jos hakuehdoilla ei löydy kuvia
-  if (!photo?.id) {
+  if (photo.noPhotos) {
     return (
       <div className="mx-auto w-[95%] max-w-xl rounded-lg border border-red-500 bg-primary p-12 font-bold text-red-500">
         Hakuehtoja vastaavia kuvia ei löytynyt!
