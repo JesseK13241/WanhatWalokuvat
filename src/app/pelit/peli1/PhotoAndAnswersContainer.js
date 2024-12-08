@@ -35,7 +35,7 @@ export default function PhotoAndAnswersContainer({
     <PhotoContainer
       photo={currentPhoto}
       onLoad={onLoad}
-      className="flex flex-col items-center gap-4 px-2 bg-secondary shadow-none"
+      className="flex flex-col gap-4 bg-secondary px-2 shadow-none"
     >
       <div className="mb-4">
         <MultipleChoiceButtons
@@ -46,7 +46,7 @@ export default function PhotoAndAnswersContainer({
         />
       </div>
       <button
-        className="btn-primary mb-4 shadow-md w-32 min-w-28"
+        className="btn-primary mx-auto mb-4 shadow-md"
         onClick={handleNext}
         disabled={!answered}
       >
@@ -56,6 +56,7 @@ export default function PhotoAndAnswersContainer({
     </PhotoContainer>
   )
 
+  // Ei käytössä:
   return (
     <div className="flex flex-col gap-4 px-2">
       <Image

@@ -1,17 +1,17 @@
 "use client"
 import PhotoAndAnswersContainer from "@/app/pelit/peli1/PhotoAndAnswersContainer"
 import Results from "@/components/Results"
-import Skeleton from "@/app/pelit/peli1/Skeleton"
+import Peli1Skeleton from "@/app/pelit/peli1/Skeleton"
 import Start from "@/app/pelit/peli1/Start"
-import PhotoInfo from "@/components/PhotoInfo"
 import { getRandomPhoto } from "@/services/photos"
 import Image from "next/image"
 import { useEffect, useState } from "react"
 
 import { BASE_URL } from "@/app/constants"
+import { preload } from "react-dom"
 
 export default function Peli1() {
-  const [currentPhoto, setCurrentPhoto] = useState()
+  const [currentPhoto, setCurrentPhoto] = useState(null)
   const [decadeRange, setDecadeRange] = useState()
   const [roundNumber, setRoundNumber] = useState(0)
   const [totalRounds, setTotalRounds] = useState()
@@ -20,7 +20,6 @@ export default function Peli1() {
   const [colorsOff, setColorsOff] = useState(false)
 
   const [readyToFetch, setReadyToFetch] = useState(false)
-  const [isFetching, setIsFetching] = useState(true)
   const [preloadedPhoto, setPreloadedPhoto] = useState(null)
 
   useEffect(() => {
@@ -40,22 +39,17 @@ export default function Peli1() {
 
   const nextRound = async (source) => {
     console.log("nextRound, source: ", source)
-    setIsFetching(true)
-    var nextPhoto
-    if (preloadedPhoto) {
-      nextPhoto = preloadedPhoto
-      setIsFetching(false)
-      setPreloadedPhoto(null)
-      preloadNextPhoto()
-    } else {
-      nextPhoto = await getRandomPhoto({
-        decade: decadeRange,
-      })
-      setIsFetching(false)
-    }
-    setCurrentPhoto(nextPhoto)
+    setCurrentPhoto(null)
     setAnswered(false)
   }
+
+  useEffect(() => {
+    if (currentPhoto == null && preloadedPhoto != null) {
+      setCurrentPhoto(preloadedPhoto)
+      setPreloadedPhoto(null)
+      preloadNextPhoto()
+    }
+  }, [currentPhoto, preloadedPhoto])
 
   const setParams = (decadeRange, rounds, colorsOff) => {
     setDecadeRange(decadeRange)
@@ -65,9 +59,11 @@ export default function Peli1() {
   }
 
   const handleNext = () => {
+    setCurrentPhoto(null)
     setRoundNumber(roundNumber + 1)
-    if (!totalRounds) nextRound("handleNext")
-    else if (roundNumber < totalRounds) nextRound("handleNext")
+    if (!totalRounds || roundNumber < totalRounds) {
+      nextRound("handleNext")
+    }
   }
 
   const handleRestart = () => {
@@ -93,8 +89,8 @@ export default function Peli1() {
       />
     )
 
-  if (isFetching) {
-    return <Skeleton />
+  if (currentPhoto == null) {
+    return <Peli1Skeleton />
   }
 
   currentPhoto.author = Object.keys(currentPhoto.authors.primary)[0]
@@ -124,7 +120,7 @@ export default function Peli1() {
 
       {preloadedPhoto && (
         <Image
-          src={BASE_URL + currentPhoto.images[0]}
+          src={BASE_URL + preloadedPhoto.images[0]}
           alt=""
           height={0}
           width={0}
@@ -135,14 +131,3 @@ export default function Peli1() {
     </div>
   )
 }
-
-/*
-        <button
-          className="btn-primary mb-4 shadow-md"
-          onClick={handleNext}
-          disabled={!answered}
-        >
-          Seuraava
-        </button>
-
-        <PhotoInfo photo={currentPhoto} showYear={answered} />*/
