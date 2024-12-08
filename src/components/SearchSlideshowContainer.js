@@ -25,19 +25,13 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
 
   const [currentIndex, setCurrentIndex] = useState(1)
   const [displayedPhoto, setDisplayedPhoto] = useState(initialPhoto)
-  const [preloadedPhoto, setPreloadedPhoto] = useState(null)
+  const [preloadedPreviousPhoto, setPreloadedPreviousPhoto] = useState(null)
+  const [preloadedNextPhoto, setPreloadedNextPhoto] = useState(null)
   const [location, setLocation] = useState(null)
   const [decade, setDecade] = useState("vuosi")
   const [isLoading, setIsLoading] = useState(false)
   const [resultCount, setResultCount] = useState(null)
-
-  // console.log("Displayed photo:", displayedPhoto)
-
-  const handlePrevious = useCallback(() => {
-    console.log("Previous button clicked. Not implemented yet.")
-    // setCurrentIndex(currentIndex - 1)
-    // TODO handle previous images (by pushing previous results to stack)
-  }, [])
+  const [lastSearchParams, setLastSearchParams] = useState(null)
 
   const getPhotos = useCallback(
     async ({ location, decade }) => {
@@ -48,10 +42,11 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
           decade,
           index: currentIndex,
         })
-        console.log("Got photo:", results)
         setDisplayedPhoto(results)
+        return results
       } catch (error) {
         console.error("Search failed:", error)
+        return null
       } finally {
         setIsLoading(false)
       }
@@ -59,20 +54,45 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
     [currentIndex]
   )
 
+  const handlePrevious = useCallback(async () => {
+    if (currentIndex > 1) {
+      if (preloadedPreviousPhoto) {
+        console.log("Using preloaded previous photo")
+        setDisplayedPhoto(preloadedPreviousPhoto)
+        setPreloadedPreviousPhoto(null)
+        setCurrentIndex((prevIndex) => prevIndex - 1)
+      } else {
+        setCurrentIndex((prevIndex) => prevIndex - 1)
+        await getPhotos({ location, decade })
+      }
+    }
+  }, [currentIndex, getPhotos, location, decade, preloadedPreviousPhoto])
+
   const handleNext = useCallback(async () => {
-    if (preloadedPhoto) {
-      console.log("Using preloaded")
-      setDisplayedPhoto(preloadedPhoto)
-      setPreloadedPhoto(null)
+    if (preloadedNextPhoto) {
+      console.log("Using preloaded next photo")
+      setDisplayedPhoto(preloadedNextPhoto)
+      setPreloadedNextPhoto(null)
       setCurrentIndex((prevIndex) => prevIndex + 1)
     } else {
-      console.log("Using non-preloaded")
-      setIsLoading(true)
       await getPhotos({ location, decade })
       setCurrentIndex((prevIndex) => prevIndex + 1)
-      setIsLoading(false)
     }
-  }, [decade, location, preloadedPhoto, getPhotos])
+  }, [decade, location, preloadedNextPhoto, getPhotos])
+
+  const handleRandomPhoto = useCallback(async () => {
+    if (resultCount === null || resultCount === 0) {
+      console.warn("No results to randomize")
+      return
+    }
+
+    const randomIndex = Math.ceil(Math.random() * Math.min(resultCount, 100000))
+    setCurrentIndex(randomIndex)
+    setDisplayedPhoto(null)
+    setPreloadedPreviousPhoto(null)
+    setPreloadedNextPhoto(null)
+    await getPhotos({ location, decade })
+  }, [resultCount, getPhotos, location, decade])
 
   useEffect(() => {
     const handleKeyPress = (e) => {
@@ -85,27 +105,66 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
   }, [handlePrevious, handleNext])
 
   useEffect(() => {
-    const preloadNextPhoto = async () => {
-      console.log("Preloading photo")
-      const nextPhoto = await getPhotoByIndex({
-        location,
-        decade,
-        index: currentIndex + 1,
-      })
-      console.log("Got next photo:", nextPhoto)
-      setPreloadedPhoto(nextPhoto)
+    const preloadPhotos = async () => {
+      try {
+        // Preload previous photo (if index > 1)
+        if (currentIndex > 1) {
+          const previousPhoto = await getPhotoByIndex({
+            location,
+            decade,
+            index: currentIndex - 1,
+          })
+
+          if (previousPhoto) {
+            setPreloadedPreviousPhoto(previousPhoto)
+          }
+        }
+
+        // Preload next photo (if index < result count)
+        if (!resultCount || currentIndex < resultCount) {
+          const nextPhoto = await getPhotoByIndex({
+            location,
+            decade,
+            index: currentIndex + 1,
+          })
+
+          if (nextPhoto) {
+            setPreloadedNextPhoto(nextPhoto)
+          }
+        }
+      } catch (error) {
+        console.error("Preload failed:", error)
+      }
     }
 
-    // Skippaa preload jos navigaatiota ei ole aloitettu
-    if (displayedPhoto !== initialPhoto) {
-      preloadNextPhoto()
+    if (displayedPhoto && displayedPhoto !== initialPhoto) {
+      preloadPhotos()
     }
-  }, [displayedPhoto, location, decade, initialPhoto, currentIndex])
+  }, [
+    displayedPhoto,
+    location,
+    decade,
+    initialPhoto,
+    currentIndex,
+    resultCount,
+  ])
 
   const handleSearch = async (params) => {
+    const searchParamsChanged =
+      !lastSearchParams ||
+      params.location !== lastSearchParams.location ||
+      params.decade !== lastSearchParams.decade
+
+    console.log("Search params have changed, fetching result count...")
+    if (searchParamsChanged) {
+      let results = await getResultCount(params)
+      setResultCount(results)
+      setLastSearchParams(params)
+    }
+
+    setPreloadedPreviousPhoto(null)
+    setPreloadedNextPhoto(null)
     setCurrentIndex(1)
-    let results = await getResultCount(params)
-    setResultCount(results)
     await getPhotos(params)
   }
 
@@ -119,7 +178,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
         setDecade={setDecade}
       />
 
-      {displayedPhoto ? ( // Jos kuva on null (eli lataa), palautetaan skeleton
+      {displayedPhoto ? (
         <PhotoContainer photo={displayedPhoto} useLoading={true} />
       ) : (
         <div className="mx-auto w-[95%] max-w-xl overflow-hidden rounded-lg bg-primary shadow-md">
@@ -135,17 +194,19 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
       {resultCount && (
         <div className="flex flex-wrap items-center justify-center gap-10">
           <div className="flex items-center gap-4">
-            <button onClick={handlePrevious} className="btn-primary">
+            <button
+              onClick={handlePrevious}
+              className="btn-primary"
+              disabled={currentIndex <= 1 || isLoading}
+            >
               Edellinen
             </button>
             <div className="flex w-32 justify-center">
-              {" "}
-              {/* Fixed width for counter */}
               {currentIndex} / {Math.min(resultCount, 100000)}
             </div>
             <button
               onClick={() => {
-                setDisplayedPhoto(null) // Asetetaan null, jotta kuva häviää näkyvistä
+                setDisplayedPhoto(null)
                 handleNext()
               }}
               className="btn-primary"
@@ -156,26 +217,26 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
           </div>
           <div className="flex w-full justify-center">
             <button
-              onClick={async () => {
-                const randomIndex = Math.ceil(
-                  Math.random() * Math.min(resultCount, 100000)
-                )
-                setCurrentIndex(randomIndex)
-                setDisplayedPhoto(null)
-                setPreloadedPhoto(null)
-                await getPhotos({ location, decade })
-              }}
+              onClick={handleRandomPhoto}
               className="btn-primary px-6"
+              disabled={isLoading}
             >
               <Shuffle />
             </button>
           </div>
         </div>
       )}
-      {/* Piilotettu DOM-komponentti kuvan esilataamista varten */}
-      {preloadedPhoto && (
+
+      {/* Hidden preloaded elements */}
+      {preloadedPreviousPhoto && (
         <div className="hidden">
-          <PhotoContainer photo={preloadedPhoto} />
+          <PhotoContainer photo={preloadedPreviousPhoto} />
+        </div>
+      )}
+
+      {preloadedNextPhoto && (
+        <div className="hidden">
+          <PhotoContainer photo={preloadedNextPhoto} />
         </div>
       )}
     </div>
