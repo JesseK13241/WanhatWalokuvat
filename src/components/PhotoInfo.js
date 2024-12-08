@@ -26,24 +26,24 @@ export default function PhotoInfo({
   // Jos loading=true, näytetään tekstit "Ladataan..." tietojen sijasta.
   if (loading) {
     return (
-      <div className="space-y-2 h-48 rounded-xl bg-primary p-4">
-        <p className="text-lg whitespace-nowrap overflow-hidden text-ellipsis">
+      <div className="h-48 space-y-2 rounded-xl bg-primary p-4">
+        <p className="truncate text-lg">
           <span className="font-bold">Otsikko: </span>
           Ladataan...
         </p>
-        <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+        <p className="truncate text-sm">
           <span className="font-semibold">Vuosi: </span>
           Ladataan...
         </p>
-        <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+        <p className="truncate text-sm">
           <span className="font-semibold">Sijainti: </span>
           Ladataan...
         </p>
-        <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+        <p className="truncate text-sm">
           <span className="font-semibold">Tekijä: </span>
           Ladataan...
         </p>
-        <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+        <p className="truncate text-sm">
           <span className="font-semibold">Organisaatio: </span>
           Ladataan...
         </p>
@@ -56,23 +56,23 @@ export default function PhotoInfo({
   // ja niiden perusteella näytetään kuvan tiedot tai jätetään näyttämättä.
   return (
     <div className={`${variantClasses} ${className}`}>
-      <p className="text-lg whitespace-nowrap overflow-hidden text-ellipsis">
+      <p className="truncate text-lg">
         <span className="font-bold">Otsikko: </span>
         {(showTitle && photo.title) || "Piilotettu"}
       </p>
-      <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+      <p className="truncate text-sm">
         <span className="font-semibold">Vuosi: </span>
-        {(showYear && photo.year) || "Piilotettu"}
+        {showYear ? (photo.year || "Ei tiedossa") : "Piilotettu"}
       </p>
-      <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+      <p className="truncate text-sm">
         <span className="font-semibold">Sijainti: </span>
         {photo.subjects?.[photo.subjects.length - 1]?.[0] || "Ei tiedossa"}
       </p>
-      <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+      <p className="truncate text-sm">
         <span className="font-semibold">Tekijä: </span>
         {photo.author || "Ei tiedossa"}
       </p>
-      <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+      <p className="truncate text-sm">
         <span className="font-semibold">Organisaatio: </span>
         {photo.building || "Ei tiedossa"}
       </p>
