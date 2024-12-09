@@ -4,13 +4,13 @@ import peli2 from "@/public/images/peli2.jpg"
 
 export default function Pelit() {
   return (
-    <div className="flex flex-wrap gap-4 p-4">
+    <div className="m-4 flex flex-wrap justify-center gap-4 sm:flex-row">
       <GameCard
-        title="Arvaa vuosikymmen"
+        title="Veikkaa vuosikymmen"
         imageSrc={peli1}
-        description="Arvaa neljästä vaihtoehdosta, miltä vuosikymmeneltä kuva on"
+        description="Veikkaa millä vuosikymmenellä annettu kuva on otettu."
         path="/pelit/peli1"
-      />
+      /> 
       <GameCard
         title="Arvaa vanhempi"
         imageSrc={peli2}

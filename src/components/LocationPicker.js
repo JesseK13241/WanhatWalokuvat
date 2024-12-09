@@ -323,8 +323,8 @@ const LOCATIONS = {
  */
 export default function LocationPicker({ value, onChange }) {
   return (
-    <div className="">
-      <label className="text-lg">Alue: </label>
+    <div className="flex">
+      <label className="p-2 text-lg">Alue: </label>
       <select
         className="cursor-pointer rounded bg-secondary p-2 shadow-md hover:saturate-200"
         value={value ? `${value.lat},${value.lon}` : ""}

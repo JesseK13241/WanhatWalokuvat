@@ -195,7 +195,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
       )}
 
       {resultCount && (
-        <div className="flex flex-wrap items-center justify-center gap-10">
+        <div className="flex flex-wrap items-center justify-center gap-6">
           <div className="flex items-center gap-4">
             <button
               onClick={handlePrevious}
