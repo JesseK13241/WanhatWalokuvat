@@ -2,7 +2,7 @@
 
 import DecadePicker from "@/components/DecadePicker"
 import LocationPicker from "@/components/LocationPicker"
-import { SearchIcon, Search as searchIcon} from "lucide-react" 
+import { SearchIcon, Search as searchIcon } from "lucide-react"
 
 export default function Search({
   location,
@@ -21,7 +21,7 @@ export default function Search({
         onClick={() => onSearch({ location, decade })}
         className="btn-primary mx-auto flex items-center gap-2 sm:mx-4"
       >
-        <SearchIcon/>
+        <SearchIcon />
         Hae
       </button>
     </div>

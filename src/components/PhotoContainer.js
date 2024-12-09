@@ -68,14 +68,14 @@ export default function PhotoContainer({
 
   // Image-komponentin tyylit.
   const imageClasses = `
-    object-contain 
+    object-contain
     ${onClick ? "group-hover:opacity-70" : ""}
     ${grayscale ? "grayscale" : ""}
   `
 
   // Kuvan taustan tyylit.
   const backgroundClasses = `
-    flex absolute inset-0 bg-tertiary items-center justify-center
+    flex absolute inset-0 bg-tertiary items-center justify-center overflow-hidden
     ${onClick ? "group-hover:bg-accent" : ""}
     ${classNameBG}
   `
@@ -117,7 +117,11 @@ export default function PhotoContainer({
  *             tämän komponentin lapseksi. Jos lapsia ei ole, käytetään
  *             oletuksena <PhotoInfo loading={true} />, eli photoInfon latauskomponentti (skeleton)
  */
-export function PhotoContainerSkeleton({ className = "", classNameBG = "", children }) {
+export function PhotoContainerSkeleton({
+  className = "",
+  classNameBG = "",
+  children,
+}) {
   // Koko Containerin (uloin div) tyyli.
   // Jos onClick-funktio on annettu, muutetaan tyyliä napin tapaan, kun hiiri viedään komponentin päälle.
   // Jos propertynä className on annettu lisää tailwind-luokkia, ne lisätään tyylin perään.

@@ -22,7 +22,7 @@ export default function Peli1() {
   const [readyToFetch, setReadyToFetch] = useState(false)
   const [preloadedPhoto, setPreloadedPhoto] = useState(null)
 
-  // 
+  //
   useEffect(() => {
     if (readyToFetch) {
       nextRound("useEffect")
@@ -37,7 +37,7 @@ export default function Peli1() {
     randomIndex = Math.ceil(Math.random() * Math.min(randomIndex, 100000))
     const img = await getPhotoByIndex({
       decade: decadeRange,
-      index: randomIndex
+      index: randomIndex,
     })
     setPreloadedPhoto(img)
   }
@@ -115,7 +115,7 @@ export default function Peli1() {
   currentPhoto.building = buildings
 
   return (
-    <div className="flex flex-col items-center justify-center border">
+    <div className="flex flex-col items-center justify-center">
       <PhotoAndAnswersContainer
         currentPhoto={currentPhoto}
         decadeRange={decadeRange}

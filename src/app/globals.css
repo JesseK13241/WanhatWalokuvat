@@ -32,6 +32,6 @@ body {
     @apply border-none rounded bg-secondary border px-4 py-2 enabled:hover:saturate-200 shadow-md;
   }
   .external-link {
-    @apply text-blue-600 hover:text-blue-800 hover:underline
+    @apply text-blue-600 hover:text-blue-800 hover:underline;
   }
 }

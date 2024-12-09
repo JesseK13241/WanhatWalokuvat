@@ -10,7 +10,7 @@ export default function Pelit() {
         imageSrc={peli1}
         description="Veikkaa millä vuosikymmenellä annettu kuva on otettu."
         path="/pelit/peli1"
-      /> 
+      />
       <GameCard
         title="Arvaa vanhempi"
         imageSrc={peli2}

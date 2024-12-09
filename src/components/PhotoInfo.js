@@ -62,7 +62,7 @@ export default function PhotoInfo({
       </p>
       <p className="truncate text-sm">
         <span className="font-semibold">Vuosi: </span>
-        {showYear ? (photo.year || "Ei tiedossa") : "Piilotettu"}
+        {showYear ? photo.year || "Ei tiedossa" : "Piilotettu"}
       </p>
       <p className="truncate text-sm">
         <span className="font-semibold">Sijainti: </span>

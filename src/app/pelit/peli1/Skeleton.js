@@ -8,16 +8,14 @@ import PhotoInfo from "@/components/PhotoInfo"
 export default function Peli1Skeleton() {
   return (
     <div className="flex w-screen items-center justify-center border">
-      <PhotoContainerSkeleton 
+      <PhotoContainerSkeleton
         className="m-4 flex flex-col rounded-lg bg-secondary p-6"
-        classNameBG="rounded-lg">
+        classNameBG="rounded-lg"
+      >
         <div className="my-4">
           <MultipleChoiceButtonsSkeleton />
         </div>
-        <button
-          className="btn-primary mx-auto mb-4 shadow-md"
-          disabled={true}
-        >
+        <button className="btn-primary mx-auto mb-4 shadow-md" disabled={true}>
           Seuraava
         </button>
         <PhotoInfo loading={true} />

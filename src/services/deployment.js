@@ -9,7 +9,7 @@ export const DeploymentSha = ({ url }) => {
 
   return (
     <p>
-      Version 
+      Version
       <a className="external-link p-1" href={commitUrl}>
         {shortSha}
       </a>

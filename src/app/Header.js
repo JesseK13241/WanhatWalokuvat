@@ -16,9 +16,9 @@ const Header = () => {
           Wanhat Walokuvat
         </h1>
       </Link>
-      <Link href="/pelit/" className="sm:ml-10 sm:text-xl">
+      <Link href="/pelit/" className="sm:ml-8 sm:text-xl">
         <h2 className="flex items-center justify-center gap-2 rounded-3xl bg-accent px-6 py-2 font-bold shadow-md transition-all duration-200 hover:saturate-200">
-          <Gamepad2/>
+          <Gamepad2 />
           Pelit
         </h2>
       </Link>

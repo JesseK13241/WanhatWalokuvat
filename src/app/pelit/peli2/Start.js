@@ -17,11 +17,9 @@ export default function Start({ initGameWithParams }) {
   return (
     <GameStartMenu
       name={"Arvaa vanhempi"}
-      description={
-        `Tehtävänäsi on valita vanhin kuva kahdesta eri vaihtoehdosta.         
+      description={`Tehtävänäsi on valita vanhin kuva kahdesta eri vaihtoehdosta.         
         Halutessasi pelistä voi tehdä haastavamman piilottamalla värit, 
-        jolloin kuvat näytetään mustavalkoisina ennen vastausta.`
-      }
+        jolloin kuvat näytetään mustavalkoisina ennen vastausta.`}
       handleSubmit={handleSubmit}
     >
       <RoundsSelector rounds={rounds} setRounds={setRounds} />

@@ -43,12 +43,10 @@ export default function Aloitus({ returnParams }) {
   return (
     <GameStartMenu
       name={"Veikkaa vuosikymmen"}
-      description={
-        `Tehtävänäsi on arvata annetun valokuvan vuosikymmen neljästä vaihtoehdosta. 
+      description={`Tehtävänäsi on arvata annetun valokuvan vuosikymmen neljästä vaihtoehdosta. 
         Jos määrittelet pelille kierrosmäärän, pelin lopussa näytetään oikeiden ja väärien
         vastausten lukumäärät. Haastetasoa voit kontrolloida rajaamalla vuosikymmenten väliä
-        ja päättämällä piilotetaanko valokuvien värit.`
-      }
+        ja päättämällä piilotetaanko valokuvien värit.`}
       handleSubmit={handleSubmit}
     >
       {/* Valitaan vuosikymmenten alaraja: */}
