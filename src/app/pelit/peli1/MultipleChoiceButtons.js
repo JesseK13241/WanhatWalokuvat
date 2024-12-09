@@ -109,9 +109,9 @@ export function MultipleChoiceButtonsSkeleton() {
   const buttonSkeleton = (
     <button
       disabled
-      className="border-primary border-2 rounded bg-primary px-4 py-2 enabled:hover:bg-tertiary enabled:hover:border-accent"
+      className="rounded border-2 bg-primary px-4 py-2 text-primary"
     >
-      {"----"}
+      9999
     </button>
   )
 

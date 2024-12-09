@@ -3,12 +3,11 @@ import PhotoAndAnswersContainer from "@/app/pelit/peli1/PhotoAndAnswersContainer
 import Results from "@/components/Results"
 import Peli1Skeleton from "@/app/pelit/peli1/Skeleton"
 import Start from "@/app/pelit/peli1/Start"
-import { getRandomPhoto, getResultCount } from "@/services/photos"
+import { getPhotoByIndex, getResultCount } from "@/services/photos"
 import Image from "next/image"
 import { useEffect, useState } from "react"
 
 import { BASE_URL } from "@/app/constants"
-import { preload } from "react-dom"
 
 export default function Peli1() {
   const [currentPhoto, setCurrentPhoto] = useState(null)
@@ -23,6 +22,7 @@ export default function Peli1() {
   const [readyToFetch, setReadyToFetch] = useState(false)
   const [preloadedPhoto, setPreloadedPhoto] = useState(null)
 
+  // 
   useEffect(() => {
     if (readyToFetch) {
       nextRound("useEffect")
@@ -32,9 +32,12 @@ export default function Peli1() {
   }, [readyToFetch])
 
   const preloadNextPhoto = async () => {
-    const img = await getRandomPhoto({
+    var randomIndex = resultCount
+    if (!resultCount) randomIndex = 10000
+    randomIndex = Math.ceil(Math.random() * Math.min(randomIndex, 100000))
+    const img = await getPhotoByIndex({
       decade: decadeRange,
-      resultCountParam: resultCount,
+      index: randomIndex
     })
     setPreloadedPhoto(img)
   }
@@ -58,8 +61,8 @@ export default function Peli1() {
     setTotalRounds(rounds)
     setColorsOff(colorsOff)
     setReadyToFetch(true)
-    const results = await getResultCount({ decade: decadeRange })
-    setResultCount(results)
+    const resultCount = await getResultCount({ decade: decadeRange })
+    setResultCount(resultCount)
   }
 
   const handleNext = () => {
@@ -112,18 +115,16 @@ export default function Peli1() {
   currentPhoto.building = buildings
 
   return (
-    <div className="flex items-center justify-center border">
-      <div className="m-4 flex w-screen max-w-2xl flex-col items-center rounded-md bg-secondary p-6 shadow-lg">
-        <PhotoAndAnswersContainer
-          currentPhoto={currentPhoto}
-          decadeRange={decadeRange}
-          onCorrectAnswer={increaseScore}
-          answered={answered}
-          setAnswered={setAnswered}
-          colorsOff={colorsOff}
-          handleNext={handleNext}
-        />
-      </div>
+    <div className="flex flex-col items-center justify-center border">
+      <PhotoAndAnswersContainer
+        currentPhoto={currentPhoto}
+        decadeRange={decadeRange}
+        onCorrectAnswer={increaseScore}
+        answered={answered}
+        setAnswered={setAnswered}
+        colorsOff={colorsOff}
+        handleNext={handleNext}
+      />
 
       {preloadedPhoto && (
         <Image

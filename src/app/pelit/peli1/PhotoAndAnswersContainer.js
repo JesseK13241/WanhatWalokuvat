@@ -30,7 +30,7 @@ export default function PhotoAndAnswersContainer({
 
   /**
    * Kutsutaan, kun pelaaja arvaa kuvan vuosilukua.
-   * @param {Boolean} isCorrect - Vastasiko pelaaja väärin
+   * @param {Boolean} isCorrect - Vastasiko pelaaja oikein
    */
   const handleAnswer = (isCorrect) => {
     if (isCorrect) onCorrectAnswer() // Kutsutaan onCorrectAnswer, jos vastaus oli oikein
@@ -45,16 +45,15 @@ export default function PhotoAndAnswersContainer({
     setReadyToAnswer(true) // Merkataan, että pelaaja voi vastata
   }
 
-  const imageUrl = currentPhoto && BASE_URL + currentPhoto.images[0]
-
   return (
     <PhotoContainer
       photo={currentPhoto}
       onLoad={onLoad}
-      className="flex flex-col gap-4 bg-secondary px-2 shadow-none"
+      className="m-4 flex flex-col gap-4 rounded-lg bg-secondary p-6"
+      classNameBG="rounded-lg"
       grayscale={answered ? false : colorsOff}
     >
-      <div className="mb-4">
+      <div>
         <MultipleChoiceButtons
           correctYear={currentPhoto.year}
           range={decadeRange}
@@ -63,7 +62,7 @@ export default function PhotoAndAnswersContainer({
         />
       </div>
       <button
-        className="btn-primary mx-auto mb-4 shadow-md"
+        className="btn-primary mx-auto shadow-md"
         onClick={handleNext}
         disabled={!answered}
       >

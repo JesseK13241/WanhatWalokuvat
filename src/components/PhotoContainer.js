@@ -20,6 +20,7 @@ export default function PhotoContainer({
   onClick, // Funktio, jota kutsutaan, kun komponenttia (kuvaa) klikataan. Jos tyhjä, komponentti ei toimi nappina.
   onLoad, // Funktio, jota kutsutaan, kun kuva latautuu
   className = "", // Komponentin oletustyyliin lisättävät tailwind-tyylit
+  classNameBG = "", // Kuvan taustan tyyli
   useLoading = true, // Totuusarvo, joka kertoo käytetäänkö loading-komponenttia
   infoProps, // PhotoInfo-komponentille välitettävät propertyt objectina
   children, // Ei tarkoitus käyttää suoraan. Tähän muuttujaan tulee elementit, jotka laitetaan PhotoContainerin lapsiksi.
@@ -76,6 +77,7 @@ export default function PhotoContainer({
   const backgroundClasses = `
     flex absolute inset-0 bg-tertiary items-center justify-center
     ${onClick ? "group-hover:bg-accent" : ""}
+    ${classNameBG}
   `
 
   // Palautetaan komponentti.
@@ -115,7 +117,7 @@ export default function PhotoContainer({
  *             tämän komponentin lapseksi. Jos lapsia ei ole, käytetään
  *             oletuksena <PhotoInfo loading={true} />, eli photoInfon latauskomponentti (skeleton)
  */
-export function PhotoContainerSkeleton({ className = "", children }) {
+export function PhotoContainerSkeleton({ className = "", classNameBG = "", children }) {
   // Koko Containerin (uloin div) tyyli.
   // Jos onClick-funktio on annettu, muutetaan tyyliä napin tapaan, kun hiiri viedään komponentin päälle.
   // Jos propertynä className on annettu lisää tailwind-luokkia, ne lisätään tyylin perään.
@@ -127,6 +129,7 @@ export function PhotoContainerSkeleton({ className = "", children }) {
   // Kuvan taustan tyylit.
   const backgroundClasses = `
     flex absolute inset-0 bg-tertiary items-center justify-center
+    ${classNameBG}
   `
 
   return (

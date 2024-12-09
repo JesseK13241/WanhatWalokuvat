@@ -19,7 +19,7 @@ export default function ToggleInput({ labelText, value, setValue }) {
           className="peer sr-only"
           onChange={() => setValue(!value)}
         />
-        <span className="absolute left-1 top-1 size-6 rounded-full bg-gray-200 transition peer-checked:left-7 peer-checked:bg-accent" />
+        <span className="absolute left-1 top-1 size-6 rounded-full bg-secondary peer-checked:left-7 peer-checked:bg-accent" />
       </label>
     </div>
   )

@@ -7,21 +7,21 @@ import PhotoInfo from "@/components/PhotoInfo"
  */
 export default function Peli1Skeleton() {
   return (
-    <div className="flex items-center justify-center border">
-      <div className="m-4 flex w-screen max-w-2xl flex-col items-center rounded-md bg-secondary p-6 shadow-lg">
-        <PhotoContainerSkeleton className="flex flex-col gap-4 bg-secondary px-2 shadow-none">
-          <div className="mb-4">
-            <MultipleChoiceButtonsSkeleton />
-          </div>
-          <button
-            className="btn-primary mx-auto mb-4 shadow-md"
-            disabled={true}
-          >
-            Seuraava
-          </button>
-          <PhotoInfo loading={true} />
-        </PhotoContainerSkeleton>
-      </div>
+    <div className="flex w-screen items-center justify-center border">
+      <PhotoContainerSkeleton 
+        className="m-4 flex flex-col rounded-lg bg-secondary p-6"
+        classNameBG="rounded-lg">
+        <div className="my-4">
+          <MultipleChoiceButtonsSkeleton />
+        </div>
+        <button
+          className="btn-primary mx-auto mb-4 shadow-md"
+          disabled={true}
+        >
+          Seuraava
+        </button>
+        <PhotoInfo loading={true} />
+      </PhotoContainerSkeleton>
     </div>
   )
 
