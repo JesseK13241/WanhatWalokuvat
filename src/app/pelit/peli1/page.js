@@ -9,29 +9,40 @@ import { useEffect, useState } from "react"
 
 import { BASE_URL } from "@/app/constants"
 
+/**
+ * Peli, jossa pelaajan pitää arvata miltä vuosikymmeneltä satunnainen kuva on.
+ */
 export default function Peli1() {
-  const [currentPhoto, setCurrentPhoto] = useState(null)
-  const [decadeRange, setDecadeRange] = useState()
-  const [roundNumber, setRoundNumber] = useState(0)
-  const [totalRounds, setTotalRounds] = useState()
-  const [score, setScore] = useState(0)
-  const [answered, setAnswered] = useState(false)
-  const [colorsOff, setColorsOff] = useState(false)
-  const [resultCount, setResultCount] = useState(null)
+  const [currentPhoto, setCurrentPhoto] = useState(null) // Pelaajalle näytetäävä kuva (asetetaan null, jos kuvaa haetaan)
+  const [decadeRange, setDecadeRange] = useState() // Vuosilukuhaarukka, jolta satunnaisia kuvia haetaan
+  const [roundNumber, setRoundNumber] = useState(0) // Tämänhetkisen kierroksen numero. 1 = ensimmäinen kierros
+  const [totalRounds, setTotalRounds] = useState() // Pelattavien kierrosten määrä (lopetetaan, kun tämä määrä kierroksia tulee täyteen)
+  const [score, setScore] = useState(0) // Pelaajan pisteet (oikeasta arvauksesta saa 1 pisteen, väärästä 0)
+  const [answered, setAnswered] = useState(false) // Onko pelaaja vastannut tällä kierroksella
+  const [colorsOff, setColorsOff] = useState(false) // Näytetäänkö kaikki kuvat mustavalkoisina haasteen lisäämiseksi
+  const [resultCount, setResultCount] = useState(null) // Löytyneiden hakutulosten (kuvien) määrä hakuparametreilla
 
-  const [readyToFetch, setReadyToFetch] = useState(false)
-  const [preloadedPhoto, setPreloadedPhoto] = useState(null)
+  const [readyToFetch, setReadyToFetch] = useState(false) // Onko peli valmis hakemaan ensimmäisen kuvan
+  const [preloadedPhoto, setPreloadedPhoto] = useState(null) // Seuraavan kierroksen kuva, joka haetaan valmiiksi
 
-  //
+  // Funktio, jota kutsutaan, kun muuttujan readyToFetch arvo muuttuu.
+  // Käytännössä funktiota kutsutaan ja if-lauseen sisältö suoritetaan,
+  // kun asetetaan setReadyToFetch(true), eli kun peli on valmis aloitettavaksi.
+  // Funktio aloittaa pelin
   useEffect(() => {
     if (readyToFetch) {
-      nextRound("useEffect")
-      setRoundNumber(1)
-      preloadNextPhoto()
+      nextRound("useEffect") // aloitetaan seuraava (ensimmäinen) kierros
+      setRoundNumber(1) // Asetetaan kierroksen numero
+      preloadNextPhoto() // Haetaan taustalla valmiiksi ensimmäinen kuva
     }
   }, [readyToFetch])
 
+  /**
+   * Hakee seuraavan kierroksen kuvan ja asetttaa sen muuttujaan preloadedPhoto
+   */
   const preloadNextPhoto = async () => {
+    // Asetetaan hakuun randomIndex (random kokonaisluku, mutta korkeintaan tulosten määrä tai 100 000)
+    // 100 000 on rajapinnan kautta kerralla haettavien sivujen (kuvien) lukumäärä
     var randomIndex = resultCount
     if (!resultCount) randomIndex = 10000
     randomIndex = Math.ceil(Math.random() * Math.min(randomIndex, 100000))
@@ -42,12 +53,22 @@ export default function Peli1() {
     setPreloadedPhoto(img)
   }
 
+  /**
+   * Aloittaa seuraavan kierroksen asettamalla näytettävän kuvan nulliksi
+   */
   const nextRound = async (source) => {
     console.log("nextRound, source: ", source)
     setCurrentPhoto(null)
     setAnswered(false)
   }
 
+  // Funktiota kutsutaan, kun tämänhetkinen kuva tai seuraavan kierroksen kuva päivittyy
+  //
+  // Jos siis seuraavaa kuvaa ladataan vielä, currentPhoto on null kunnes preloadedPhoto saadaan ladattua.
+  // PreloadedPhoton latauduttua se asetetaan currentPhotoon.
+  // Jos preloadedPhoto on jo valmiina, kun currentPhoto asetetaan nulliksi (eli seuraava kierros),
+  // preloadedPhoto asetetaan suoraan currentPhotoon.
+  // Näiden jälkeen aletaan taustalla hakea seuraavaa preloadedPhotoa.
   useEffect(() => {
     if (currentPhoto == null && preloadedPhoto != null) {
       setCurrentPhoto(preloadedPhoto)
@@ -56,15 +77,25 @@ export default function Peli1() {
     }
   }, [currentPhoto, preloadedPhoto])
 
+  /**
+   * Asetetaan pelin parametrit (vuosikymmenhaarukka, kierrosten määrä, mustavalkokuvat?).
+   * Tätä kutsutaan Start-komponentista kun pelaaja aloittaa pelin.
+   */
   const setParams = async (decadeRange, rounds, colorsOff) => {
     setDecadeRange(decadeRange)
     setTotalRounds(rounds)
     setColorsOff(colorsOff)
-    setReadyToFetch(true)
+    setReadyToFetch(true) // Asetetaan readyToFetch, mikä taas aloittaa ensimmäisen kierroksen
+    // Haetaan resultCount, jotta sitä ei tarvitse jokaisen kuvan kohdalla erikseen hakea.
     const resultCount = await getResultCount({ decade: decadeRange })
     setResultCount(resultCount)
   }
 
+  /**
+   * Tarkistaa ollaanko viimeisessä kierroksessa ja jos ei,
+   * kutsuu nextRound ja aloittaa seuraavan kierroksen.
+   * Tätä kutsutaan, kun pelaaja valitsee "seuraava"
+   */
   const handleNext = () => {
     setCurrentPhoto(null)
     setRoundNumber(roundNumber + 1)
@@ -73,23 +104,37 @@ export default function Peli1() {
     }
   }
 
+  /**
+   * Nollaa pelin ja asettaa pelin takaisin aloitusnäkymään, jossa voi vaihtaa asetuksia.
+   * Kutsutaan, kun pelaaja painaa tulosnäkymässä "Palaa alkuun"
+   */
   const handleRestart = () => {
     setRoundNumber(0)
     setReadyToFetch(false)
   }
 
+  /**
+   * Nollaa pisteet ja kierrokset ja aloittaa pelin uudestaan kierroksesta 1.
+   * Asetukset pidetään samoina.
+   * Kutsutaan, kun pelaaja painaa tulosnäkymässä "Pelaa uudestaan"
+   */
   const handleRetry = () => {
     setRoundNumber(1)
     setScore(0)
     nextRound("handleRetry")
   }
 
+  /**
+   * Kasvattaa pisteitä yhdellä. Kutsutaan kun pelaaja vastaa oikein.
+   */
   const increaseScore = () => {
     setScore(score + 1)
   }
 
+  // Palautetaan alkuvalikko
   if (roundNumber == 0) return <Start returnParams={setParams} />
 
+  // Jos ollaan saavutettu pelattavien kierrosten määrä, näytetään tulokset
   if (roundNumber > totalRounds && totalRounds)
     return (
       <Results
@@ -100,10 +145,12 @@ export default function Peli1() {
       />
     )
 
+  // Jos kuvaa ladataan, näytetään latauskomponentti
   if (currentPhoto == null) {
     return <Peli1Skeleton />
   }
 
+  // Siistitään kuvan tietoja:
   currentPhoto.author = Object.keys(currentPhoto.authors.primary)[0]
 
   var buildings = currentPhoto.buildings[0].translated
