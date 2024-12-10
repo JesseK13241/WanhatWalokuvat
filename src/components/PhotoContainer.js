@@ -32,6 +32,11 @@ export default function PhotoContainer({
 }) {
   const [isLoading, setIsLoading] = useState(useLoading)
 
+  // Tarkistetaan onko kuva null
+  if (photo == null) {
+    return <PhotoContainerSkeleton />
+  }
+
   // Näytetään ilmoitus, jos hakuehdoilla ei löydy kuvia.
   // Jos photos.js ei saa tuloksia, palautetaan objekti { noPhotos: true }.
   // Tässä tarkistetaan onko annettu photo tuollainen objekti.
