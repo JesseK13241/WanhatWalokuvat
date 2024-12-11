@@ -1,8 +1,8 @@
 import { IMAGE_BASE_URL } from "@/app/constants"
 import PhotoInfo from "@/components/PhotoInfo"
+import { LoaderCircle } from "lucide-react"
 import Image from "next/image"
 import { useState } from "react"
-import { LoaderCircle } from "lucide-react"
 
 /**
  * Komponentti, jolla esitetään kuva ja siihen liittyvät tiedot.

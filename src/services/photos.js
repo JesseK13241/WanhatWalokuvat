@@ -68,7 +68,7 @@ const prepareRequest = ({ decade, location, index }) => {
     urlToFetch += `&filter[]={!geofilt+sfield=location_geo+pt=${location.lat},${location.lon}+d=${location.r}}`
   }
 
-  // console.log("Request URL:", urlToFetch)
+  console.log("Request URL:", urlToFetch)
 
   return urlToFetch
 }
@@ -134,8 +134,9 @@ export const getRandomPhoto = async ({
   }
 
   const randomIndex = Math.ceil(Math.random() * Math.min(resultCount, 100000))
+  console.log("Using random index", randomIndex)
 
-  const urlToFetch = prepareRequest({ location, decade, randomIndex })
+  const urlToFetch = prepareRequest({ location, decade, index: randomIndex })
 
   try {
     const response = await fetch(urlToFetch)

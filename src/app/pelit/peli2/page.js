@@ -109,6 +109,7 @@ export default function Peli2() {
    * Hakee uudet kuvat ja aloittaa uuden kierroksen
    */
   const nextRound = async () => {
+    console.log("Current left:", leftPhoto, "right", rightPhoto)
     console.log("nextRound, left:", preloadedLeft, "right", preloadedRight)
     setLeftPhoto(null) // Alustetaan kuvat null, jotta löydetään virheet helpommin
     setRightPhoto(null)
@@ -131,25 +132,30 @@ export default function Peli2() {
    * onko peliin jo vastattu, jolloin pelin kuvat voi korvata esiladatuilla.
    */
   useEffect(() => {
-    // Käytännössä tämän if-lauseen sisälle mennään, kun pelaaja on valinnut "seuraava"
+    // Seuraava-painike klikattu
     if (started && leftPhoto == null && rightPhoto == null) {
       if (preloadedLeft && preloadedRight) {
-        // Tänne mennään, jos esiladatut kuvat ovat valmiita
         console.log("Asetetaan esiladatut kuvat")
-        setLeftPhoto(preloadedLeft)
-        setLeftLoading(true) // Asetetaan true, jotta tiedetään näyttää latauskomponentti kuvan sijaan
-        setRightPhoto(preloadedRight)
+
+        const newLeftPhoto = { ...preloadedLeft }
+        const newRightPhoto = { ...preloadedRight }
+
+        setLeftPhoto(newLeftPhoto)
+        setRightPhoto(newRightPhoto)
+
+        setLeftLoading(true)
         setRightLoading(true)
-        // Alustetaan ja haetaan seuraavat kuvat:
+
         setPreloadedLeft(null)
         setPreloadedRight(null)
-        fetchPreload()
+
+        fetchPreload().catch((error) => console.error("Preload failed:", error))
+
       } else {
-        // Tänne mennään, jos pelaaja on valinnut seuraava, mutta esiladatut kuvat eivät ole valmiina
         console.log("Odotetaan seuraavia kuvia...")
       }
     }
-  }, [leftPhoto, rightPhoto, preloadedLeft, preloadedRight])
+  }, [leftPhoto, rightPhoto, started, preloadedLeft, preloadedRight])
 
   /**
    * Hakee vanhemman kuvan ja asettaa sen vasemmaksi kuvaksi
@@ -158,6 +164,7 @@ export default function Peli2() {
    */
   const fetchOlder = async (setPhoto) => {
     const older = await getRandomPhoto({ decade: olderDecadeRange }) // Haetaan kuva
+    console.log("Got newer photo:", older)
     older.isOlder = true // Asetetaan kuva-objectille attribuutti isOlder jotta tunnistetaan myöhemmin
     setPhoto(older) // Asetetaan kuva tilamuuttujaan
   }
@@ -170,6 +177,7 @@ export default function Peli2() {
   const fetchNewer = async (setPhoto) => {
     // Toiminta: katso fetchOlder() kommentit
     const newer = await getRandomPhoto({ decade: newerDecadeRange })
+    console.log("Got older photo:", newer)
     newer.isOlder = false
     setPhoto(newer)
   }
@@ -180,19 +188,15 @@ export default function Peli2() {
   const fetchPreload = async () => {
     console.log("Preloading next photos...")
     const alternateOrder = Math.random() < 0.5
-    if (alternateOrder) {
-      // Jos alternateOrder=false, vasen on vanhempi ja oikea uudempi, muuten päinvastoin
-      await Promise.all([
-        fetchOlder(setPreloadedRight),
-        fetchNewer(setPreloadedLeft),
-      ])
-    } else {
-      await Promise.all([
-        fetchOlder(setPreloadedLeft),
-        fetchNewer(setPreloadedRight),
-      ])
-    }
-    console.log("Preloaded!")
+    const olderSetter = alternateOrder ? setPreloadedRight : setPreloadedLeft
+    const newerSetter = alternateOrder ? setPreloadedLeft : setPreloadedRight
+
+    await fetchNewer(newerSetter)
+    console.log("Preloaded newer photo")
+
+    await fetchOlder(olderSetter)
+    console.log("Preloaded older photo")
+    
   }
 
   /**
@@ -212,8 +216,12 @@ export default function Peli2() {
    * Kutsutaan, kun pelaaja painaa Seuraava-nappia.
    */
   const handleNext = () => {
-    setRoundNumber(roundNumber + 1) // Kasvatetaan kierroksen numeroa yhdellä
-    if (totalRounds == 0 || roundNumber < totalRounds) nextRound()
+    const isGameContinuing = totalRounds === 0 || roundNumber < totalRounds
+    setRoundNumber((prevRound) => prevRound + 1)
+
+    if (isGameContinuing) {
+      nextRound()
+    }
   }
 
   /**
@@ -295,10 +303,14 @@ export default function Peli2() {
             </p>
           )}
           {answered && correctAnswer && (
-            <p className="min-w-full rounded-xl bg-accent p-4 text-center">Vastasit oikein!</p>
+            <p className="min-w-full rounded-xl bg-accent p-4 text-center">
+              Vastasit oikein!
+            </p>
           )}
           {answered && !correctAnswer && (
-            <p className="min-w-full rounded-xl bg-red-400 p-4 text-center">Vastasit väärin!</p>
+            <p className="min-w-full rounded-xl bg-red-400 p-4 text-center">
+              Vastasit väärin!
+            </p>
           )}
         </div>
         <div className="flex flex-wrap justify-center gap-10 p-4">
