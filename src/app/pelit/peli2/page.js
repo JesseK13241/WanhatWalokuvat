@@ -1,61 +1,9 @@
 "use client"
 import Start from "@/app/pelit/peli2/Start"
 import PhotoContainer from "@/components/PhotoContainer"
-import PhotoInfo from "@/components/PhotoInfo"
 import Tulokset from "@/components/Results"
 import { getRandomPhoto } from "@/services/photos"
-import { LoaderCircle } from "lucide-react"
 import { useEffect, useState } from "react"
-
-// Loading-componentti, joka näytetään photocontainerin tilalla, jos kuva vielä lataa
-const PhotoContainerSkeleton = ({ styles }) => (
-  <div className="flex-1 border">
-    <div className="m-auto flex w-max border">
-      <div className={styles.neutral}>Vuosi</div>
-    </div>
-    {/* Vastaa default PhotoContaineria: */}
-    <div className="mx-auto w-[95%] max-w-xl overflow-hidden rounded-lg bg-primary shadow-md">
-      <div className="relative w-full bg-tertiary pt-[100%]">
-        <div className="absolute inset-0 flex animate-pulse items-center justify-center rounded">
-          <LoaderCircle className="size-32 animate-spin stroke-primary" />
-        </div>
-      </div>
-      <PhotoInfo loading={true} />
-    </div>
-  </div>
-)
-
-/**
- * Komponentti, joka pitää sisällään vuoden ja PhotoContainerin.
- */
-const ChoosePhotoContainer = ({
-  photo, // Kuva
-  styles, // Object, komponentissa käytetään tyylejä styles.correct, styles.incorrect, styles.neutral
-  // Correct tyyli merkkaa vanhempaa kuvaa, incorrect uudempaa ja neutral sitä että ei ole vastattu
-  answered, // Onko pelaaja vastannut (näytetään vuosi)
-  grayscale, // Halutaanko näyttää kuvat mustavalkoisina ennen vastaamista
-  handleSelectPhoto, // Funktio, jota kutsutaan, kun kuvaa klikataan. Saa parametrina kuvan
-  useLoading = true, // Käytetäänkö loading-spinneriä kun kuva lataa
-}) => (
-  <div className="flex-1 border">
-    <div className="m-auto flex w-max border">
-      {answered ? (
-        <div className={photo.isOlder ? styles.correct : styles.incorrect}>
-          {photo.year}
-        </div>
-      ) : (
-        <div className={styles.neutral}>Vuosi</div>
-      )}
-    </div>
-    <PhotoContainer
-      photo={photo}
-      onClick={handleSelectPhoto ? () => handleSelectPhoto(photo) : null}
-      grayscale={answered ? false : grayscale}
-      useLoading={useLoading}
-      infoProps={{ showYear: answered }}
-    />
-  </div>
-)
 
 /**
  * Peli, jossa pitää arvata kumpi kahdesta kuvasta on vanhempi
@@ -64,8 +12,6 @@ export default function Peli2() {
   const [leftPhoto, setLeftPhoto] = useState(null) // Vasen kuva
   const [rightPhoto, setRightPhoto] = useState(null) // Oikea kuva
   // Loading-muuttujia käytetään loading-spinnerin näyttämisessä, kun kuvaa ladataan
-  const [leftLoading, setLeftLoading] = useState(false) // Onko vasen kuva lataamassa (fetchattu, mutta ei vielä renderöity)
-  const [rightLoading, setRightLoading] = useState(false) // Onko oikea kuva lataamasssa...
   const [preloadedLeft, setPreloadedLeft] = useState(null) // Esiladattu vasen kuva
   const [preloadedRight, setPreloadedRight] = useState(null) // Esiladattu oikea kuva
   const [answered, setAnswered] = useState(false) // Onko pelaaja vastannut
@@ -111,15 +57,12 @@ export default function Peli2() {
   const nextRound = async () => {
     console.log("Current left:", leftPhoto, "right", rightPhoto)
     console.log("nextRound, left:", preloadedLeft, "right", preloadedRight)
-    setLeftPhoto(null) // Alustetaan kuvat null, jotta löydetään virheet helpommin
+    // Laitetaan kuvat nulliksi, jotta ne osataan useEffectissä korvata seuraavilla kuvilla
+    setLeftPhoto(null)
     setRightPhoto(null)
     setAnswered(false) // Alustetaan peli tilaan, jossa pelaaja ei ole vastannut vielä
     setCorrectAnswer(false)
-    // Asetetaan uudet kuvat
     console.log("Asetetaan kuvat:", preloadedLeft, preloadedRight)
-    // Tässä laitetaan kuvat nulliksi, jotta ne osataan useEffectissä korvata seuraavilla kuvilla
-    setLeftPhoto(null)
-    setRightPhoto(null)
   }
 
   /**
@@ -142,9 +85,6 @@ export default function Peli2() {
 
         setLeftPhoto(newLeftPhoto)
         setRightPhoto(newRightPhoto)
-
-        setLeftLoading(true)
-        setRightLoading(true)
 
         setPreloadedLeft(null)
         setPreloadedRight(null)
@@ -242,14 +182,6 @@ export default function Peli2() {
   }
 
   // Tyylit, joilla näytetään onko vastaus oikein (vanhempi kuva).
-  const styles = {
-    correct:
-      "text-center font-bold border-black border-2 rounded-md bg-green-500 px-8 py-4 mb-2 shadow-md",
-    incorrect:
-      "text-center font-bold border-black border-2 rounded-md bg-red-500 px-8 py-4 mb-2 shadow-md",
-    neutral:
-      "text-center font-bold border-black border-2 rounded-md bg-gray-500 px-8 py-4 mb-2 shadow-md",
-  }
 
   // Jos peliä ei ole aloitettu, palautetaan pelin aloitusnäkymä (Start-komponentti)
   if (!started) {
@@ -269,65 +201,43 @@ export default function Peli2() {
     )
   }
 
-  // Jos jompikumpi kuvista ei ole vielä ladannut, palautetaan loading-komponentti (skeleton)
-  if (leftPhoto == null || rightPhoto == null) {
-    return (
-      <div className="flex flex-col items-center px-40">
-        <div className="w-full pb-14">
-          <div className="flex items-center justify-center text-xl">
-            <p className="min-w-full rounded-xl bg-tertiary p-4 text-center">
-              Klikkaa vanhempaa kuvaa
-            </p>
-          </div>
-          <div>
-            <PhotoContainerSkeleton styles={styles} />
-            <PhotoContainerSkeleton styles={styles} />
-          </div>
-        </div>
-        <button className="btn-primary mb-4 p-4 px-6 shadow-md" disabled>
-          Seuraava
-        </button>
-      </div>
-    )
-  }
-
   return (
-    <div className="flex flex-col items-center">
-      <div className="w-full pb-14">
-        <div className="mt-5 flex grow items-center justify-center px-10 text-xl">
-          {!answered && (
-            <p className="min-w-full rounded-xl bg-tertiary p-4 text-center">
-              Klikkaa vanhempaa kuvaa
-            </p>
-          )}
-          {answered && correctAnswer && (
-            <p className="min-w-full rounded-xl bg-accent p-4 text-center">
-              Vastasit oikein!
-            </p>
-          )}
-          {answered && !correctAnswer && (
-            <p className="min-w-full rounded-xl bg-red-400 p-4 text-center">
-              Vastasit väärin!
-            </p>
-          )}
-        </div>
-        <div className="flex flex-wrap justify-center gap-10 p-4">
-          <ChoosePhotoContainer
-            photo={leftPhoto}
-            styles={styles}
-            answered={answered}
-            grayscale={grayscale}
-            handleSelectPhoto={!answered ? handleSelectPhoto : null}
-          />
+    <div className="mx-auto mt-10 flex max-w-screen-lg flex-col items-center">
+      {!answered && (
+        <p className="min-w-full rounded-xl bg-tertiary p-4 text-center font-bold">
+          Klikkaa vanhempaa kuvaa
+        </p>
+      )}
+      {answered && correctAnswer && (
+        <p className="min-w-full rounded-xl bg-accent p-4 text-center font-bold">
+          Vastasit oikein!
+        </p>
+      )}
+      {answered && !correctAnswer && (
+        <p className="min-w-full rounded-xl bg-red-400 p-4 text-center font-bold">
+          Vastasit väärin!
+        </p>
+      )}
+      <div className="mx-auto flex w-full flex-nowrap items-center justify-center gap-2 p-4">
+        <PhotoContainer
+          photo={leftPhoto}
+          onClick={
+            handleSelectPhoto ? () => handleSelectPhoto(leftPhoto) : null
+          }
+          grayscale={answered ? false : grayscale}
+          useLoading={true}
+          infoProps={{ showYear: answered }}
+        />
 
-          <ChoosePhotoContainer
-            photo={rightPhoto}
-            styles={styles}
-            answered={answered}
-            grayscale={grayscale}
-            handleSelectPhoto={!answered ? handleSelectPhoto : null}
-          />
-        </div>
+        <PhotoContainer
+          photo={rightPhoto}
+          onClick={
+            handleSelectPhoto ? () => handleSelectPhoto(rightPhoto) : null
+          }
+          grayscale={answered ? false : grayscale}
+          useLoading={true}
+          infoProps={{ showYear: answered }}
+        />
       </div>
       <button
         className="btn-primary mb-4 p-4 px-6 shadow-md"

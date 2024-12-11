@@ -13,7 +13,7 @@ export default function Pelit() {
         path="/pelit/peli1"
       />
       <GameCard
-        title="Arvaa vanhempi"
+        title="Arvaa vanhempi kuva"
         imageSrc={peli2}
         description="Arvaa kumpi kuvista on vanhempi"
         path="/pelit/peli2"
