@@ -28,6 +28,7 @@ export default function RoundsSelector({ rounds, setRounds }) {
         type="number"
         value={rounds}
         onChange={(e) => handleChange(e)}
+        onFocus={(e) => e.target.select()}
       />
     </div>
   )
