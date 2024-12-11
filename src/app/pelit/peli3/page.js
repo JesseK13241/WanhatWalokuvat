@@ -2,7 +2,7 @@
 import Start from "@/app/pelit/peli3/Start"
 import PhotoContainer from "@/components/PhotoContainer"
 import PhotoInfo from "@/components/PhotoInfo"
-import getRandomPhoto from "@/services/photos"
+import { getRandomPhoto } from "@/services/photos"
 import { useState } from "react"
 
 export default function Peli3() {

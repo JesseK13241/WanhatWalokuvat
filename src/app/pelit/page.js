@@ -1,6 +1,7 @@
 import GameCard from "@/components/GameCard"
 import peli1 from "@/public/images/peli1.jpg"
 import peli2 from "@/public/images/peli2.jpg"
+import peli3 from "@/public/images/peli3.jpg"
 
 export default function Pelit() {
   return (
@@ -16,6 +17,12 @@ export default function Pelit() {
         imageSrc={peli2}
         description="Arvaa kumpi kuvista on vanhempi"
         path="/pelit/peli2"
+      />
+      <GameCard
+        title="Peli 3"
+        imageSrc={peli3}
+        description="Peli 3"
+        path="/pelit/peli3"
       />
     </div>
   )
