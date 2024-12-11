@@ -1,4 +1,3 @@
-import React from "react"
 
 /**
  * Komponentti, jolla näytetään pelin tulokset kierrosten loputtua.
@@ -26,17 +25,15 @@ export default function Tulokset({ score, totalRounds, restart, retry }) {
           </div>
         </div>
 
-        <p className="rounded border bg-primary p-2 shadow-md">
-          Vastauksistasi {((score / totalRounds) * 100).toFixed(1)}% prosenttia
-          oli oikein!
-          <br />
-          Pelaa uudestaan tai palaa alkuun säätääksesi asetuksia
+        <p className="rounded-xl border bg-primary px-5 py-10 font-bold shadow-md">
+          Vastauksistasi {((score / totalRounds) * 100).toFixed(1)}% 
+          oli oikein!          
         </p>
 
-        <button className="btn-primary w-40 shadow-md" onClick={retry}>
+        <button className="btn-primary w-full shadow-md" onClick={retry}>
           Pelaa uudestaan
         </button>
-        <button className="btn-primary w-40 shadow-md" onClick={restart}>
+        <button className="btn-primary w-full shadow-md" onClick={restart}>
           Palaa alkuun
         </button>
       </div>
