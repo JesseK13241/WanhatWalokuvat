@@ -12,7 +12,7 @@ const Footer = () => {
         className="flex w-auto items-center gap-2 rounded-lg border border-black bg-inherit p-3 hover:saturate-200"
       >
         <Github />
-        View on GitHub
+        Koodi GitHubissa
       </Link>
       <DeploymentSha url={REPO_URL} />
     </footer>
