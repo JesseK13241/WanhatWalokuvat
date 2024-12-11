@@ -324,7 +324,7 @@ const LOCATIONS = {
 export default function LocationPicker({ value, onChange }) {
   return (
     <select
-      className="max-w-28 cursor-pointer rounded bg-secondary py-2 pl-4 text-xs shadow-md hover:saturate-200"
+      className="max-w-28 cursor-pointer rounded bg-secondary p-2 text-xs shadow-md hover:saturate-200 sm:text-sm"
       value={value ? `${value.lat},${value.lon}` : ""}
       onChange={(e) => {
         const location = e.target.options[e.target.selectedIndex].textContent
