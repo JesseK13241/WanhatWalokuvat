@@ -150,7 +150,6 @@ export default function Peli2() {
         setPreloadedRight(null)
 
         fetchPreload().catch((error) => console.error("Preload failed:", error))
-
       } else {
         console.log("Odotetaan seuraavia kuvia...")
       }
@@ -196,7 +195,6 @@ export default function Peli2() {
 
     await fetchOlder(olderSetter)
     console.log("Preloaded older photo")
-    
   }
 
   /**

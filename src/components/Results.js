@@ -1,4 +1,3 @@
-
 /**
  * Komponentti, jolla näytetään pelin tulokset kierrosten loputtua.
  *
@@ -26,8 +25,7 @@ export default function Tulokset({ score, totalRounds, restart, retry }) {
         </div>
 
         <p className="rounded-xl border bg-primary px-5 py-10 font-bold shadow-md">
-          Vastauksistasi {((score / totalRounds) * 100).toFixed(1)}% 
-          oli oikein!          
+          Vastauksistasi {((score / totalRounds) * 100).toFixed(1)}% oli oikein!
         </p>
 
         <button className="btn-primary w-full shadow-md" onClick={retry}>

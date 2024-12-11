@@ -27,7 +27,8 @@ export default function PhotoInfo({
 
   const handleClick = (e) => {
     var clickedField = e.target.id
-    if (expanded.includes(clickedField)) setExpanded(expanded.filter(field => field !== clickedField))
+    if (expanded.includes(clickedField))
+      setExpanded(expanded.filter((field) => field !== clickedField))
     else setExpanded([...expanded, clickedField])
   }
 
@@ -35,33 +36,63 @@ export default function PhotoInfo({
   // ja niiden perusteella näytetään kuvan tiedot tai jätetään näyttämättä.
   return (
     <div className={`${variantClasses} ${className}`}>
-      <p className={`text-lg ${expanded.includes("title") ? "" : "truncate"}`} onClick={(e) => handleClick(e)} id="title" >
-         <span className="font-bold">Otsikko: </span>
-        {loading ? "Ladataan..." : showTitle && photo.title || "Piilotettu"}
+      <p
+        className={`text-lg ${expanded.includes("title") ? "" : "truncate"}`}
+        onClick={(e) => handleClick(e)}
+        id="title"
+      >
+        <span className="font-bold">Otsikko: </span>
+        {loading ? "Ladataan..." : (showTitle && photo.title) || "Piilotettu"}
       </p>
-      <p className={`text-sm ${expanded.includes("year") ? "" : "truncate"}`} onClick={(e) => handleClick(e)} id="year">
-         <span className="font-semibold">Vuosi: </span>
-        {loading ? "Ladataan..." : showYear ? photo.year || "Ei tiedossa" : "Piilotettu"}
+      <p
+        className={`text-sm ${expanded.includes("year") ? "" : "truncate"}`}
+        onClick={(e) => handleClick(e)}
+        id="year"
+      >
+        <span className="font-semibold">Vuosi: </span>
+        {loading
+          ? "Ladataan..."
+          : showYear
+            ? photo.year || "Ei tiedossa"
+            : "Piilotettu"}
       </p>
-      <p className={`text-sm ${expanded.includes("location") ? "" : "truncate"}`} onClick={(e) => handleClick(e)} id="location" >
+      <p
+        className={`text-sm ${expanded.includes("location") ? "" : "truncate"}`}
+        onClick={(e) => handleClick(e)}
+        id="location"
+      >
         <span className="font-semibold">Sijainti: </span>
-        {loading ? "Ladataan..." : photo.subjects?.[photo.subjects.length - 1]?.[0] || "Ei tiedossa"}
+        {loading
+          ? "Ladataan..."
+          : photo.subjects?.[photo.subjects.length - 1]?.[0] || "Ei tiedossa"}
       </p>
-      <p className={`text-sm ${expanded.includes("author") ? "" : "truncate"}`} onClick={(e) => handleClick(e)} id="author">
-         <span className="font-semibold">Tekijä: </span>
+      <p
+        className={`text-sm ${expanded.includes("author") ? "" : "truncate"}`}
+        onClick={(e) => handleClick(e)}
+        id="author"
+      >
+        <span className="font-semibold">Tekijä: </span>
         {loading ? "Ladataan..." : photo.author || "Ei tiedossa"}
       </p>
-      <p className={`text-sm ${expanded.includes("building") ? "" : "truncate"}`} onClick={(e) => handleClick(e)} id="building" >
+      <p
+        className={`text-sm ${expanded.includes("building") ? "" : "truncate"}`}
+        onClick={(e) => handleClick(e)}
+        id="building"
+      >
         <span className="font-semibold">Organisaatio: </span>
         {loading ? "Ladataam..." : photo.building || "Ei tiedossa"}
       </p>
-      {loading ? <p className="text-sm">Ladataan...</p> : showLink && (
-        <a
-          href={`${BASE_URL}${photo.recordPage}`}
-          className="external-link inline-block text-sm"
-        >
-          Linkki aineistoon
-        </a>
+      {loading ? (
+        <p className="text-sm">Ladataan...</p>
+      ) : (
+        showLink && (
+          <a
+            href={`${BASE_URL}${photo.recordPage}`}
+            className="external-link inline-block text-sm"
+          >
+            Linkki aineistoon
+          </a>
+        )
       )}
     </div>
   )

@@ -154,7 +154,7 @@ export const getRandomPhoto = async ({
     const photo = data.records[0]
 
     simplifyPhotoMetadata(photo)
-    
+
     return {
       ...photo,
       resultCount,
