@@ -227,6 +227,7 @@ export default function Peli2() {
           grayscale={answered ? false : grayscale}
           useLoading={true}
           infoProps={{ showYear: answered }}
+          showAltText={answered}
         />
 
         <PhotoContainer
@@ -237,6 +238,7 @@ export default function Peli2() {
           grayscale={answered ? false : grayscale}
           useLoading={true}
           infoProps={{ showYear: answered }}
+          showAltText={answered}
         />
       </div>
       <button

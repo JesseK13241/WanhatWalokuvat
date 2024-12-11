@@ -52,6 +52,7 @@ export default function PhotoAndAnswersContainer({
       className="m-4 flex flex-col gap-4 rounded-lg bg-secondary p-6"
       classNameBG="rounded-lg"
       grayscale={answered ? false : colorsOff}
+      showAltText={answered}
     >
       <div>
         <MultipleChoiceButtons

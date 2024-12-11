@@ -22,6 +22,7 @@ export default function PhotoContainer({
   className = "", // Komponentin oletustyyliin lisättävät tailwind-tyylit
   classNameBG = "", // Kuvan taustan tyyli
   useLoading = true, // Totuusarvo, joka kertoo käytetäänkö loading-komponenttia
+  showAltText = true, // Näytetäänkö kuvan otsikko alt-tekstinä (joka tulee näkyviin esim. kun hiiren vie kuvan päälle)
   infoProps, // PhotoInfo-komponentille välitettävät propertyt objectina
   children, // Ei tarkoitus käyttää suoraan. Tähän muuttujaan tulee elementit, jotka laitetaan PhotoContainerin lapsiksi.
   // Esim. <PhotoContainer photo={kuva} >
@@ -96,8 +97,8 @@ export default function PhotoContainer({
           )}
           <Image
             src={`${IMAGE_BASE_URL}${encodeURIComponent(photo.id)}`}
-            alt={photo.title || "Photo"}
-            title={photo.title || "Photo"}
+            alt={(showAltText && photo.title) || "Photo"}
+            title={(showAltText && photo.title) || "Photo"}
             fill
             className={imageClasses}
             priority
