@@ -1,4 +1,5 @@
 import { BASE_URL } from "@/app/constants"
+import { useState } from "react"
 
 /**
  * Komponentti, joka näyttää kuvan tiedot. Halutessaan tietyt tiedot voi piilottaa.
@@ -12,6 +13,7 @@ export default function PhotoInfo({
   className = "", // Mahdolliset lisäluokat komponentin tailwind tyyliin
   loading = false, // Jos true, ei näytetä tietoja vaan niiden sijasta "ladataan..."
 }) {
+  const [expanded, setExpanded] = useState([])
   // Jos showTitle ei ole erikseen määritetty, asetetaan arvoksi sama kuin showYear.
   // Syynä tähän on se, että showYear=false piilottaa oletuksena myös otsikon, joka saattaa muuten paljastaa vuoden.
   showTitle = showTitle ?? showYear
@@ -23,60 +25,37 @@ export default function PhotoInfo({
     slideshow: "space-y-2 p-4",
   }[variant]
 
-  // Jos loading=true, näytetään tekstit "Ladataan..." tietojen sijasta.
-  if (loading) {
-    return (
-      <div className="h-48 space-y-2 rounded-xl bg-primary p-4">
-        <p className="truncate text-lg">
-          <span className="font-bold">Otsikko: </span>
-          Ladataan...
-        </p>
-        <p className="truncate text-sm">
-          <span className="font-semibold">Vuosi: </span>
-          Ladataan...
-        </p>
-        <p className="truncate text-sm">
-          <span className="font-semibold">Sijainti: </span>
-          Ladataan...
-        </p>
-        <p className="truncate text-sm">
-          <span className="font-semibold">Tekijä: </span>
-          Ladataan...
-        </p>
-        <p className="truncate text-sm">
-          <span className="font-semibold">Organisaatio: </span>
-          Ladataan...
-        </p>
-        <p className="inline-block text-sm">Ladataan</p>
-      </div>
-    )
+  const handleClick = (e) => {
+    var clickedField = e.target.id
+    if (expanded.includes(clickedField)) setExpanded(expanded.filter(field => field !== clickedField))
+    else setExpanded([...expanded, clickedField])
   }
 
   // Palauttaa itse komponentin, jonka sisällä tarkistukset booleanien arvoille
   // ja niiden perusteella näytetään kuvan tiedot tai jätetään näyttämättä.
   return (
     <div className={`${variantClasses} ${className}`}>
-      <p className="truncate text-lg">
-        <span className="font-bold">Otsikko: </span>
-        {(showTitle && photo.title) || "Piilotettu"}
+      <p className={`text-lg ${expanded.includes("title") ? "" : "truncate"}`} onClick={(e) => handleClick(e)} id="title" >
+         <span className="font-bold">Otsikko: </span>
+        {loading ? "Ladataan..." : showTitle && photo.title || "Piilotettu"}
       </p>
-      <p className="truncate text-sm">
-        <span className="font-semibold">Vuosi: </span>
-        {showYear ? photo.year || "Ei tiedossa" : "Piilotettu"}
+      <p className={`text-sm ${expanded.includes("year") ? "" : "truncate"}`} onClick={(e) => handleClick(e)} id="year">
+         <span className="font-semibold">Vuosi: </span>
+        {loading ? "Ladataan..." : showYear ? photo.year || "Ei tiedossa" : "Piilotettu"}
       </p>
-      <p className="truncate text-sm">
+      <p className={`text-sm ${expanded.includes("location") ? "" : "truncate"}`} onClick={(e) => handleClick(e)} id="location" >
         <span className="font-semibold">Sijainti: </span>
-        {photo.subjects?.[photo.subjects.length - 1]?.[0] || "Ei tiedossa"}
+        {loading ? "Ladataan..." : photo.subjects?.[photo.subjects.length - 1]?.[0] || "Ei tiedossa"}
       </p>
-      <p className="truncate text-sm">
-        <span className="font-semibold">Tekijä: </span>
-        {photo.author || "Ei tiedossa"}
+      <p className={`text-sm ${expanded.includes("author") ? "" : "truncate"}`} onClick={(e) => handleClick(e)} id="author">
+         <span className="font-semibold">Tekijä: </span>
+        {loading ? "Ladataan..." : photo.author || "Ei tiedossa"}
       </p>
-      <p className="truncate text-sm">
+      <p className={`text-sm ${expanded.includes("building") ? "" : "truncate"}`} onClick={(e) => handleClick(e)} id="building" >
         <span className="font-semibold">Organisaatio: </span>
-        {photo.building || "Ei tiedossa"}
+        {loading ? "Ladataam..." : photo.building || "Ei tiedossa"}
       </p>
-      {showLink && (
+      {loading ? <p className="text-sm">Ladataan...</p> : showLink && (
         <a
           href={`${BASE_URL}${photo.recordPage}`}
           className="external-link inline-block text-sm"

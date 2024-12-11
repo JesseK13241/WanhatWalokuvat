@@ -150,17 +150,6 @@ export default function Peli1() {
     return <Peli1Skeleton />
   }
 
-  // Siistitään kuvan tietoja:
-  currentPhoto.author = Object.keys(currentPhoto.authors.primary)[0]
-
-  var buildings = currentPhoto.buildings[0].translated
-  for (let i = 1; i < currentPhoto.buildings.length; i++) {
-    let building = currentPhoto.buildings[i].translated
-    if (building) buildings = buildings + ", " + building
-  }
-
-  currentPhoto.building = buildings
-
   return (
     <div className="flex flex-col items-center justify-center">
       <PhotoAndAnswersContainer

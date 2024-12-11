@@ -6,6 +6,17 @@ export const getInitialPhoto = async () => {
   return { ...initialPhoto, recordPage: `/Record/${initialID}` }
 }
 
+// Siistii kuvan metadatan esitettävään muotoon
+const simplifyPhotoMetadata = (photo) => {
+  photo.author = Object.keys(photo.authors.primary)[0]
+
+  photo.building = photo.buildings[0].translated
+  for (let i = 1; i < photo.buildings.length; i++) {
+    let newBuilding = photo.buildings[i].translated
+    if (newBuilding) photo.building = photo.building + ", " + newBuilding
+  }
+}
+
 const prepareRequest = ({ decade, location, index }) => {
   // Muodostaa API-hakuosoitteen parametrien perusteella
 
@@ -99,9 +110,8 @@ export const getPhotoById = async (photoID) => {
 
   const photo = data.records[0]
 
-  // Siivotaan kuvan metadataa
-  photo.author = Object.keys(photo.authors.primary)[0]
-  photo.building = photo.buildings[0].translated
+  simplifyPhotoMetadata(photo)
+
   return photo
 }
 
@@ -143,10 +153,8 @@ export const getRandomPhoto = async ({
 
     const photo = data.records[0]
 
-    // Siivotaan kuvan metadataa
-    photo.author = Object.keys(photo.authors.primary)[0]
-    photo.building = photo.buildings[0].translated
-
+    simplifyPhotoMetadata(photo)
+    
     return {
       ...photo,
       resultCount,
@@ -178,9 +186,8 @@ export const getPhotoByIndex = async ({ location, decade, index }) => {
 
     const photo = data.records[0]
 
-    // Siivotaan kuvan metadataa
-    photo.author = Object.keys(photo.authors.primary)[0]
-    photo.building = photo.buildings[0].translated
+    simplifyPhotoMetadata(photo)
+
     return photo
   } catch (error) {
     console.error("Error fetching photos:", error)

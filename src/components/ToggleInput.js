@@ -1,5 +1,3 @@
-import { useState } from "react"
-
 /**
  * Komponentti, jolla voi valita booleanin arvon.
  * Käytetään esim. pelin asetuksissa valitsemaan näytetäänkö kuvat mustavalkoisina.
@@ -14,7 +12,7 @@ export default function ToggleInput({ labelText, value, setValue }) {
   return (
     <div className="flex w-64 justify-between font-bold">
       {labelText}
-      <label htmlFor="toggleSwitch" className={`relative mx-2 block h-8 w-14 cursor-pointer rounded-full ${value ? "bg-green-500" : "bg-red-500"}`}>
+      <label htmlFor="toggleSwitch" className={`relative mx-2 block h-8 w-14 cursor-pointer rounded-full ${value ? "bg-green-500" : "bg-red-400"}`}>
         <input
           id="toggleSwitch"
           defaultChecked={value}
