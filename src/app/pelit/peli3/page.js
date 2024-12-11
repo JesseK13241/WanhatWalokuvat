@@ -135,7 +135,7 @@ export default function Peli3() {
   }
 
   return (
-    <div className="mx-auto mt-10 flew max-w-screen-lg flex-col items-center">
+    <div className="mx-auto mt-10 flex max-w-screen-lg flex-col items-center">
       {!answered && (
         <p className="min-w-full rounded-xl bg-tertiary p-4 text-center font-bold">
           Valitse kuva, joka ei kuulu joukkoon

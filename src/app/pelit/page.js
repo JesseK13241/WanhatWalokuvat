@@ -19,9 +19,9 @@ export default function Pelit() {
         path="/pelit/peli2"
       />
       <GameCard
-        title="Peli 3"
+        title="Mikä ei kuulu joukkoon?"
         imageSrc={peli3}
-        description="Peli 3"
+        description="Valitse kuva, joka on otettu eri vuosikymmenellä kuin kaksi muuta."
         path="/pelit/peli3"
       />
     </div>
