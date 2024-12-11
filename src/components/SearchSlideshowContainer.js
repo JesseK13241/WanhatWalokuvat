@@ -198,7 +198,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
         <div className="flex flex-wrap items-center justify-center gap-6">
           <div className="flex items-center gap-4">
             <button
-              onClick={handlePrevious}
+              onMouseDown={handlePrevious}
               className="btn-primary"
               disabled={currentIndex <= 1 || isLoading}
             >
@@ -208,7 +208,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
               {currentIndex} / {Math.min(resultCount, 100000)}
             </div>
             <button
-              onClick={() => {
+              onMouseDown={() => {
                 setDisplayedPhoto(null)
                 handleNext()
               }}
@@ -220,7 +220,7 @@ export default function SearchSlideshowContainer({ initialPhoto }) {
           </div>
           <div className="flex w-full justify-center">
             <button
-              onClick={handleRandomPhoto}
+              onMouseDown={handleRandomPhoto}
               className="btn-primary px-6"
               disabled={isLoading}
             >
