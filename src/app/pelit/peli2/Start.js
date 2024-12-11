@@ -11,7 +11,7 @@ export default function Start({ initGameWithParams }) {
     })
   }
 
-  const [rounds, setRounds] = useState(0)
+  const [rounds, setRounds] = useState(3)
   const [isGrayscale, setIsGrayscale] = useState(false)
 
   return (

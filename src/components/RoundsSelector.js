@@ -8,6 +8,15 @@
  *             Funktio saa parametrina uuden kierrosten määrän.
  */
 export default function RoundsSelector({ rounds, setRounds }) {
+  const handleChange = (e) => {
+    let value = parseInt(e.target.value)
+    if (!value) setRounds(0)
+    if (value >= 0) {
+      e.target.value = value
+      setRounds(value)
+    }
+  }
+
   return (
     <div className="flex w-64 justify-between">
       <label className="font-bold" htmlFor="roundInput">
@@ -18,9 +27,7 @@ export default function RoundsSelector({ rounds, setRounds }) {
         className="mx-2 w-20 rounded border bg-primary p-1 text-center shadow-sm"
         type="number"
         value={rounds}
-        onChange={(e) => {
-          if (e.target.value >= 0) setRounds(e.target.valueAsNumber)
-        }}
+        onChange={(e) => handleChange(e)}
       />
     </div>
   )
