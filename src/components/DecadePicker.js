@@ -14,7 +14,7 @@ export default function DecadePicker({ value, onChange }) {
   const decades = []
   // Lisätään taulukkoon kaikki vuosikymmenet vuodesta startYear aina nykyiseen vuosikymmeneen
   for (let year = startYear; year <= endYear; year += 10) {
-    decades.push({ value: `${year}–${year + 9}` })
+    decades.push({ value: `${year}-${year + 9}` })
   }
   return (
     <select
