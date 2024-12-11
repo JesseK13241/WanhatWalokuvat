@@ -18,7 +18,7 @@ export default function DecadePicker({ value, onChange }) {
   }
   return (
     <select
-      className="max-w-28 cursor-pointer rounded bg-secondary p-2 text-xs shadow-md hover:saturate-200 sm:max-w-full"
+      className="max-w-28 cursor-pointer rounded bg-secondary p-2 text-xs shadow-md hover:saturate-200 sm:max-w-full sm:text-sm"
       value={value || ""}
       onChange={(e) => {
         const selectedDecade = e.target.value
