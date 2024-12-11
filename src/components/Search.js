@@ -12,14 +12,12 @@ export default function Search({
   onSearch,
 }) {
   return (
-    <div className="mx-auto flex w-[95%] flex-col justify-center gap-y-2 rounded-md bg-tertiary p-4 sm:flex-row sm:p-8">
-      <div className="flex justify-center gap-x-4">
-        <LocationPicker value={location} onChange={setLocation} />
-        <DecadePicker value={decade} onChange={setDecade} />
-      </div>
+    <div className="mx-auto flex w-[95%] max-w-xl justify-center gap-4 rounded-md bg-tertiary p-4 sm:p-8">
+      <LocationPicker value={location} onChange={setLocation} />
+      <DecadePicker value={decade} onChange={setDecade} />
       <button
         onClick={() => onSearch({ location, decade })}
-        className="btn-primary mx-auto flex items-center gap-2 sm:mx-4"
+        className="btn-primary flex min-w-28 items-center justify-center gap-2"
       >
         <SearchIcon />
         Hae

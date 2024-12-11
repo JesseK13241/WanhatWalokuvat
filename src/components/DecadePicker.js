@@ -14,11 +14,11 @@ export default function DecadePicker({ value, onChange }) {
   const decades = []
   // Lisätään taulukkoon kaikki vuosikymmenet vuodesta startYear aina nykyiseen vuosikymmeneen
   for (let year = startYear; year <= endYear; year += 10) {
-    decades.push({ label: `${year}s`, value: `${year}-${year + 9}` })
+    decades.push({ value: `${year}–${year + 9}` })
   }
   return (
     <select
-      className="cursor-pointer rounded bg-secondary p-2 shadow-md hover:saturate-200"
+      className="max-w-28 cursor-pointer rounded bg-secondary py-2 pl-4 shadow-md hover:saturate-200 sm:max-w-full"
       value={value || ""}
       onChange={(e) => {
         const selectedDecade = e.target.value
@@ -28,7 +28,7 @@ export default function DecadePicker({ value, onChange }) {
       <option value="">Vuosi</option>
       {decades.map((decade, index) => (
         <option key={index} value={decade.value}>
-          {decade.label}
+          {decade.value}
         </option>
       ))}
     </select>

@@ -323,31 +323,28 @@ const LOCATIONS = {
  */
 export default function LocationPicker({ value, onChange }) {
   return (
-    <div className="flex">
-      <label className="p-2 text-lg">Alue: </label>
-      <select
-        className="cursor-pointer rounded bg-secondary p-2 shadow-md hover:saturate-200"
-        value={value ? `${value.lat},${value.lon}` : ""}
-        onChange={(e) => {
-          const location = e.target.options[e.target.selectedIndex].textContent
-          const coordinates = e.target.value
-          const [lat, lon] = coordinates.split(",")
-          onChange(
-            location == "Mikä tahansa"
-              ? null
-              : { lat: lat, lon: lon, r: 10, location: location }
-          )
-        }}
-      >
-        <option value={[0, 0]} key="Mikä tahansa">
-          Mikä tahansa
+    <select
+      className="max-w-28 cursor-pointer rounded bg-secondary py-2 pl-4 shadow-md hover:saturate-200 sm:max-w-full"
+      value={value ? `${value.lat},${value.lon}` : ""}
+      onChange={(e) => {
+        const location = e.target.options[e.target.selectedIndex].textContent
+        const coordinates = e.target.value
+        const [lat, lon] = coordinates.split(",")
+        onChange(
+          location == "Mikä tahansa"
+            ? null
+            : { lat: lat, lon: lon, r: 10, location: location }
+        )
+      }}
+    >
+      <option value={[0, 0]} key="Alue">
+        Alue
+      </option>
+      {Object.entries(LOCATIONS).map(([location, coordinates]) => (
+        <option value={coordinates} key={location}>
+          {location}
         </option>
-        {Object.entries(LOCATIONS).map(([location, coordinates]) => (
-          <option value={coordinates} key={location}>
-            {location}
-          </option>
-        ))}
-      </select>
-    </div>
+      ))}
+    </select>
   )
 }
