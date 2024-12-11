@@ -1,7 +1,7 @@
 import "@/app/globals.css"
+import { Gamepad2 } from "lucide-react"
 import { Bokor } from "next/font/google"
 import Link from "next/link"
-import { Gamepad2 } from "lucide-react"
 
 const bokor = Bokor({
   subsets: ["latin"],
@@ -10,7 +10,7 @@ const bokor = Bokor({
 
 const Header = () => {
   return (
-    <header className="flex w-screen flex-col items-center gap-y-2 bg-secondary px-8 py-6 shadow-md sm:flex-row">
+    <header className="flex w-screen flex-col items-center gap-y-2 bg-secondary py-6 shadow-md sm:flex-row">
       <Link href="/" className={bokor.className}>
         <h1 className="text-5xl font-bold transition-all duration-200 hover:text-accent sm:text-6xl">
           Wanhat Walokuvat
