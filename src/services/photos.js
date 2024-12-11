@@ -121,8 +121,7 @@ export const getRandomPhoto = async ({
   resultCountParam = null,
 }) => {
   // Palauttaa satunnaisen kuvan parametrien perusteella
-
-  console.warn("Deprecated function, use getPhotoByIndex instead")
+  // HUOM: Peräkkäiset kutsut voivat palauttaa saman kuvan
 
   console.log("Fetching a random photo by:", { location, decade })
 

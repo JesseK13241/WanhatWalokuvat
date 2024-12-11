@@ -4,8 +4,8 @@ import PhotoContainer from "@/components/PhotoContainer"
 import PhotoInfo from "@/components/PhotoInfo"
 import Tulokset from "@/components/Results"
 import { getRandomPhoto } from "@/services/photos"
-import { useEffect, useState } from "react"
 import { LoaderCircle } from "lucide-react"
+import { useEffect, useState } from "react"
 
 // Loading-componentti, joka näytetään photocontainerin tilalla, jos kuva vielä lataa
 const PhotoContainerSkeleton = ({ styles }) => (
@@ -16,8 +16,8 @@ const PhotoContainerSkeleton = ({ styles }) => (
     {/* Vastaa default PhotoContaineria: */}
     <div className="mx-auto w-[95%] max-w-xl overflow-hidden rounded-lg bg-primary shadow-md">
       <div className="relative w-full bg-tertiary pt-[100%]">
-        <div className="flex absolute inset-0 animate-pulse rounded items-center justify-center">
-          <LoaderCircle className="animate-spin w-32 h-32 stroke-primary" />
+        <div className="absolute inset-0 flex animate-pulse items-center justify-center rounded">
+          <LoaderCircle className="size-32 animate-spin stroke-primary" />
         </div>
       </div>
       <PhotoInfo loading={true} />
@@ -269,11 +269,11 @@ export default function Peli2() {
       <div className="flex flex-col items-center px-40">
         <div className="w-full pb-14">
           <div className="flex items-center justify-center text-xl">
-            <p className="mt-4 rounded-xl bg-tertiary p-4">
+            <p className="min-w-full rounded-xl bg-tertiary p-4 text-center">
               Klikkaa vanhempaa kuvaa
             </p>
           </div>
-          <div className="flex flex-wrap justify-center gap-10 p-4">
+          <div>
             <PhotoContainerSkeleton styles={styles} />
             <PhotoContainerSkeleton styles={styles} />
           </div>
@@ -286,19 +286,19 @@ export default function Peli2() {
   }
 
   return (
-    <div className="flex flex-col items-center px-40">
+    <div className="flex flex-col items-center">
       <div className="w-full pb-14">
-        <div className="flex items-center justify-center text-xl">
+        <div className="mt-5 flex grow items-center justify-center px-10 text-xl">
           {!answered && (
-            <p className="mt-4 rounded-xl bg-tertiary p-4">
+            <p className="min-w-full rounded-xl bg-tertiary p-4 text-center">
               Klikkaa vanhempaa kuvaa
             </p>
           )}
           {answered && correctAnswer && (
-            <p className="mt-4 rounded-xl bg-accent p-4">Vastasit oikein!</p>
+            <p className="min-w-full rounded-xl bg-accent p-4 text-center">Vastasit oikein!</p>
           )}
           {answered && !correctAnswer && (
-            <p className="mt-4 rounded-xl bg-red-400 p-4">Vastasit väärin!</p>
+            <p className="min-w-full rounded-xl bg-red-400 p-4 text-center">Vastasit väärin!</p>
           )}
         </div>
         <div className="flex flex-wrap justify-center gap-10 p-4">
