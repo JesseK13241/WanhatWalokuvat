@@ -221,8 +221,8 @@ export default function Peli2() {
       <div className="mx-auto flex w-full flex-nowrap items-center justify-center gap-2 p-4">
         <PhotoContainer
           photo={leftPhoto}
-          onClick={
-            handleSelectPhoto ? () => handleSelectPhoto(leftPhoto) : null
+          onClick={answered ? null :
+            (handleSelectPhoto ? () => handleSelectPhoto(leftPhoto) : null)
           }
           grayscale={answered ? false : grayscale}
           useLoading={true}
@@ -232,8 +232,8 @@ export default function Peli2() {
 
         <PhotoContainer
           photo={rightPhoto}
-          onClick={
-            handleSelectPhoto ? () => handleSelectPhoto(rightPhoto) : null
+          onClick={answered ? null : 
+            (handleSelectPhoto ? () => handleSelectPhoto(rightPhoto) : null)
           }
           grayscale={answered ? false : grayscale}
           useLoading={true}

@@ -154,8 +154,8 @@ export default function Peli3() {
       <div className="mx-auto flex w-full flex-nowrap items-center justify-center gap-2 p-4">
         <PhotoContainer
           photo={firstPhoto}
-          onClick={
-            handleSelectPhoto ? () => handleSelectPhoto(firstPhoto) : null
+          onClick={answered ? null :
+            (handleSelectPhoto ? () => handleSelectPhoto(firstPhoto) : null)
           }
           grayscale={answered ? false : grayscale}
           useLoading={true}
@@ -164,8 +164,8 @@ export default function Peli3() {
         />
         <PhotoContainer
           photo={secondPhoto}
-          onClick={
-            handleSelectPhoto ? () => handleSelectPhoto(secondPhoto) : null
+          onClick={answered ? null :
+            (handleSelectPhoto ? () => handleSelectPhoto(secondPhoto) : null)
           }
           grayscale={answered ? false : grayscale}
           useLoading={true}
@@ -174,8 +174,8 @@ export default function Peli3() {
         />
         <PhotoContainer
           photo={thirdPhoto}
-          onClick={
-            handleSelectPhoto ? () => handleSelectPhoto(thirdPhoto) : null
+          onClick={answered ? null :
+            (handleSelectPhoto ? () => handleSelectPhoto(thirdPhoto) : null)
           }
           grayscale={answered ? false : grayscale}
           useLoading={true}
