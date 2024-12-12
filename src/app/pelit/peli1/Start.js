@@ -21,7 +21,7 @@ export default function Aloitus({ returnParams }) {
   const currentDecade = Math.floor(new Date().getFullYear() / 10) * 10
   const [startDecade, setStartDecade] = useState(minDecade) // Minimivuosikymmen pelin kuville (oletuksena 1860)
   const [endDecade, setEndingDecade] = useState(currentDecade) // Maksimivuosikymmen pelin kuville (oletuksena kuluva vuosikymmen)
-  const [rounds, setRounds] = useState(3) // Kierrosten määrä
+  const [rounds, setRounds] = useState(7) // Kierrosten määrä
   const [colorsOff, setColorsOff] = useState(false) // Halutaanko näyttää kaikki kuvat aluksi mustavalkoisina
 
   const decades = [] // Taulukko kaikille mahdollisille vuosikymmenille esim. [1860, 1870, ... , 2010, 2020]
