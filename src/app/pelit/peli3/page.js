@@ -159,6 +159,7 @@ export default function Peli3() {
           }
           grayscale={answered ? false : grayscale}
           useLoading={true}
+          showAltText={answered}
           infoProps={{ showYear: answered }}
         />
         <PhotoContainer
@@ -168,6 +169,7 @@ export default function Peli3() {
           }
           grayscale={answered ? false : grayscale}
           useLoading={true}
+          showAltText={answered}
           infoProps={{ showYear: answered }}
         />
         <PhotoContainer
@@ -177,6 +179,7 @@ export default function Peli3() {
           }
           grayscale={answered ? false : grayscale}
           useLoading={true}
+          showAltText={answered}
           infoProps={{ showYear: answered }}
         />
       </div>
