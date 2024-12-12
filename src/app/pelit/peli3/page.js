@@ -116,7 +116,7 @@ export default function Peli3() {
   }
 
   const handleRetry = () => {
-    startGame({ rounds: totalRounds })
+    startGame({ rounds: totalRounds, grayscale: grayscale })
   }
 
   if (!started) {

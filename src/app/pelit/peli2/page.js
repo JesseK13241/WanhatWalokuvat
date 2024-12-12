@@ -178,7 +178,7 @@ export default function Peli2() {
    * Kutsutaan, kun pelaaja painaa tulosnäkymässä "Pelaa uudestaan"
    */
   const handleRetry = () => {
-    startGame({ rounds: totalRounds })
+    startGame({ rounds: totalRounds, grayscale: grayscale })
   }
 
   // Tyylit, joilla näytetään onko vastaus oikein (vanhempi kuva).
