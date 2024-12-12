@@ -17,7 +17,7 @@ export default function GameCard({ title, imageSrc, description, path }) {
   return (
     <Link
       href={path}
-      className="flex flex-col items-center max-h-screen justify-between rounded-xl border-2 border-accent bg-secondary p-4 hover:opacity-75"
+      className="m-5 flex flex-col items-center justify-between rounded-xl border-2 border-accent bg-secondary p-4 hover:opacity-75"
     >
       <h1 className="text-2xl font-bold">{title}</h1>
       <Image
